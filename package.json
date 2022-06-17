@@ -46,11 +46,11 @@
         "nodemailer": "^6.7.5",
         "pino-pretty": "^8.0.0",
         "release-it": "^15.0.0",
-        "sequelize": "^6.20.1"
+        "sequelize": "^6.21.0"
     },
     "devDependencies": {
         "husky": "^8.0.1",
-        "lint-staged": "^13.0.1",
+        "lint-staged": "^13.0.2",
         "prettier": "^2.7.1"
     }
 }
