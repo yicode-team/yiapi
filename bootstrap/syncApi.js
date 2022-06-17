@@ -1,8 +1,10 @@
 import fp from 'fastify-plugin';
 import fg from 'fast-glob';
+import path from 'path';
 import * as _ from 'lodash-es';
 import * as utils from '../utils/index.js';
 import { apiConfig } from '../config/api.js';
+import { systemConfig } from '../system.js';
 
 // 同步接口目录
 async function syncApiDir(fastify) {
@@ -66,8 +68,13 @@ async function syncApiFile(fastify) {
     // 自动生成的接口路径
     let autoApiPaths = [];
 
+    // 获取接口文件
+    let coreApiFiles = fg.sync('./apis/**/*', { onlyFiles: true, dot: false, cwd: systemConfig.yiapiDir });
+    let appApiFiles = fg.sync('./apis/**/*', { onlyFiles: true, dot: false, cwd: systemConfig.appDir });
+    let allApiFiles = _.concat(coreApiFiles, appApiFiles);
+
     // 遍历项目接口文件
-    let files = fg.sync('./apis/**/*', { onlyFiles: true, dot: false }).forEach((file) => {
+    allApiFiles.forEach((file) => {
         let apiFileName = file.replace('\\+', '/').replace('.js', '').replace('./apis', '');
         let parentApiValue = '/' + apiFileName.split('/')[1];
         let parentApiData = apiDirByValue[parentApiValue] || {};

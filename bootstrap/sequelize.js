@@ -9,6 +9,7 @@ import fg from 'fast-glob';
 import * as utils from '../utils/index.js';
 import { appConfig } from '../config/app.js';
 import { databaseConfig } from '../config/database.js';
+import { systemConfig } from '../system.js';
 
 async function plugin(fastify, options) {
     const sequelize = await new Sequelize(databaseConfig.db, databaseConfig.username, databaseConfig.password, {
@@ -30,8 +31,14 @@ async function plugin(fastify, options) {
         omitNull: false
     });
 
-    fg.sync('./tables/**/*', { onlyFiles: true, dot: false }).forEach(async (file) => {
-        let { tableDescribe, tableName, tableData, tableOption } = await import(utils.relativePath(utils.dirname(import.meta.url), path.resolve('.', file)));
+    // 获取表文件
+    let coreTableFiles = fg.sync('./tables/**/*', { onlyFiles: true, dot: false, absolute: true, cwd: systemConfig.yiapiDir });
+    let appTableFiles = fg.sync('./tables/**/*', { onlyFiles: true, dot: false, absolute: true, cwd: systemConfig.appDir });
+    let allTableFiles = _.concat(coreTableFiles, appTableFiles);
+
+    allTableFiles.forEach(async (file) => {
+        let tableRelativePath = utils.relativePath(utils.dirname(import.meta.url), path.resolve(file));
+        let { tableDescribe, tableName, tableData, tableOption } = await import(tableRelativePath);
         let tableSchema = {};
         _.forOwn(tableData, (item, key) => {
             tableSchema[key] = item.table;
