@@ -11,7 +11,7 @@ export default async function (fastify, opts) {
         url: `/${apiInfo.pureFileName}`,
         schema: {
             summary: `查询所有轮播图`,
-            tags: [apiInfo.parentDirname],
+            tags: [apiInfo.parentDirName],
             description: `${apiInfo.apiPath}`,
             body: {
                 type: 'object',

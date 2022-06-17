@@ -11,7 +11,7 @@ export default async function (fastify, opts) {
         url: `/${apiInfo.pureFileName}`,
         schema: {
             summary: `更新字典`,
-            tags: [apiInfo.parentDirname],
+            tags: [apiInfo.parentDirName],
             description: `${apiInfo.apiPath}`,
             body: {
                 type: 'object',
@@ -50,7 +50,7 @@ export default async function (fastify, opts) {
                 let result = await model.update(utils.clearEmptyData(data));
                 return constantConfig.code.SUCCESS_UPDATE;
             } catch (err) {
-                console.log('🚀 ~ file: update.js ~ line 51 ~ err', err);
+                fastify.logError(err);
                 return constantConfig.code.FAIL_UPDATE;
             }
         }

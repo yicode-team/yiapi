@@ -7,6 +7,8 @@ import localize from 'ajv-i18n';
 import { nanoid } from 'nanoid';
 import dayjs from 'dayjs';
 import * as sequelize from 'sequelize';
+import * as _ from 'lodash-es';
+import fg from 'fast-glob';
 
 import * as utils from './utils/index.js';
 import { appConfig } from './config/app.js';
@@ -86,6 +88,7 @@ async function yiApi() {
         res.send({ code: 0, msg: '接口程序已启动' });
     });
 
+    // 接口文档生成
     fastify.register(autoLoad, {
         dir: path.join(systemConfig.yiapiDir, 'plugins', 'swagger'),
         indexPattern: /swagger\.js/
@@ -100,19 +103,39 @@ async function yiApi() {
     // 加载系统接口
     fastify.register(autoLoad, {
         dir: path.join(systemConfig.yiapiDir, 'apis'),
-        options: Object.assign({})
+        ignorePattern: /^_/
     });
 
     // 加载用户接口
     fastify.register(autoLoad, {
         dir: path.join(systemConfig.appDir, 'apis'),
-        options: Object.assign({})
+        ignorePattern: /^_/
+    });
+
+    // 加载三方接口
+    let thirdApiFiles = fg.sync('./addons/*/apis/*', { onlyFiles: true, dot: false, absolute: true, cwd: systemConfig.appDir });
+
+    thirdApiFiles.forEach((file) => {
+        fastify.register(autoLoad, {
+            dir: path.dirname(file),
+            ignorePattern: /^_/
+        });
     });
 
     // 加载用户插件
     fastify.register(autoLoad, {
         dir: path.join(systemConfig.appDir, 'plugins'),
         ignorePattern: /^_/
+    });
+
+    // 加载三方插件
+    let thirdPluginsFiles = fg.sync('./addons/*/plugins/*', { onlyFiles: true, dot: false, absolute: true, cwd: systemConfig.appDir });
+
+    thirdPluginsFiles.forEach((file) => {
+        fastify.register(autoLoad, {
+            dir: path.dirname(file),
+            ignorePattern: /^_/
+        });
     });
 
     // 启动服务！
@@ -134,9 +157,13 @@ async function yiApi() {
 
 export {
     //
+    _,
     yiApi,
     utils,
     fp,
+    fs,
+    dayjs,
+    nanoid,
     sequelize,
     constantConfig,
     schemaConfig,

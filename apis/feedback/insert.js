@@ -11,7 +11,7 @@ export default async function (fastify, opts) {
         url: `/${apiInfo.pureFileName}`,
         schema: {
             summary: `添加意见反馈`,
-            tags: [apiInfo.parentDirname],
+            tags: [apiInfo.parentDirName],
             description: `${apiInfo.apiPath}`,
             body: {
                 type: 'object',

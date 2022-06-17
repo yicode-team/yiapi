@@ -14,14 +14,23 @@ const apiByValue = _.keyBy(apiConfig, 'value');
 export function getApiInfo(metaUrl) {
     let _filename = filename(metaUrl);
     let _dirname = dirname(metaUrl);
+    let _addonsDirName = path.dirname(_dirname);
+
     const pureFileName = path.basename(_filename, '.js');
-    let parentDirname = path.relative(path.dirname(_dirname), _dirname);
-    let apiData = apiByValue[`/${parentDirname}`];
-    return {
+    let parentDirName = path.relative(path.dirname(_dirname), _dirname);
+    let addonsDirName = path.relative(path.dirname(_addonsDirName), _addonsDirName);
+    let apiData = apiByValue[`/${parentDirName}`];
+    let addonsData = apiByValue[`/${addonsDirName}`];
+
+    let apiHash = {
         pureFileName: pureFileName,
-        parentDirname: apiData ? apiData.name : parentDirname,
-        apiPath: `/${parentDirname}/${pureFileName}`
+        parentDirName: apiData ? apiData.name : parentDirName,
+        addonsDirName: addonsData ? addonsData.name : addonsDirName,
+        apiPath: `/${parentDirName}/${pureFileName}`,
+        addonsApiPath: `/${addonsDirName}/${pureFileName}`
     };
+
+    return apiHash;
 }
 
 // 获取请求的接口路径

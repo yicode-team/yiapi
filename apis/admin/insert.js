@@ -13,7 +13,7 @@ export default async function (fastify, opts) {
         method: 'POST',
         url: `/${apiInfo.pureFileName}`,
         schema: {
-            tags: [apiInfo.parentDirname],
+            tags: [apiInfo.parentDirName],
             summary: `添加管理员`,
             description: `${apiInfo.apiPath}`,
             body: {

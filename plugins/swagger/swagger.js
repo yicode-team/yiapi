@@ -2,12 +2,10 @@ import fp from 'fastify-plugin';
 import path from 'path';
 import fastifySwagger from '@fastify/swagger';
 import fg from 'fast-glob';
+
 import { appConfig } from '../../config/app.js';
 
 async function main(fastify, opts) {
-    let tags = fg.sync('./apis/*', { onlyDirectories: true, onlyFiles: false, dot: false, deep: 1 }).map((file) => {
-        return { name: path.basename(file) };
-    });
     fastify.register(fastifySwagger, {
         openapi: {
             info: {

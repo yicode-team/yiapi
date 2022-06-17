@@ -1,7 +1,7 @@
 import * as utils from '../../utils/index.js';
 import { constantConfig } from '../../config/constant.js';
 import { schemaConfig } from '../../config/schema.js';
-import { tableDescribe, tableName, tableData } from '../../tables/feedback.js';
+import { tableDescribe, tableName, tableData } from '../../tables/article.js';
 
 const apiInfo = utils.getApiInfo(import.meta.url);
 
@@ -10,13 +10,17 @@ export default async function (fastify, opts) {
         method: 'POST',
         url: `/${apiInfo.pureFileName}`,
         schema: {
-            summary: `删除意见反馈`,
+            summary: `更新文章`,
             tags: [apiInfo.parentDirName],
             description: `${apiInfo.apiPath}`,
             body: {
                 type: 'object',
                 properties: {
-                    id: tableData.id.schema
+                    id: tableData.id.schema,
+                    title: tableData.title.schema,
+                    describe: tableData.describe.schema,
+                    recommend_state: tableData.recommend_state.schema,
+                    content: tableData.content.schema
                 },
                 required: ['id']
             }
@@ -29,14 +33,23 @@ export default async function (fastify, opts) {
                     .where({ id: req.body.id })
                     .modify(function (queryBuilder) {});
 
-                let result = await model.delete();
+                let data = {
+                    title: req.body.title,
+                    describe: req.body.describe,
+                    content: req.body.content,
+                    recommend_state: req.body.recommend_state,
+                    updated_at: utils.getDatetime()
+                };
+
+                let result = await model.update(utils.clearEmptyData(data));
+
                 return {
-                    ...constantConfig.code.SUCCESS_INSERT,
+                    ...constantConfig.code.SUCCESS_UPDATE,
                     data: result
                 };
             } catch (err) {
                 fastify.logError(err);
-                return constantConfig.code.FAIL_INSERT;
+                return constantConfig.code.FAIL_UPDATE;
             }
         }
     });

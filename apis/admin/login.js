@@ -12,7 +12,7 @@ export default async function (fastify, opts) {
         method: 'POST',
         url: `/${apiInfo.pureFileName}`,
         schema: {
-            tags: [apiInfo.parentDirname],
+            tags: [apiInfo.parentDirName],
             summary: `管理员登录`,
             description: `${apiInfo.apiPath}`,
             body: {
@@ -35,7 +35,6 @@ export default async function (fastify, opts) {
                     .orWhere({ weixin: req.body.account })
                     .orWhere({ qq: req.body.account });
 
-                console.log(model.toString());
                 // 查询用户是否存在
                 let result = await model.clone().first();
                 // 判断用户存在

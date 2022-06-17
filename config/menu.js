@@ -21,6 +21,17 @@ const menuConfig = _.concat(
             ]
         },
         {
+            name: '文章',
+            value: '/_article',
+            describe: '文章',
+            children: [
+                {
+                    name: '公告列表',
+                    value: '/notice'
+                }
+            ]
+        },
+        {
             name: '公告',
             value: '/_notice',
             describe: '公告',

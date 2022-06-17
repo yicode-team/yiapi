@@ -10,7 +10,7 @@ export default async function (fastify, opts) {
         method: 'POST',
         url: `/${apiInfo.pureFileName}`,
         schema: {
-            tags: [apiInfo.parentDirname],
+            tags: [apiInfo.parentDirName],
             summary: `删除轮播图`,
             description: `${apiInfo.apiPath}`,
             body: {
