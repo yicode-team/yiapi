@@ -24,12 +24,14 @@ export default async function (fastify, opts) {
 
         handler: async function (req, res) {
             try {
-                let model = fastify.mysql //
-                    .table(tableName)
-                    .where('type', req.body.type)
-                    .modify(function (queryBuilder) {});
+                let treeData = await fastify.redisGet('cacheData:tree', 'json');
+                let rows = treeData.filter((item) => item.type === req.body.type);
+                // let model = fastify.mysql //
+                //     .table(tableName)
+                //     .where('type', req.body.type)
+                //     .modify(function (queryBuilder) {});
 
-                let rows = await model.clone().orderBy('sort', 'asc').select();
+                // let rows = await model.clone().orderBy('sort', 'asc').select();
 
                 return {
                     ...constantConfig.code.SUCCESS_SELECT,

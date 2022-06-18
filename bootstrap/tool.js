@@ -90,19 +90,17 @@ async function plugin(fastify, opts) {
     // 设置权限数据
     fastify.decorate('cacheTreeData', async () => {
         // 菜单列表
-        let dataMenu = await fastify.mysql //
-            .table('tree')
-            .where({ type: 'menu' })
-            .select();
+        let dataTree = await fastify.mysql.table('tree').select();
 
-        // 接口列表
-        let dataApi = await fastify.mysql //
-            .table('tree')
-            .where({ type: 'api' })
-            .select();
+        let dataMenu = dataTree.filter((item) => item.type === 'menu');
+        let dataApi = dataTree.filter((item) => item.type === 'api');
 
         // 白名单接口
         let dataApiWhiteLists = dataApi.filter((item) => item.is_open === 1).map((item) => item.value);
+
+        // 先置空再设置
+        fastify.redisSet('cacheData:tree', [], 'json');
+        fastify.redisSet('cacheData:tree', dataTree, 'json');
 
         // 先置空再设置
         fastify.redisSet('cacheData:menu', [], 'json');
