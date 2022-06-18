@@ -30,7 +30,7 @@ async function plugin(fastify, opts) {
             req.apiPath = utils.routerPath(req.url);
 
             // 参数检测
-            await utils.checkApiParams(req);
+            await utils.apiParamsCheck(req);
 
             // 从缓存获取白名单接口
             const dataApiWhiteLists = await fastify.redisGet('cacheData:apiWhiteLists', 'json');
@@ -71,7 +71,7 @@ async function plugin(fastify, opts) {
             }
         } catch (err) {
             fastify.logError(err);
-            res.send(_.merge(constantConfig.code.FAIL, { msg: err.msg || '认证异常' }));
+            res.send(_.merge(constantConfig.code.FAIL, { msg: err.msg || '认证异常', other: err.other || '' }));
         }
     });
 }

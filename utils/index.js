@@ -109,10 +109,24 @@ export function routerPath(url) {
     return apiPath;
 }
 
+// 参数签名
+export function apiParamsSign(params) {
+    let fieldsArray = [];
+    _.forOwn(params, (value, key) => {
+        fieldsArray.push(`${key}=${value}`);
+    });
+
+    let fieldsSort = fieldsArray.sort().join('&');
+    console.log('🚀 ~ file: index.js ~ line 120 ~ apiParamsSign ~ fieldsSort', fieldsSort);
+
+    let fieldsMd5 = md5(fieldsSort);
+    return fieldsMd5;
+}
+
 /**
  * 检查传参有效性
  */
-export function checkApiParams(req) {
+export function apiParamsCheck(req) {
     return new Promise((resolve, reject) => {
         let fields = req.body;
 
@@ -131,17 +145,10 @@ export function checkApiParams(req) {
             return reject({ code: 1, msg: '接口请求时间已过期' });
         }
 
-        let fieldsArray = [];
-        _.forOwn(fieldsParams, (value, key) => {
-            fieldsArray.push(`${key}=${value}`);
-        });
+        let paramsSign = apiParamsSign(fieldsParams);
 
-        let fieldsSort = fieldsArray.sort().join('&');
-
-        let fieldsMd5 = md5(fieldsSort);
-
-        if (fieldsMd5 !== fields.sign) {
-            return reject({ code: 1, msg: '接口请求参数校验失败', sign: fieldsMd5 });
+        if (paramsSign !== fields.sign) {
+            return reject({ code: 1, msg: '接口请求参数校验失败', other: { sign: paramsSign } });
         }
 
         return resolve({ code: 0, msg: '接口参数正常' });
