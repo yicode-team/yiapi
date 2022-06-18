@@ -17,18 +17,19 @@ const data = {
             minimum: 1
         }
     },
-    pid: {
+    code: {
         meta: {
-            comment: '字典分类'
+            comment: '字典编码'
         },
         table: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(50),
             allowNull: false,
-            defaultValue: 0
+            defaultValue: ''
         },
         schema: {
-            type: 'integer',
-            minimum: 0
+            type: 'string',
+            minLength: 1,
+            maxLength: 50
         }
     },
     name: {
@@ -73,6 +74,20 @@ const data = {
             enum: ['number', 'string']
         }
     },
+    sort: {
+        meta: {
+            comment: '排序'
+        },
+        table: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 0
+        },
+        schema: {
+            type: 'integer',
+            minimum: 0
+        }
+    },
     describe: {
         meta: {
             comment: '分类描述'
@@ -86,6 +101,21 @@ const data = {
             type: 'string',
             minLength: 0,
             maxLength: 200
+        }
+    },
+    content: {
+        meta: {
+            comment: '分类内容'
+        },
+        table: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+            defaultValue: ''
+        },
+        schema: {
+            type: 'string',
+            minLength: 0,
+            maxLength: 100000
         }
     },
     state: {

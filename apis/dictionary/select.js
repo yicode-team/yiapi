@@ -16,7 +16,7 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    pid: tableData.pid.schema,
+                    code: tableData.code.schema,
                     page: schemaConfig.page,
                     limit: schemaConfig.limit,
                     keywords: schemaConfig.keywords
@@ -28,7 +28,7 @@ export default async function (fastify, opts) {
             try {
                 let model = fastify.mysql //
                     .table(tableName)
-                    .where('pid', req.body.pid)
+                    .where('code', req.body.code)
                     .modify(function (queryBuilder) {
                         if (req.body.keywords) {
                             queryBuilder.where('name', 'like', `%${req.body.keywords}%`);

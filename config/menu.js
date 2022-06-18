@@ -27,7 +27,7 @@ const menuConfig = _.concat(
             children: [
                 {
                     name: '公告列表',
-                    value: '/notice'
+                    value: '/article'
                 }
             ]
         },

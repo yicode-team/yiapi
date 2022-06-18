@@ -16,13 +16,12 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    pid: tableData.pid.schema,
                     name: tableData.name.schema,
                     value: tableData.value.schema,
                     type: tableData.type.schema,
                     describe: tableData.describe.schema
                 },
-                required: ['pid', 'name', 'value', 'type']
+                required: ['name', 'value', 'type']
             }
         },
 

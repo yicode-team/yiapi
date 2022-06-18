@@ -17,7 +17,6 @@ export default async function (fastify, opts) {
                 type: 'object',
                 properties: {
                     id: tableData.id.schema,
-                    pid: tableData.pid.schema,
                     name: tableData.name.schema,
                     value: tableData.value.schema,
                     type: tableData.type.schema,
@@ -40,7 +39,6 @@ export default async function (fastify, opts) {
                     .modify(function (queryBuilder) {});
 
                 let data = {
-                    pid: req.body.pid,
                     name: req.body.name,
                     value: req.body.value,
                     type: req.body.type,

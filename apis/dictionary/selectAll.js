@@ -16,14 +16,14 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    pid: tableData.pid.schema,
+                    code: tableData.code.schema,
                     keywords: schemaConfig.keywords
                 }
             }
         },
         handler: async function (req, res) {
             try {
-                let model = fastify.mysql.table(tableName).where('pid', req.body.pid);
+                let model = fastify.mysql.table(tableName).where('code', req.body.code);
                 let resultData = await model.clone().select();
 
                 let rows = resultData.map((item) => {
