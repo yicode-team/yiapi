@@ -71,11 +71,18 @@ async function syncApiFile(fastify) {
     // 获取接口文件
     let coreApiFiles = fg.sync('./apis/**/*', { onlyFiles: true, dot: false, cwd: systemConfig.yiapiDir });
     let appApiFiles = fg.sync('./apis/**/*', { onlyFiles: true, dot: false, cwd: systemConfig.appDir });
-    let allApiFiles = _.concat(coreApiFiles, appApiFiles);
+    let thirdApiFiles = fg.sync('./addons/*/apis/*', { onlyFiles: true, dot: false, cwd: systemConfig.appDir });
+    let allApiFiles = _.concat(coreApiFiles, appApiFiles, thirdApiFiles);
 
     // 遍历项目接口文件
     allApiFiles.forEach((file) => {
-        let apiFileName = file.replace('\\+', '/').replace('.js', '').replace('./apis', '');
+        let apiFileName = file //
+            .replace('\\+', '/')
+            .replace('.js', '')
+            .replace('/apis', '')
+            .replace('/addons', '')
+            .replace('.', '');
+
         let parentApiValue = '/' + apiFileName.split('/')[1];
         let parentApiData = apiDirByValue[parentApiValue] || {};
 

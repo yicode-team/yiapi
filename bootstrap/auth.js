@@ -58,7 +58,6 @@ async function plugin(fastify, opts) {
                 }
 
                 const userApis = await fastify.getUserApis(req.user);
-
                 let hasApi = _.find(userApis, { value: req.apiPath });
 
                 // 如果当前请求的路由，不在用户许可内
@@ -66,7 +65,7 @@ async function plugin(fastify, opts) {
                     if (req.user.id) {
                         res.send(_.merge(constantConfig.code.FAIL, { msg: `您没有 [ ${req.apiPath} ] 接口操作权限` }));
                     } else {
-                        res.send(constantConfig.code.NOT_LOGIN);
+                        res.send({ ...constantConfig.code.NOT_LOGIN, userApis: userApis.map((item) => item.value) });
                     }
                 }
             }
