@@ -34,23 +34,28 @@ async function plugin(fastify, options) {
     // 获取表文件
     let coreTableFiles = fg.sync('./tables/**/*', { onlyFiles: true, dot: false, absolute: true, cwd: systemConfig.yiapiDir });
     let appTableFiles = fg.sync('./tables/**/*', { onlyFiles: true, dot: false, absolute: true, cwd: systemConfig.appDir });
-    let allTableFiles = _.concat(coreTableFiles, appTableFiles);
+    let thirdTableFiles = fg.sync('./addons/*/tables/**/*', { onlyFiles: true, dot: false, absolute: true, cwd: systemConfig.appDir });
 
-    allTableFiles.forEach(async (file) => {
+    let allTableFiles = _.concat(coreTableFiles, appTableFiles, thirdTableFiles);
+
+    for (let i = 0; i < allTableFiles.length; i++) {
+        let file = allTableFiles[i];
         let tableRelativePath = utils.relativePath(utils.dirname(import.meta.url), path.resolve(file));
-        let { tableDescribe, tableName, tableData, tableOption } = await import(tableRelativePath);
-        let tableSchema = {};
-        _.forOwn(tableData, (item, key) => {
-            tableSchema[key] = item.table;
-        });
-        let table = await sequelize.define(tableName, tableSchema, tableOption);
-        await table.sync({
-            //
-            // force: true,
-            alter: true,
-            logging: false
-        });
-    });
+        let { tableDescribe, tableName, tableData, tableOption } = await utils.importNew(tableRelativePath, {});
+        if (tableName) {
+            let tableSchema = {};
+            _.forOwn(tableData, (item, key) => {
+                tableSchema[key] = item.table;
+            });
+            let table = await sequelize.define(tableName, tableSchema, tableOption);
+            await table.sync({
+                //
+                // force: true,
+                alter: true,
+                logging: false
+            });
+        }
+    }
 
     fastify.addHook('onClose', (instance, done) => sequelize.close().then(() => done()));
 
