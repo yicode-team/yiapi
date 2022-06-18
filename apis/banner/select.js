@@ -35,6 +35,7 @@ export default async function (fastify, opts) {
                     .clone()
                     .count('id', { as: 'count' })
                     .first();
+
                 let rows = await model //
                     .clone()
                     .offset(utils.getOffset(req.body.page, req.body.limit))
@@ -52,7 +53,7 @@ export default async function (fastify, opts) {
                 };
             } catch (err) {
                 fastify.logError(err);
-                return constantConfig.code.FAIL_INSERT;
+                return constantConfig.code.FAIL_SELECT;
             }
         }
     });
