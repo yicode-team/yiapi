@@ -9,7 +9,7 @@ import { appConfig } from '../config/app.js';
 import { constantConfig } from '../config/constant.js';
 import * as utils from '../utils/index.js';
 
-async function main(fastify, opts) {
+async function plugin(fastify, opts) {
     fastify.register(fastifyJwt, {
         secret: jwtConfig.secret,
         decode: {
@@ -76,4 +76,4 @@ async function main(fastify, opts) {
         }
     });
 }
-export default fp(main, { dependencies: ['cors', 'mysql'] });
+export default fp(plugin, { dependencies: ['cors', 'mysql'] });

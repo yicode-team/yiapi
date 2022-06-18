@@ -7,7 +7,7 @@ import * as utils from '../utils/index.js';
 import { appConfig } from '../config/app.js';
 import { roleConfig } from '../config/role.js';
 
-async function main(fastify, opts) {
+async function plugin(fastify, opts) {
     // 同步接口
     try {
         // 准备好表
@@ -102,4 +102,4 @@ async function main(fastify, opts) {
         fastify.log.error(err);
     }
 }
-export default fp(main, { name: 'sync', dependencies: ['mysql', 'sequelize', 'redis', 'tool', 'syncApi', 'syncMenu'] });
+export default fp(plugin, { name: 'sync', dependencies: ['mysql', 'sequelize', 'redis', 'tool', 'syncApi', 'syncMenu'] });

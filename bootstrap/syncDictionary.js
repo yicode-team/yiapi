@@ -43,7 +43,7 @@ async function syncDictionary(fastify) {
     }
 }
 
-async function main(fastify) {
+async function plugin(fastify) {
     // 同步接口
     try {
         await syncDictionary(fastify);
@@ -51,4 +51,4 @@ async function main(fastify) {
         fastify.log.error(err);
     }
 }
-export default fp(main, { name: 'syncMenu', dependencies: ['mysql', 'sequelize', 'redis', 'tool'] });
+export default fp(plugin, { name: 'syncDictionary', dependencies: ['mysql', 'sequelize', 'redis', 'tool'] });

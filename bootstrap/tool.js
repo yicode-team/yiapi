@@ -1,7 +1,7 @@
 import fp from 'fastify-plugin';
 import fs from 'fs-extra';
 
-async function tool(fastify, opts) {
+async function plugin(fastify, opts) {
     fastify.decorate('redisSet', async (key, value, type = 'text') => {
         if (type === 'json') {
             await fastify.redis.set(key, JSON.stringify(value));
@@ -60,10 +60,13 @@ async function tool(fastify, opts) {
         try {
             // 所有角色数组
             let userRoleCodes = session.role_codes.split(',').filter((code) => code !== '');
+            console.log('🚀 ~ file: tool.js ~ line 63 ~ fastify.decorate ~ userRoleCodes', userRoleCodes);
 
             // 所有菜单ID
             let menuIds = [];
+
             const dataRoleCodes = await fastify.redisGet('cacheData:role', 'json');
+            console.log('🚀 ~ file: tool.js ~ line 69 ~ fastify.decorate ~ dataRoleCodes', dataRoleCodes);
             dataRoleCodes.forEach((item) => {
                 if (userRoleCodes.includes(item.code)) {
                     menuIds = item.menu_ids
@@ -73,6 +76,8 @@ async function tool(fastify, opts) {
                         .concat(menuIds);
                 }
             });
+
+            console.log('🚀 ~ file: tool.js ~ line 67 ~ fastify.decorate ~ menuIds', menuIds);
 
             const userMenu = [...new Set(menuIds)];
             const dataMenu = await fastify.redisGet('cacheData:menu', 'json');
@@ -145,4 +150,4 @@ async function tool(fastify, opts) {
         fastify.log.debug(logData);
     });
 }
-export default fp(tool, { name: 'tool', dependencies: ['sequelize', 'mysql', 'redis'] });
+export default fp(plugin, { name: 'tool', dependencies: ['sequelize', 'mysql', 'redis'] });

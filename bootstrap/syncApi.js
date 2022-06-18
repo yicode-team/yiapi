@@ -145,7 +145,7 @@ async function syncApiFile(fastify) {
     }
 }
 
-async function main(fastify) {
+async function plugin(fastify) {
     // 同步接口
     try {
         await syncApiDir(fastify);
@@ -156,4 +156,4 @@ async function main(fastify) {
         fastify.log.error(err);
     }
 }
-export default fp(main, { name: 'syncApi', dependencies: ['mysql', 'sequelize', 'redis', 'tool'] });
+export default fp(plugin, { name: 'syncApi', dependencies: ['mysql', 'sequelize', 'redis', 'tool'] });

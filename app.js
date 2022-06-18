@@ -33,6 +33,7 @@ async function yiApi() {
     fs.ensureFileSync(path.resolve(systemConfig.appDir, 'yiapi.js'));
     fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'api.js'));
     fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'app.js'));
+    fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'cors.js'));
     fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'constant.js'));
     fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'database.js'));
     fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'menu.js'));
