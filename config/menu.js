@@ -26,7 +26,7 @@ const menuConfig = _.concat(
             describe: '文章',
             children: [
                 {
-                    name: '公告列表',
+                    name: '文章列表',
                     value: '/article'
                 }
             ]
