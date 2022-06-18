@@ -6,6 +6,7 @@ specifiers:
     '@fastify/jwt': ^6.1.0
     '@fastify/multipart': ^7.1.0
     '@fastify/redis': ^6.0.0
+    '@fastify/routes': ^5.0.0
     '@fastify/sensible': ^5.0.0
     '@fastify/swagger': ^7.3.0
     ajv: ^8.11.0
@@ -36,6 +37,7 @@ dependencies:
     '@fastify/jwt': 6.1.0
     '@fastify/multipart': 7.1.0
     '@fastify/redis': 6.0.0
+    '@fastify/routes': 5.0.0
     '@fastify/sensible': 5.0.0
     '@fastify/swagger': 7.3.0
     ajv: 8.11.0
@@ -153,6 +155,12 @@ packages:
             ioredis: 5.0.6
         transitivePeerDependencies:
             - supports-color
+        dev: false
+
+    /@fastify/routes/5.0.0:
+        resolution: { integrity: sha512-pr9BY+qS0/9PnwEQ1VdLCPwgZF5uL+J2UH9zxLB1vX8t+3fiYJzmyWUEsaKsRRMg/0M3PDR44Ot+D1IzIVgIBg== }
+        dependencies:
+            fastify-plugin: 3.0.1
         dev: false
 
     /@fastify/sensible/5.0.0:

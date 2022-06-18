@@ -5,6 +5,7 @@ npm-debug.log*
 esdata
 data
 .npmrc
+.cache
 
 # Runtime data
 pids

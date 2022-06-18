@@ -89,6 +89,12 @@ async function yiApi() {
         res.send({ code: 0, msg: '接口程序已启动' });
     });
 
+    // 路由映射列表
+    fastify.register(autoLoad, {
+        dir: path.join(systemConfig.yiapiDir, 'plugins', 'routes'),
+        indexPattern: /routes\.js/
+    });
+
     // 接口文档生成
     fastify.register(autoLoad, {
         dir: path.join(systemConfig.yiapiDir, 'plugins', 'swagger'),
@@ -115,13 +121,15 @@ async function yiApi() {
 
     // 加载三方接口
     let thirdApiFiles = fg.sync('./addons/*/apis/*', { onlyFiles: true, dot: false, absolute: true, cwd: systemConfig.appDir });
-
-    thirdApiFiles.forEach((file) => {
+    for (let i = 0; i < thirdApiFiles.length; i++) {
+        let file = thirdApiFiles[i];
+        let prefix = path.basename(path.dirname(path.dirname(file)));
         fastify.register(autoLoad, {
             dir: path.dirname(file),
-            ignorePattern: /^_/
+            ignorePattern: /^_/,
+            options: { prefix: prefix }
         });
-    });
+    }
 
     // 加载用户插件
     fastify.register(autoLoad, {

@@ -27,6 +27,7 @@
         "@fastify/jwt": "^6.1.0",
         "@fastify/multipart": "^7.1.0",
         "@fastify/redis": "^6.0.0",
+        "@fastify/routes": "^5.0.0",
         "@fastify/sensible": "^5.0.0",
         "@fastify/swagger": "^7.3.0",
         "ajv": "^8.11.0",
