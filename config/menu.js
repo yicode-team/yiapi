@@ -83,10 +83,6 @@ const menuConfig = _.concat(
                 {
                     name: '字典列表',
                     value: '/dictionary'
-                },
-                {
-                    name: '字典分类',
-                    value: '/dictionary/category'
                 }
             ]
         },
