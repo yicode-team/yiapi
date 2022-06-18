@@ -16,12 +16,14 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
+                    code: tableData.code.schema,
                     name: tableData.name.schema,
                     value: tableData.value.schema,
                     type: tableData.type.schema,
-                    describe: tableData.describe.schema
+                    describe: tableData.describe.schema,
+                    content: tableData.content.schema
                 },
-                required: ['name', 'value', 'type']
+                required: ['code', 'name', 'value', 'type']
             }
         },
 
@@ -37,11 +39,12 @@ export default async function (fastify, opts) {
                     .modify(function (queryBuilder) {});
 
                 let data = {
-                    pid: req.body.pid,
+                    code: req.body.code,
                     name: req.body.name,
                     value: req.body.value,
                     type: req.body.type,
                     describe: req.body.describe,
+                    content: req.body.content,
                     created_at: utils.getDatetime(),
                     updated_at: utils.getDatetime()
                 };
