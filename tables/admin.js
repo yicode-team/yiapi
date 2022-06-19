@@ -7,7 +7,7 @@ const data = {
             comment: '自增'
         },
         table: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true

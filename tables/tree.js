@@ -7,7 +7,7 @@ const data = {
             comment: '自增'
         },
         table: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true
@@ -22,7 +22,7 @@ const data = {
             comment: '父级ID'
         },
         table: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             allowNull: false,
             defaultValue: 0
         },
@@ -109,7 +109,7 @@ const data = {
             comment: '树排序'
         },
         table: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             allowNull: false,
             defaultValue: 0
         },
@@ -166,7 +166,7 @@ const data = {
             comment: '是否公开'
         },
         table: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             allowNull: false,
             defaultValue: 0
         },

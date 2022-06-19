@@ -7,7 +7,7 @@ const data = {
             comment: '自增'
         },
         table: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true
@@ -22,7 +22,7 @@ const data = {
             comment: '发布者ID'
         },
         table: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             allowNull: false
         },
         schema: {
@@ -95,7 +95,7 @@ const data = {
             comment: '浏览人数'
         },
         table: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             allowNull: false,
             defaultValue: 0
         },
