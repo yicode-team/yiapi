@@ -119,7 +119,7 @@ export function apiParamsSign(params) {
     let fieldsSort = fieldsArray.sort().join('&');
 
     let fieldsMd5 = md5(fieldsSort);
-    return fieldsMd5;
+    return { sign: fieldsMd5, sort: fieldsSort };
 }
 
 /**
@@ -144,10 +144,10 @@ export function apiParamsCheck(req) {
             return reject({ code: 1, msg: '接口请求时间已过期' });
         }
 
-        let paramsSign = apiParamsSign(fieldsParams);
+        let paramsValid = apiParamsSign(fieldsParams);
 
-        if (paramsSign !== fields.sign) {
-            return reject({ code: 1, msg: '接口请求参数校验失败', other: { sign: paramsSign } });
+        if (paramsValid.sign !== fields.sign) {
+            return reject({ code: 1, msg: '接口请求参数校验失败', other: paramsValid });
         }
 
         return resolve({ code: 0, msg: '接口参数正常' });
