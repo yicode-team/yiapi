@@ -117,7 +117,6 @@ export function apiParamsSign(params) {
     });
 
     let fieldsSort = fieldsArray.sort().join('&');
-    console.log('🚀 ~ file: index.js ~ line 120 ~ apiParamsSign ~ fieldsSort', fieldsSort);
 
     let fieldsMd5 = md5(fieldsSort);
     return fieldsMd5;
