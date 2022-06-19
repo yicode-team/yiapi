@@ -81,7 +81,8 @@ const data = {
         },
         table: {
             type: DataTypes.STRING(200),
-            allowNull: false
+            allowNull: false,
+            defaultValue: ''
         },
         schema: {
             type: 'string',
