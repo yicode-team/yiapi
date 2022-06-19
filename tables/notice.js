@@ -30,6 +30,21 @@ const data = {
             minimum: 1
         }
     },
+    publisher_nickname: {
+        meta: {
+            comment: '发布者昵称'
+        },
+        table: {
+            type: DataTypes.STRING(50),
+            allowNull: false,
+            defaultValue: ''
+        },
+        schema: {
+            type: 'string',
+            minLength: 0,
+            maxLength: 50
+        }
+    },
     title: {
         meta: {
             comment: '标题'

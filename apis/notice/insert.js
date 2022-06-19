@@ -32,6 +32,8 @@ export default async function (fastify, opts) {
                     .modify(function (queryBuilder) {});
 
                 let data = {
+                    publisher_id: req.user.id,
+                    publisher_nickname: req.user.nickname,
                     title: req.body.title,
                     summary: req.body.summary,
                     content: req.body.content,
