@@ -64,6 +64,7 @@ export default async function (fastify, opts) {
                         id: result.id,
                         uuid: result.uuid,
                         account: result.account,
+                        nickname: result.nickname,
                         role_codes: result.role_codes,
                         state: result.state
                     })
