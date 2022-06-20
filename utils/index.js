@@ -175,11 +175,11 @@ export function getTableData(url, data, option) {
  * @param {String} path 导入路径
  * @param {Any} default 默认值
  */
-export async function importNew(path, dv) {
+export async function importNew(path, defaultValue) {
     try {
         const data = await import(path);
         return data;
     } catch (err) {
-        return dv;
+        return defaultValue;
     }
 }
