@@ -34,6 +34,7 @@
         "ajv-i18n": "^4.2.0",
         "blueimp-md5": "^2.19.0",
         "bull": "^4.8.4",
+        "cli-progress": "^3.11.1",
         "dayjs": "^1.11.3",
         "fast-glob": "^3.2.11",
         "fastify": "^4.0.3",

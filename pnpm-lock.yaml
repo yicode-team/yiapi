@@ -13,6 +13,7 @@ specifiers:
     ajv-i18n: ^4.2.0
     blueimp-md5: ^2.19.0
     bull: ^4.8.4
+    cli-progress: ^3.11.1
     dayjs: ^1.11.3
     fast-glob: ^3.2.11
     fastify: ^4.0.3
@@ -44,6 +45,7 @@ dependencies:
     ajv-i18n: 4.2.0_ajv@8.11.0
     blueimp-md5: 2.19.0
     bull: 4.8.4
+    cli-progress: 3.11.1
     dayjs: 1.11.3
     fast-glob: 3.2.11
     fastify: 4.0.3
@@ -857,6 +859,13 @@ packages:
         engines: { node: ^12.20.0 || ^14.13.1 || >=16.0.0 }
         dependencies:
             restore-cursor: 4.0.0
+        dev: false
+
+    /cli-progress/3.11.1:
+        resolution: { integrity: sha512-TTMA2LHrYaZeNMcgZGO10oYqj9hvd03pltNtVbu4ddeyDTHlYV7gWxsFiuvaQlgwMBFCv1TukcjiODWFlb16tQ== }
+        engines: { node: '>=4' }
+        dependencies:
+            string-width: 4.2.3
         dev: false
 
     /cli-spinners/2.6.1:
