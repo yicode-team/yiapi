@@ -36,8 +36,8 @@ export default async function (fastify, opts) {
                     link: req.body.link,
                     thumbnail: req.body.thumbnail,
                     recommend_state: req.body.recommend_state,
-                    created_at: utils.getDatetime(),
-                    updated_at: utils.getDatetime()
+                    created_at: utils.getTimestamp(),
+                    updated_at: utils.getTimestamp()
                 };
                 let result = await model.insert(utils.clearEmptyData(data));
 

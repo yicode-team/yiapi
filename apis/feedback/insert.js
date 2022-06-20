@@ -35,8 +35,8 @@ export default async function (fastify, opts) {
                     merchant_id: req.body.merchant_id,
                     goods_id: req.body.goods_id,
                     content: req.body.content,
-                    created_at: utils.getDatetime(),
-                    updated_at: utils.getDatetime()
+                    created_at: utils.getTimestamp(),
+                    updated_at: utils.getTimestamp()
                 };
 
                 let result = await model.insert(utils.clearEmptyData(data));

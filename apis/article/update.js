@@ -38,7 +38,7 @@ export default async function (fastify, opts) {
                     describe: req.body.describe,
                     content: req.body.content,
                     recommend_state: req.body.recommend_state,
-                    updated_at: utils.getDatetime()
+                    updated_at: utils.getTimestamp()
                 };
 
                 let result = await model.update(utils.clearEmptyData(data));

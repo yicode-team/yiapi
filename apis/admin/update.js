@@ -37,7 +37,7 @@ export default async function (fastify, opts) {
                     password: utils.MD5(req.body.password),
                     nickname: req.body.nickname,
                     role_codes: req.body.role_codes,
-                    updated_at: utils.getDatetime()
+                    updated_at: utils.getTimestamp()
                 };
 
                 let updateResult = await model.update(utils.clearEmptyData(data));

@@ -43,7 +43,7 @@ export default async function (fastify, opts) {
                     value: req.body.value,
                     type: req.body.type,
                     describe: req.body.describe,
-                    updated_at: utils.getDatetime()
+                    updated_at: utils.getTimestamp()
                 };
                 let result = await model.update(utils.clearEmptyData(data));
                 return constantConfig.code.SUCCESS_UPDATE;

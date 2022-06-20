@@ -44,8 +44,8 @@ export default async function (fastify, opts) {
                     nickname: req.body.nickname,
                     role_codes: req.body.role_codes,
                     uuid: nanoid(),
-                    created_at: utils.getDatetime(),
-                    updated_at: utils.getDatetime()
+                    created_at: utils.getTimestamp(),
+                    updated_at: utils.getTimestamp()
                 };
 
                 let result = await model.clone().insert(utils.clearEmptyData(data));

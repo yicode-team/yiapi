@@ -32,8 +32,8 @@ async function syncDictionary(fastify) {
                 sort: index,
                 describe: item.describe || '',
                 content: item.content || '',
-                created_at: utils.getDatetime(),
-                updated_at: utils.getDatetime()
+                created_at: utils.getTimestamp(),
+                updated_at: utils.getTimestamp()
             });
         }
     });

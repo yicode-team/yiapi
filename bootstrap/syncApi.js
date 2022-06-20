@@ -25,8 +25,8 @@ async function syncApiDir(fastify) {
         if (apiDirValue.includes(item.value) === false) {
             item.type = 'api';
             item.is_bool = 0;
-            item.created_at = utils.getDatetime();
-            item.updated_at = utils.getDatetime();
+            item.created_at = utils.getTimestamp();
+            item.updated_at = utils.getTimestamp();
             return true;
         } else {
             return false;
@@ -103,8 +103,8 @@ async function syncApiFile(fastify) {
                     pids: '0',
                     level: 1,
                     is_bool: 1,
-                    created_at: utils.getDatetime(),
-                    updated_at: utils.getDatetime()
+                    created_at: utils.getTimestamp(),
+                    updated_at: utils.getTimestamp()
                 };
                 if (_.isEmpty(parentApiData) === false) {
                     apiParams.pid = parentApiData.id;
@@ -121,7 +121,7 @@ async function syncApiFile(fastify) {
                         pid: parentApiData.id,
                         pids: `0,${parentApiData.id}`,
                         level: 2,
-                        updated_at: utils.getDatetime()
+                        updated_at: utils.getTimestamp()
                     });
                 }
             }

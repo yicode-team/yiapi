@@ -26,8 +26,8 @@ async function syncMenuDir(fastify) {
                     sort: index,
                     is_open: 0,
                     describe: item.describe || '',
-                    created_at: utils.getDatetime(),
-                    updated_at: utils.getDatetime()
+                    created_at: utils.getTimestamp(),
+                    updated_at: utils.getTimestamp()
                 });
             }
         });
@@ -73,8 +73,8 @@ async function syncMenuFile(fastify) {
                             sort: index,
                             is_open: 0,
                             describe: item.describe || '',
-                            created_at: utils.getDatetime(),
-                            updated_at: utils.getDatetime()
+                            created_at: utils.getTimestamp(),
+                            updated_at: utils.getTimestamp()
                         });
                     }
                 }

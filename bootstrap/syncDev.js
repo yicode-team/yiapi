@@ -46,8 +46,8 @@ async function plugin(fastify, opts) {
                 //     item.api_ids = currentRoleData.api_ids;
                 //     item.menu_ids = currentRoleData.menu_ids;
                 // }
-                item.created_at = utils.getDatetime();
-                item.updated_at = utils.getDatetime();
+                item.created_at = utils.getTimestamp();
+                item.updated_at = utils.getTimestamp();
             }
 
             return isExists === false;
@@ -71,8 +71,8 @@ async function plugin(fastify, opts) {
                 describe: '技术性相关的管理和维护',
                 menu_ids: menuIds.join(','),
                 api_ids: apiIds.join(','),
-                created_at: utils.getDatetime(),
-                updated_at: utils.getDatetime()
+                created_at: utils.getTimestamp(),
+                updated_at: utils.getTimestamp()
             });
         } else {
             await roleModel
@@ -81,7 +81,7 @@ async function plugin(fastify, opts) {
                 .update({
                     menu_ids: menuIds.join(','),
                     api_ids: apiIds.join(','),
-                    updated_at: utils.getDatetime()
+                    updated_at: utils.getTimestamp()
                 });
         }
 
@@ -93,8 +93,8 @@ async function plugin(fastify, opts) {
                 nickname: '开发管理员',
                 role_codes: 'dev',
                 password: utils.MD5(md5(appConfig.devPassword)),
-                created_at: utils.getDatetime(),
-                updated_at: utils.getDatetime()
+                created_at: utils.getTimestamp(),
+                updated_at: utils.getTimestamp()
             });
             await adminModel.clone().insert(insertApiData);
         }

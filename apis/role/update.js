@@ -39,7 +39,7 @@ export default async function (fastify, opts) {
                     describe: req.body.describe,
                     menu_ids: req.body.menu_ids,
                     api_ids: req.body.api_ids,
-                    updated_at: utils.getDatetime()
+                    updated_at: utils.getTimestamp()
                 };
 
                 let result = await model.update(utils.clearEmptyData(data));

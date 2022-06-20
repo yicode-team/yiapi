@@ -41,8 +41,8 @@ export default async function (fastify, opts) {
                     name: req.body.name,
                     describe: req.body.describe,
                     menu_ids: req.body.menu_ids,
-                    created_at: utils.getDatetime(),
-                    updated_at: utils.getDatetime()
+                    created_at: utils.getTimestamp(),
+                    updated_at: utils.getTimestamp()
                 };
                 let result = await model.clone().insert(utils.clearEmptyData(data));
 

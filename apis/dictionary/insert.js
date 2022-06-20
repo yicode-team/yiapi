@@ -45,8 +45,8 @@ export default async function (fastify, opts) {
                     type: req.body.type,
                     describe: req.body.describe,
                     content: req.body.content,
-                    created_at: utils.getDatetime(),
-                    updated_at: utils.getDatetime()
+                    created_at: utils.getTimestamp(),
+                    updated_at: utils.getTimestamp()
                 };
                 let result = await model.insert(utils.clearEmptyData(data));
                 return {

@@ -65,7 +65,7 @@ export default async function (fastify, opts) {
                     is_bool: req.body.is_bool,
                     describe: req.body.describe,
                     pids: req.body.pids,
-                    updated_at: utils.getDatetime()
+                    updated_at: utils.getTimestamp()
                 };
 
                 if (parentData !== undefined) {
@@ -86,7 +86,7 @@ export default async function (fastify, opts) {
                         .update({
                             pids: childrenPids.join(','),
                             level: childrenPids.length,
-                            updated_at: utils.getDatetime()
+                            updated_at: utils.getTimestamp()
                         });
                 }
 
