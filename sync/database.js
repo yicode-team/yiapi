@@ -82,8 +82,8 @@ async function syncDatabase(options = {}) {
                 let syncParams = {
                     logging: false
                 };
-                if (options.sync === true) {
-                    syncParams.sync = true;
+                if (options.force === true) {
+                    syncParams.force = true;
                 } else {
                     syncParams.alert = false;
                 }
