@@ -70,12 +70,12 @@ export default async function (fastify, opts) {
                 await fastify.cacheTreeData();
 
                 return {
-                    ...constantConfig.code.SUCCESS_INSERT,
+                    ...constantConfig.code.INSERT_SUCCESS,
                     data: result
                 };
             } catch (err) {
                 fastify.logError(err);
-                return constantConfig.code.FAIL_INSERT;
+                return constantConfig.code.INSERT_FAIL;
             }
         }
     });

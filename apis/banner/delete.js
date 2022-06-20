@@ -30,10 +30,10 @@ export default async function (fastify, opts) {
                     .modify(function (queryBuilder) {});
 
                 let result = await model.delete();
-                return constantConfig.code.SUCCESS_INSERT;
+                return constantConfig.code.INSERT_SUCCESS;
             } catch (err) {
                 fastify.logError(err);
-                return constantConfig.code.FAIL_INSERT;
+                return constantConfig.code.INSERT_FAIL;
             }
         }
     });

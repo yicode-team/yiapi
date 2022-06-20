@@ -45,7 +45,7 @@ export default async function (fastify, opts) {
                     .select();
 
                 return {
-                    ...constantConfig.code.SUCCESS_SELECT,
+                    ...constantConfig.code.SELECT_SUCCESS,
                     data: {
                         count: resultCount.count,
                         rows: rows,
@@ -55,7 +55,7 @@ export default async function (fastify, opts) {
                 };
             } catch (err) {
                 fastify.logError(err);
-                return constantConfig.code.FAIL_SELECT;
+                return constantConfig.code.SELECT_FAIL;
             }
         }
     });

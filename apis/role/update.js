@@ -47,12 +47,12 @@ export default async function (fastify, opts) {
                 await fastify.cacheRoleData();
 
                 return {
-                    ...constantConfig.code.SUCCESS_UPDATE,
+                    ...constantConfig.code.UPDATE_SUCCESS,
                     data: result
                 };
             } catch (err) {
                 fastify.logError(err);
-                return constantConfig.code.FAIL_UPDATE;
+                return constantConfig.code.UPDATE_FAIL;
             }
         }
     });

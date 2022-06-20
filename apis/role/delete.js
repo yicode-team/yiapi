@@ -39,11 +39,11 @@ export default async function (fastify, opts) {
                 await fastify.cacheRoleData();
 
                 return {
-                    ...constantConfig.code.SUCCESS_DELETE,
+                    ...constantConfig.code.DELETE_SUCCESS,
                     data: result
                 };
             } catch (err) {
-                return constantConfig.code.FAIL_DELETE;
+                return constantConfig.code.DELETE_FAIL;
             }
         }
     });

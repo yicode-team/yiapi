@@ -32,12 +32,12 @@ export default async function (fastify, opts) {
                     .first();
 
                 return {
-                    ...constantConfig.code.SUCCESS_SELECT,
+                    ...constantConfig.code.SELECT_SUCCESS,
                     data: result
                 };
             } catch (err) {
                 fastify.logError(err);
-                return constantConfig.code.FAIL_SELECT;
+                return constantConfig.code.SELECT_FAIL;
             }
         }
     });

@@ -36,12 +36,12 @@ export default async function (fastify, opts) {
                 await fastify.cacheTreeData();
 
                 return {
-                    ...constantConfig.code.SUCCESS_DELETE,
+                    ...constantConfig.code.DELETE_SUCCESS,
                     data: result
                 };
             } catch (err) {
                 fastify.logError(err);
-                return constantConfig.code.FAIL_DELETE;
+                return constantConfig.code.DELETE_FAIL;
             }
         }
     });

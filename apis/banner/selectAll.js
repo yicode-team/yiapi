@@ -26,14 +26,14 @@ export default async function (fastify, opts) {
                 let model = fastify.mysql.table(tableName);
                 let rows = await model.clone().select();
                 return {
-                    ...constantConfig.code.SUCCESS_SELECT,
+                    ...constantConfig.code.SELECT_SUCCESS,
                     data: {
                         rows: rows
                     }
                 };
             } catch (err) {
                 fastify.logError(err);
-                return constantConfig.code.FAIL_SELECT;
+                return constantConfig.code.SELECT_FAIL;
             }
         }
     });

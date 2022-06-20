@@ -29,10 +29,10 @@ export default async function (fastify, opts) {
                     .modify(function (queryBuilder) {});
 
                 let result = await model.delete();
-                return constantConfig.code.SUCCESS_DELETE;
+                return constantConfig.code.DELETE_SUCCESS;
             } catch (err) {
                 fastify.logError(err);
-                return constantConfig.code.FAIL_DELETE;
+                return constantConfig.code.DELETE_FAIL;
             }
         }
     });

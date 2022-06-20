@@ -31,7 +31,7 @@ export default async function (fastify, opts) {
             try {
                 if (req.body.type === 'number') {
                     if (Number.isNaN(Number(req.body.value)) === true) {
-                        return { ...constantConfig.code.FAIL_UPDATE, msg: '字典值不是一个数字类型' };
+                        return { ...constantConfig.code.UPDATE_FAIL, msg: '字典值不是一个数字类型' };
                     }
                 }
                 let model = fastify.mysql //
@@ -50,12 +50,12 @@ export default async function (fastify, opts) {
                 };
                 let result = await model.insert(utils.clearEmptyData(data));
                 return {
-                    ...constantConfig.code.SUCCESS_INSERT,
+                    ...constantConfig.code.INSERT_SUCCESS,
                     data: result
                 };
             } catch (err) {
                 fastify.logError(err);
-                return constantConfig.code.FAIL_INSERT;
+                return constantConfig.code.INSERT_FAIL;
             }
         }
     });

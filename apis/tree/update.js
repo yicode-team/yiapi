@@ -92,11 +92,11 @@ export default async function (fastify, opts) {
 
                 await trx.commit();
                 await fastify.cacheTreeData();
-                return constantConfig.code.SUCCESS_UPDATE;
+                return constantConfig.code.UPDATE_SUCCESS;
             } catch (err) {
                 await trx.rollback();
                 fastify.logError(err);
-                return constantConfig.code.FAIL_UPDATE;
+                return constantConfig.code.UPDATE_FAIL;
             }
         }
     });

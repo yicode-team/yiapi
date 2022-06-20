@@ -42,10 +42,10 @@ export default async function (fastify, opts) {
 
                 let updateResult = await model.update(utils.clearEmptyData(data));
 
-                return constantConfig.code.SUCCESS_UPDATE;
+                return constantConfig.code.UPDATE_SUCCESS;
             } catch (err) {
                 fastify.logError(err);
-                return constantConfig.code.FAIL_UPDATE;
+                return constantConfig.code.UPDATE_FAIL;
             }
         }
     });
