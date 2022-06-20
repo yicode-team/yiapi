@@ -28,4 +28,4 @@ async function plugin(fastify, options) {
     }
 }
 
-export default fp(plugin, { name: 'mysql', dependencies: ['sequelize'] });
+export default fp(plugin, { name: 'mysql' });

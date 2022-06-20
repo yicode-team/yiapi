@@ -1,7 +1,6 @@
 // 模块
 import path from 'path';
 import * as _ from 'lodash-es';
-import fp from 'fastify-plugin';
 import { Sequelize } from 'sequelize';
 import fg from 'fast-glob';
 
@@ -11,7 +10,7 @@ import { appConfig } from '../config/app.js';
 import { databaseConfig } from '../config/database.js';
 import { systemConfig } from '../system.js';
 
-async function plugin(fastify, options, done) {
+async function syncDatabase(fastify, options, done) {
     try {
         const sequelize = await new Sequelize(databaseConfig.db, databaseConfig.username, databaseConfig.password, {
             host: databaseConfig.host,
@@ -58,13 +57,10 @@ async function plugin(fastify, options, done) {
             }
         }
 
-        fastify.addHook('onClose', (instance, done) => sequelize.close().then(() => done()));
-
         await sequelize.authenticate();
-        done();
+        console.log('数据同步完毕');
     } catch (err) {
         fastify.log.error(err);
     }
 }
-
-export default fp(plugin, { name: 'sequelize' });
+export { syncDatabase };

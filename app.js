@@ -19,6 +19,7 @@ import { apiConfig } from './config/api.js';
 import { menuConfig } from './config/menu.js';
 import { roleConfig } from './config/role.js';
 import { databaseConfig } from './config/database.js';
+import { syncDatabase } from './sync/database.js';
 
 import { systemConfig } from './system.js';
 
@@ -182,5 +183,6 @@ export {
     apiConfig,
     menuConfig,
     roleConfig,
-    databaseConfig
+    databaseConfig,
+    syncDatabase
 };

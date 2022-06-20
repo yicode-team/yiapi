@@ -144,4 +144,4 @@ async function plugin(fastify, opts) {
         fastify.log.debug(logData);
     });
 }
-export default fp(plugin, { name: 'tool', dependencies: ['sequelize', 'mysql', 'redis'] });
+export default fp(plugin, { name: 'tool', dependencies: ['mysql', 'redis'] });

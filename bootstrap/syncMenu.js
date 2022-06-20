@@ -97,4 +97,4 @@ async function plugin(fastify) {
         fastify.log.error(err);
     }
 }
-export default fp(plugin, { name: 'syncMenu', dependencies: ['mysql', 'sequelize', 'redis', 'tool'] });
+export default fp(plugin, { name: 'syncMenu', dependencies: ['mysql', 'redis', 'tool'] });

@@ -51,4 +51,4 @@ async function plugin(fastify) {
         fastify.log.error(err);
     }
 }
-export default fp(plugin, { name: 'syncDictionary', dependencies: ['mysql', 'sequelize', 'redis', 'tool'] });
+export default fp(plugin, { name: 'syncDictionary', dependencies: ['mysql', 'redis', 'tool'] });
