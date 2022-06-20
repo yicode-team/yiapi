@@ -74,6 +74,10 @@ export function getDatetime() {
     return dayjs().format('YYYY-MM-DD HH:mm:ss');
 }
 
+export function getTimestamp() {
+    return Date.now();
+}
+
 export function relativePath(from, to) {
     let _relative = path.relative(from, to);
     let _covertPath = _relative.replace(/\\+/g, '/');
