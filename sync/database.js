@@ -11,7 +11,7 @@ import { appConfig } from '../config/app.js';
 import { databaseConfig } from '../config/database.js';
 import { systemConfig } from '../system.js';
 
-async function syncDatabase(fastify, options, done) {
+async function syncDatabase(options = {}) {
     try {
         console.log('数据库连接中...');
         const sequelize = await new Sequelize(databaseConfig.db, databaseConfig.username, databaseConfig.password, {
@@ -79,11 +79,16 @@ async function syncDatabase(fastify, options, done) {
                     tableSchema[key] = item.table;
                 });
                 let table = await sequelize.define(tableName, tableSchema, tableOption);
+                let syncParams = {
+                    logging: false
+                };
+                if (options.sync === true) {
+                    syncParams.sync = true;
+                } else {
+                    syncParams.alert = false;
+                }
                 table
-                    .sync({
-                        alter: true,
-                        logging: false
-                    })
+                    .sync(syncParams)
                     .then((res) => {
                         console.log(`[ ${stepNumber++} / ${allTableLength} ] - ${tableName} 表同步完毕`);
                         if (stepNumber > allTableLength) {
