@@ -23,7 +23,7 @@ async function syncDatabase(fastify, options, done) {
                 dialectOptions: {
                     collate: 'utf8mb4_general_ci'
                 },
-                timestamps: true,
+                timestamps: false,
                 createdAt: 'created_at',
                 updatedAt: 'updated_at',
                 deletedAt: 'deleted_at'
