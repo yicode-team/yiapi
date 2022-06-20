@@ -44,7 +44,7 @@ async function yiApi() {
 
     const fastify = Fastify({
         logger: loggerConfig,
-        pluginTimeout: 60000,
+        pluginTimeout: 0,
         genReqId: () => nanoid(),
         ajv: {
             customOptions: {
