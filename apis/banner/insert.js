@@ -17,6 +17,7 @@ export default async function (fastify, opts) {
                 type: 'object',
                 properties: {
                     title: tableData.title.schema,
+                    link: tableData.link.schema,
                     thumbnail: tableData.thumbnail.schema,
                     recommend_state: tableData.recommend_state.schema
                 },
@@ -32,6 +33,7 @@ export default async function (fastify, opts) {
 
                 let data = {
                     title: req.body.title,
+                    link: req.body.link,
                     thumbnail: req.body.thumbnail,
                     recommend_state: req.body.recommend_state,
                     created_at: utils.getDatetime(),

@@ -17,7 +17,8 @@ export default async function (fastify, opts) {
                 type: 'object',
                 properties: {
                     id: schemaConfig.id,
-                    thumbnail: schemaConfig.image,
+                    link: tableData.link.schema,
+                    thumbnail: tableData.thumbnail.schema,
                     recommend_state: tableData.recommend_state.schema
                 },
                 required: ['id']
@@ -34,6 +35,7 @@ export default async function (fastify, opts) {
                 // 需要更新的数据
                 let data = {
                     title: req.body.title,
+                    link: req.body.link,
                     thumbnail: req.body.thumbnail,
                     recommend_state: req.body.recommend_state,
                     updated_at: utils.getDatetime()

@@ -17,18 +17,19 @@ const data = {
             minimum: 1
         }
     },
-    article_id: {
+    link: {
         meta: {
-            comment: '文章ID'
+            comment: '跳转地址'
         },
         table: {
-            type: DataTypes.BIGINT,
+            type: DataTypes.STRING(1000),
             allowNull: false,
-            defaultValue: 0
+            defaultValue: ''
         },
         schema: {
-            type: 'integer',
-            minimum: 0
+            type: 'string',
+            minLength: 0,
+            maxLength: 1000
         }
     },
     title: {
