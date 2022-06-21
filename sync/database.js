@@ -25,10 +25,7 @@ async function syncDatabase(options = {}) {
                 dialectOptions: {
                     collate: 'utf8mb4_general_ci'
                 },
-                timestamps: false,
-                createdAt: 'created_at',
-                updatedAt: 'updated_at',
-                deletedAt: 'deleted_at'
+                timestamps: false
             },
             omitNull: false
         });
@@ -83,11 +80,6 @@ async function syncDatabase(options = {}) {
                     logging: false,
                     alter: true
                 };
-                // if (options.force === true) {
-                //     syncParams.force = true;
-                // } else {
-                //     syncParams.alter = false;
-                // }
                 table
                     .sync(syncParams)
                     .then((res) => {
