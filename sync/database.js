@@ -80,13 +80,14 @@ async function syncDatabase(options = {}) {
                 });
                 let table = await sequelize.define(tableName, tableSchema, tableOption);
                 let syncParams = {
-                    logging: false
+                    logging: false,
+                    alter: true
                 };
-                if (options.force === true) {
-                    syncParams.force = true;
-                } else {
-                    syncParams.alert = false;
-                }
+                // if (options.force === true) {
+                //     syncParams.force = true;
+                // } else {
+                //     syncParams.alter = false;
+                // }
                 table
                     .sync(syncParams)
                     .then((res) => {
