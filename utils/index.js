@@ -7,6 +7,7 @@ import { nanoid } from 'nanoid';
 
 import { appConfig } from '../config/app.js';
 import { apiConfig } from '../config/api.js';
+import { tableConfig } from '../config/table.js';
 
 const apiByValue = _.keyBy(apiConfig, 'value');
 
@@ -185,5 +186,29 @@ export async function importNew(path, defaultValue) {
         return data;
     } catch (err) {
         return defaultValue;
+    }
+}
+
+/**
+ * 表格字段转换
+ * @param {String} comment 注释
+ * @param {String} field 内部字段
+ * @param {Object} data 外部数据
+ * @returns Object 对象数据
+ */
+export function tableField(comment, field, data) {
+    if (data) {
+        let data2 = _.cloneDeep(data);
+        data2.meta.comment = comment;
+        return data2;
+    } else {
+        let fieldData = _.cloneDeep(tableConfig[field] || null);
+
+        if (fieldData) {
+            field.meta.comment = comment;
+            return fieldData;
+        } else {
+            return {};
+        }
     }
 }
