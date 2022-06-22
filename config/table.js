@@ -75,6 +75,20 @@ const tableConfig = {
             maxLength: 50
         }
     },
+    boolEnum: {
+        meta: {
+            comment: '布尔枚举{0:关,1:开}'
+        },
+        table: {
+            type: DataTypes.TINYINT,
+            allowNull: false,
+            defaultValue: 0
+        },
+        schema: {
+            type: 'integer',
+            enum: [0, 1]
+        }
+    },
     state: {
         meta: {
             comment: '状态{normal:正常,disabled:禁用,deleted:删除}'
