@@ -144,9 +144,37 @@ const tableConfig = {
             defaultValue: ''
         },
         schema: {
-            type: 'integer',
+            type: 'string',
             minLength: 0,
             maxLength: 100
+        }
+    },
+    intEnum: {
+        meta: {
+            comment: '自定义数字枚举参数'
+        },
+        table: {
+            type: DataTypes.BIGINT,
+            allowNull: false,
+            defaultValue: 0
+        },
+        schema: {
+            type: 'integer',
+            enum: [0]
+        }
+    },
+    strEnum: {
+        meta: {
+            comment: '自定义字符枚举参数'
+        },
+        table: {
+            type: DataTypes.STRING(100),
+            allowNull: false,
+            defaultValue: ''
+        },
+        schema: {
+            type: 'string',
+            enum: []
         }
     }
 };

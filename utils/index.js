@@ -198,7 +198,7 @@ export async function importNew(path, defaultValue) {
  * @param {Number} max 最大值
  * @returns Object 对象数据
  */
-export function tableField(comment, field, defaultValue, max, min) {
+export function tableField(comment, field, defaultValue, max, min, enumValue) {
     let fieldData = _.cloneDeep(tableConfig[field] || null);
 
     if (fieldData) {
@@ -215,12 +215,6 @@ export function tableField(comment, field, defaultValue, max, min) {
                 fieldData.schema.maximum = max;
             }
         }
-
-        // 如果传入了默认值
-        if (defaultValue !== undefined && defaultValue !== null) {
-            fieldData.table.defaultValue = defaultValue;
-        }
-
         // 如果传入了最小值
         if (min !== undefined && min !== null) {
             if (fieldData.schema.type === 'string') {
@@ -230,6 +224,16 @@ export function tableField(comment, field, defaultValue, max, min) {
                 fieldData.schema.minimum = min;
             }
         }
+
+        if (field === 'intEnum' || field === 'strEnum') {
+            fieldData.schema.enum = enumValue;
+        }
+
+        // 如果传入了默认值
+        if (defaultValue !== undefined && defaultValue !== null) {
+            fieldData.table.defaultValue = defaultValue;
+        }
+
         return fieldData;
     } else {
         return null;
