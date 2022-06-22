@@ -236,6 +236,7 @@ export function tableField(comment, field, defaultValue, max, min, enumValue) {
 
         return fieldData;
     } else {
+        console.log(`[问题字段] - ${comment}`);
         return null;
     }
 }
