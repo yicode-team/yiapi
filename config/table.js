@@ -103,6 +103,21 @@ const tableConfig = {
             enum: ['normal', 'disabled', 'deleted']
         }
     },
+    content: {
+        meta: {
+            comment: '正文'
+        },
+        table: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+            defaultValue: ''
+        },
+        schema: {
+            type: 'string',
+            minLength: 0,
+            maxLength: 60000
+        }
+    },
     intMin0: {
         meta: {
             comment: '最小数字为0的整数'
