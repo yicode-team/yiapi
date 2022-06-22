@@ -4,6 +4,7 @@ import * as _ from 'lodash-es';
 import md5 from 'blueimp-md5';
 import dayjs from 'dayjs';
 import { nanoid } from 'nanoid';
+import { DataTypes } from 'sequelize';
 
 import { appConfig } from '../config/app.js';
 import { apiConfig } from '../config/api.js';
@@ -193,22 +194,44 @@ export async function importNew(path, defaultValue) {
  * 表格字段转换
  * @param {String} comment 注释
  * @param {String} field 内部字段
- * @param {Object} data 外部数据
+ * @param {Number} min 最小值
+ * @param {Number} max 最大值
  * @returns Object 对象数据
  */
-export function tableField(comment, field, data) {
-    if (data) {
-        let data2 = _.cloneDeep(data);
-        data2.meta.comment = comment;
-        return data2;
-    } else {
-        let fieldData = _.cloneDeep(tableConfig[field] || null);
+export function tableField(comment, field, defaultValue, max, min) {
+    let fieldData = _.cloneDeep(tableConfig[field] || null);
 
-        if (fieldData) {
-            field.meta.comment = comment;
-            return fieldData;
-        } else {
-            return {};
+    if (fieldData) {
+        fieldData.meta.comment = comment;
+
+        // 如果传入了最大值
+        if (max !== undefined && max !== null) {
+            if (fieldData.schema.type === 'string') {
+                fieldData.table.type = DataTypes.STRING(max);
+                fieldData.schema.maxLength = max;
+            }
+            if (fieldData.schema.type === 'integer') {
+                fieldData.table.type = DataTypes.INTEGER;
+                fieldData.schema.maximum = max;
+            }
         }
+
+        // 如果传入了默认值
+        if (defaultValue !== undefined && defaultValue !== null) {
+            fieldData.table.defaultValue = defaultValue;
+        }
+
+        // 如果传入了最小值
+        if (min !== undefined && min !== null) {
+            if (fieldData.schema.type === 'string') {
+                fieldData.schema.minLength = min;
+            }
+            if (fieldData.schema.type === 'integer') {
+                fieldData.schema.minimum = min;
+            }
+        }
+        return fieldData;
+    } else {
+        return null;
     }
 }
