@@ -36,7 +36,7 @@ const tableConfig = {
             comment: '性别{female:女,male:男,unknow:未知}'
         },
         table: {
-            type: DataTypes.string(10),
+            type: DataTypes.STRING(10),
             allowNull: false,
             defaultValue: 'unknow'
         },
