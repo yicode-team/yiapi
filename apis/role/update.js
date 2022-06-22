@@ -25,7 +25,6 @@ export default async function (fastify, opts) {
                 required: ['id']
             }
         },
-
         handler: async function (req, res) {
             try {
                 let model = fastify.mysql //
