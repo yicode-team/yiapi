@@ -2,109 +2,13 @@ import { DataTypes } from 'sequelize';
 import * as utils from '../utils/index.js';
 
 const data = {
-    id: {
-        meta: {
-            comment: '自增'
-        },
-        table: {
-            type: DataTypes.BIGINT,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        schema: {
-            type: 'integer',
-            minimum: 1
-        }
-    },
-    code: {
-        meta: {
-            comment: '角色编码'
-        },
-        table: {
-            type: DataTypes.STRING(20),
-            allowNull: false,
-            unique: 'column'
-        },
-        schema: {
-            type: 'string',
-            minLength: 1,
-            maxLength: 20
-        }
-    },
-    name: {
-        meta: {
-            comment: '角色名称'
-        },
-        table: {
-            type: DataTypes.STRING(100),
-            allowNull: false
-        },
-        schema: {
-            type: 'string',
-            minLength: 1,
-            maxLength: 100
-        }
-    },
-    describe: {
-        meta: {
-            comment: '角色描述'
-        },
-        table: {
-            type: DataTypes.STRING(200),
-            allowNull: false,
-            defaultValue: ''
-        },
-        schema: {
-            type: 'string',
-            minLength: 0,
-            maxLength: 200
-        }
-    },
-    menu_ids: {
-        meta: {
-            comment: '角色菜单组'
-        },
-        table: {
-            type: DataTypes.STRING(5000),
-            allowNull: false,
-            defaultValue: ''
-        },
-        schema: {
-            type: 'string',
-            minLength: 0,
-            maxLength: 5000
-        }
-    },
-    api_ids: {
-        meta: {
-            comment: '角色接口组'
-        },
-        table: {
-            type: DataTypes.STRING(5000),
-            allowNull: false,
-            defaultValue: ''
-        },
-        schema: {
-            type: 'string',
-            minLength: 0,
-            maxLength: 5000
-        }
-    },
-    state: {
-        meta: {
-            comment: '状态'
-        },
-        table: {
-            type: DataTypes.TINYINT,
-            allowNull: false,
-            defaultValue: 0
-        },
-        schema: {
-            type: 'integer',
-            enum: [0, 1, 2]
-        }
-    }
+    id: utils.tableField('自增', 'id'),
+    code: utils.tableField('角色编码', 'str1to20'),
+    name: utils.tableField('角色名称', 'str1to50'),
+    describe: utils.tableField('角色描述', 'str0to500'),
+    menu_ids: utils.tableField('菜单集合', 'str0to20000'),
+    api_ids: utils.tableField('接口集合', 'str0to20000'),
+    state: utils.tableField('状态', 'state')
 };
 
 const option = {

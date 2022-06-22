@@ -31,6 +31,36 @@ const tableConfig = {
             maxLength: 200
         }
     },
+    phone: {
+        meta: {
+            comment: '手机号'
+        },
+        table: {
+            type: DataTypes.STRING(20),
+            allowNull: false,
+            defaultValue: ''
+        },
+        schema: {
+            type: 'string',
+            minLength: 11,
+            maxLength: 11
+        }
+    },
+    image: {
+        meta: {
+            comment: '图片'
+        },
+        table: {
+            type: DataTypes.STRING(300),
+            allowNull: false,
+            defaultValue: ''
+        },
+        schema: {
+            type: 'string',
+            minLength: 0,
+            maxLength: 300
+        }
+    },
     gender: {
         meta: {
             comment: '性别{female:女,male:男,unknow:未知}'

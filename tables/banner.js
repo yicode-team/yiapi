@@ -2,94 +2,12 @@ import { DataTypes } from 'sequelize';
 import * as utils from '../utils/index.js';
 
 const data = {
-    id: {
-        meta: {
-            comment: '自增'
-        },
-        table: {
-            type: DataTypes.BIGINT,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        schema: {
-            type: 'integer',
-            minimum: 1
-        }
-    },
-    link: {
-        meta: {
-            comment: '跳转地址'
-        },
-        table: {
-            type: DataTypes.STRING(1000),
-            allowNull: false,
-            defaultValue: ''
-        },
-        schema: {
-            type: 'string',
-            minLength: 0,
-            maxLength: 1000
-        }
-    },
-    title: {
-        meta: {
-            comment: '标题'
-        },
-        table: {
-            type: DataTypes.STRING(100),
-            allowNull: false,
-            defaultValue: ''
-        },
-
-        schema: {
-            type: 'string',
-            minLength: 1,
-            maxLength: 100
-        }
-    },
-    thumbnail: {
-        meta: {
-            comment: '轮播图'
-        },
-        table: {
-            type: DataTypes.STRING(200),
-            allowNull: false
-        },
-        schema: {
-            type: 'string',
-            minLength: 1,
-            maxLength: 200
-        }
-    },
-    recommend_state: {
-        meta: {
-            comment: '推荐状态'
-        },
-        table: {
-            type: DataTypes.TINYINT,
-            allowNull: false,
-            defaultValue: 0
-        },
-        schema: {
-            type: 'integer',
-            enum: [0, 1]
-        }
-    },
-    state: {
-        meta: {
-            comment: '状态'
-        },
-        table: {
-            type: DataTypes.TINYINT,
-            allowNull: false,
-            defaultValue: 0
-        },
-        schema: {
-            type: 'integer',
-            enum: [0, 1, 2]
-        }
-    }
+    id: utils.tableField('自增', 'id'),
+    link: utils.tableField('跳转地址', 'str0to500'),
+    title: utils.tableField('轮播标题', 'str0to100'),
+    thumbnail: utils.tableField('缩略图', 'image'),
+    is_recommend: utils.tableField('是否推荐', 'boolEnum'),
+    state: utils.tableField('状态', 'state')
 };
 
 const option = {

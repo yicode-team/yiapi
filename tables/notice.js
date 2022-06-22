@@ -2,151 +2,17 @@ import { DataTypes } from 'sequelize';
 import * as utils from '../utils/index.js';
 
 const data = {
-    id: {
-        meta: {
-            comment: '自增'
-        },
-        table: {
-            type: DataTypes.BIGINT,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        schema: {
-            type: 'integer',
-            minimum: 1
-        }
-    },
-    publisher_id: {
-        meta: {
-            comment: '发布者ID'
-        },
-        table: {
-            type: DataTypes.BIGINT,
-            allowNull: false
-        },
-        schema: {
-            type: 'integer',
-            minimum: 1
-        }
-    },
-    publisher_nickname: {
-        meta: {
-            comment: '发布者昵称'
-        },
-        table: {
-            type: DataTypes.STRING(50),
-            allowNull: false,
-            defaultValue: ''
-        },
-        schema: {
-            type: 'string',
-            minLength: 0,
-            maxLength: 50
-        }
-    },
-    title: {
-        meta: {
-            comment: '标题'
-        },
-        table: {
-            type: DataTypes.STRING(100),
-            allowNull: false
-        },
-        schema: {
-            type: 'string',
-            minLength: 1,
-            maxLength: 100
-        }
-    },
-
-    summary: {
-        meta: {
-            comment: '摘要'
-        },
-        table: {
-            type: DataTypes.STRING(200),
-            allowNull: false,
-            defaultValue: ''
-        },
-        schema: {
-            type: 'string',
-            minLength: 0,
-            maxLength: 200
-        }
-    },
-    thumbnail: {
-        meta: {
-            comment: '缩略图'
-        },
-        table: {
-            type: DataTypes.STRING(200),
-            allowNull: false,
-            defaultValue: ''
-        },
-        schema: {
-            type: 'string',
-            minLength: 1,
-            maxLength: 200
-        }
-    },
-    views: {
-        meta: {
-            comment: '浏览人数'
-        },
-        table: {
-            type: DataTypes.BIGINT,
-            allowNull: false,
-            defaultValue: 0
-        },
-        schema: {
-            type: 'integer',
-            minimum: 0
-        }
-    },
-    content: {
-        meta: {
-            comment: '正文'
-        },
-        table: {
-            type: DataTypes.TEXT,
-            allowNull: false,
-            defaultValue: ''
-        },
-        schema: {
-            type: 'string',
-            minLength: 0,
-            maxLength: 50000
-        }
-    },
-    recommend_state: {
-        meta: {
-            comment: '推荐状态'
-        },
-        table: {
-            type: DataTypes.TINYINT,
-            allowNull: false,
-            defaultValue: 0
-        },
-        schema: {
-            type: 'integer',
-            enum: [0, 1]
-        }
-    },
-    state: {
-        meta: {
-            comment: '状态'
-        },
-        table: {
-            type: DataTypes.TINYINT,
-            allowNull: false,
-            defaultValue: 0
-        },
-        schema: {
-            type: 'integer',
-            enum: [0, 1, 2]
-        }
-    }
+    id: utils.tableField('自增', 'id'),
+    publisher_id: utils.tableField('发布者', 'intMin1'),
+    publisher_nickname: utils.tableField('发布者昵称', 'str1to30'),
+    publisher_phone: utils.tableField('发布者手机号', 'phone'),
+    title: utils.tableField('公告标题', 'str0to100'),
+    summary: utils.tableField('公告摘要', 'str0to500'),
+    thumbnail: utils.tableField('公告缩略图', 'image'),
+    views: utils.tableField('浏览人数', 'intMin0'),
+    content: utils.tableField('公告正文', 'content'),
+    is_recommend: utils.tableField('是否推荐', 'boolEnum'),
+    state: utils.tableField('状态', 'state')
 };
 
 const option = {
