@@ -1,17 +1,19 @@
+import { DataTypes } from 'sequelize';
 const tableConfig = {
     id: {
         meta: {
             comment: '自增'
         },
         table: {
-            type: sequelize.DataTypes.BIGINT,
+            type: DataTypes.BIGINT,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true
         },
         schema: {
             type: 'integer',
-            minimum: 1
+            minimum: 1,
+            maximum: 922337203685477580
         }
     },
     uuid: {
@@ -19,8 +21,9 @@ const tableConfig = {
             comment: '唯一ID'
         },
         table: {
-            type: sequelize.DataTypes.STRING(200),
-            allowNull: false
+            type: DataTypes.STRING(200),
+            allowNull: false,
+            defaultValue: ''
         },
         schema: {
             type: 'string',
@@ -33,7 +36,7 @@ const tableConfig = {
             comment: '性别{female:女,male:男,unknow:未知}'
         },
         table: {
-            type: sequelize.DataTypes.string(10),
+            type: DataTypes.string(10),
             allowNull: false,
             defaultValue: 'unknow'
         },
@@ -47,7 +50,7 @@ const tableConfig = {
             comment: '经度'
         },
         table: {
-            type: sequelize.DataTypes.STRING(50),
+            type: DataTypes.STRING(50),
             allowNull: false,
             defaultValue: ''
         },
@@ -62,7 +65,7 @@ const tableConfig = {
             comment: '纬度'
         },
         table: {
-            type: sequelize.DataTypes.STRING(50),
+            type: DataTypes.STRING(50),
             allowNull: false,
             defaultValue: ''
         },
@@ -77,7 +80,7 @@ const tableConfig = {
             comment: '状态{normal:正常,disabled:禁用,deleted:删除}'
         },
         table: {
-            type: sequelize.DataTypes.STRING(10),
+            type: DataTypes.STRING(10),
             allowNull: false,
             defaultValue: 'normal'
         },
@@ -91,8 +94,9 @@ const tableConfig = {
             comment: '最小数字为0的整数'
         },
         table: {
-            type: sequelize.DataTypes.BIGINT,
-            allowNull: false
+            type: DataTypes.BIGINT,
+            allowNull: false,
+            defaultValue: 0
         },
         schema: {
             type: 'integer',
@@ -105,13 +109,44 @@ const tableConfig = {
             comment: '最小数字为1的整数'
         },
         table: {
-            type: sequelize.DataTypes.BIGINT,
-            allowNull: false
+            type: DataTypes.BIGINT,
+            allowNull: false,
+            defaultValue: 0
         },
         schema: {
             type: 'integer',
             minimum: 1,
             maximum: 922337203685477580
+        }
+    },
+    intCustom: {
+        meta: {
+            comment: '自定义数字字段参数'
+        },
+        table: {
+            type: DataTypes.BIGINT,
+            allowNull: false,
+            defaultValue: 0
+        },
+        schema: {
+            type: 'integer',
+            minimum: 0,
+            maximum: 922337203685477580
+        }
+    },
+    strCustom: {
+        meta: {
+            comment: '自定义字符字段参数'
+        },
+        table: {
+            type: DataTypes.STRING(100),
+            allowNull: false,
+            defaultValue: ''
+        },
+        schema: {
+            type: 'integer',
+            minLength: 0,
+            maxLength: 100
         }
     }
 };
@@ -123,12 +158,13 @@ let stringDict = [
 ];
 
 stringDict.forEach((num) => {
+    // 生成数字序列字段
     tableConfig[`str0to${num}`] = {
         meta: {
             comment: `字符串长度为0到${num}`
         },
         table: {
-            type: sequelize.DataTypes.STRING(num),
+            type: DataTypes.STRING(num),
             allowNull: false,
             defaultValue: ''
         },
@@ -138,12 +174,14 @@ stringDict.forEach((num) => {
             maxLength: num
         }
     };
+
+    // 生成字符串序列字段
     tableConfig[`str1to${num}`] = {
         meta: {
             comment: `字符串长度为1到${num}`
         },
         table: {
-            type: sequelize.DataTypes.STRING(num),
+            type: DataTypes.STRING(num),
             allowNull: false,
             defaultValue: ''
         },
