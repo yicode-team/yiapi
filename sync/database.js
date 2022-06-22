@@ -81,8 +81,8 @@ function syncDatabase(options = {}) {
 
                     let syncParams = {
                         logging: false,
-                        alter: false,
-                        force: true
+                        alter: true,
+                        force: false
                     };
                     table
                         .sync(syncParams)
