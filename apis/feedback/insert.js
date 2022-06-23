@@ -16,14 +16,11 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    content: tableData.content.schema,
-                    merchant_id: tableData.merchant_id.schema,
-                    goods_id: tableData.goods_id.schema
+                    content: tableData.content.schema
                 },
                 required: ['content']
             }
         },
-
         handler: async function (req, res) {
             try {
                 let model = fastify.mysql //
@@ -32,8 +29,6 @@ export default async function (fastify, opts) {
 
                 let data = {
                     user_id: req.user.id,
-                    merchant_id: req.body.merchant_id,
-                    goods_id: req.body.goods_id,
                     content: req.body.content,
                     created_at: utils.getTimestamp(),
                     updated_at: utils.getTimestamp()

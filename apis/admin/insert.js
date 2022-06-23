@@ -19,12 +19,12 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    account: tableData.account.schema,
+                    username: tableData.username.schema,
                     password: tableData.password.schema,
                     nickname: tableData.nickname.schema,
                     role_codes: tableData.role_codes.schema
                 },
-                required: ['account', 'password', 'nickname']
+                required: ['username', 'password', 'nickname']
             }
         },
 
@@ -33,13 +33,13 @@ export default async function (fastify, opts) {
                 let model = fastify.mysql //
                     .table(tableName)
                     .modify(function (queryBuilder) {});
-                let _result = await model.clone().orWhere('account', req.body.account).orWhere('nickname', req.body.nickname).first();
+                let _result = await model.clone().orWhere('username', req.body.username).first();
                 if (_result !== undefined) {
                     return _.merge(constantConfig.code.FAIL, { msg: '管理员账号或昵称已存在' });
                 }
 
                 let data = {
-                    account: req.body.account,
+                    username: req.body.username,
                     password: utils.MD5(req.body.password),
                     nickname: req.body.nickname,
                     role_codes: req.body.role_codes,

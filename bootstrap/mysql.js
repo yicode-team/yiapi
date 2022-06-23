@@ -19,7 +19,8 @@ async function plugin(fastify, options) {
             },
             acquireConnectionTimeout: 30000,
             asyncStackTraces: true,
-            debug: false
+            debug: false,
+            pool: { min: 30, max: 1000 }
         });
 
         fastify.decorate('mysql', mysql);

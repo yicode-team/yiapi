@@ -18,7 +18,7 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    account: tableData.account.schema,
+                    account: schemaConfig.account,
                     password: tableData.password.schema
                 },
                 required: ['account', 'password']
@@ -30,10 +30,8 @@ export default async function (fastify, opts) {
                 let model = fastify.mysql
                     .table(tableName)
                     //
-                    .orWhere({ account: req.body.account })
-                    .orWhere({ phone: req.body.account })
-                    .orWhere({ weixin: req.body.account })
-                    .orWhere({ qq: req.body.account });
+                    .orWhere({ username: req.body.account })
+                    .orWhere({ phone: req.body.account });
 
                 // 查询用户是否存在
                 let result = await model.clone().first();
@@ -63,7 +61,6 @@ export default async function (fastify, opts) {
                     token: await fastify.jwt.sign({
                         id: result.id,
                         uuid: result.uuid,
-                        account: result.account,
                         nickname: result.nickname,
                         role_codes: result.role_codes,
                         state: result.state

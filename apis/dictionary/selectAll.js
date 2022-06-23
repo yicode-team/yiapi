@@ -23,8 +23,8 @@ export default async function (fastify, opts) {
         },
         handler: async function (req, res) {
             try {
-                let model = fastify.mysql.table(tableName).where('code', req.body.code);
-                let resultData = await model.clone().select();
+                let dictionaryModel = fastify.mysql.table('dictionary').where('code', req.body.code);
+                let resultData = await dictionaryModel.clone().select();
 
                 let rows = resultData.map((item) => {
                     if (item.type === 'number') {

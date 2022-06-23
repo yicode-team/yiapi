@@ -20,14 +20,14 @@ export default async function (fastify, opts) {
                     page: schemaConfig.page,
                     limit: schemaConfig.limit,
                     keywords: schemaConfig.keywords
-                }
+                },
+                required: ['code']
             }
         },
-
         handler: async function (req, res) {
             try {
-                let model = fastify.mysql //
-                    .table(tableName)
+                let dictionaryModel = fastify.mysql //
+                    .table('dictionary')
                     .where('code', req.body.code)
                     .modify(function (queryBuilder) {
                         if (req.body.keywords) {
@@ -35,12 +35,12 @@ export default async function (fastify, opts) {
                         }
                     });
 
-                let resultCount = await model
+                let resultCount = await dictionaryModel
                     //
                     .clone()
                     .count('id', { as: 'count' })
                     .first();
-                let rows = await model
+                let rows = await dictionaryModel
                     //
                     .clone()
                     .offset(utils.getOffset(req.body.page, req.body.limit))

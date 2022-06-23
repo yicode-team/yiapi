@@ -18,7 +18,7 @@ export default async function (fastify, opts) {
                 properties: {
                     title: tableData.title.schema,
                     summary: tableData.summary.schema,
-                    recommend_state: tableData.recommend_state.schema,
+                    is_recommend: tableData.is_recommend.schema,
                     content: tableData.content.schema
                 },
                 required: ['title']
@@ -37,7 +37,7 @@ export default async function (fastify, opts) {
                     title: req.body.title,
                     summary: req.body.summary,
                     content: req.body.content,
-                    recommend_state: req.body.recommend_state,
+                    is_recommend: req.body.is_recommend,
                     created_at: utils.getTimestamp(),
                     updated_at: utils.getTimestamp()
                 };

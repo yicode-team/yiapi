@@ -34,8 +34,8 @@ export default async function (fastify, opts) {
                         return { ...constantConfig.code.UPDATE_FAIL, msg: '字典值不是一个数字类型' };
                     }
                 }
-                let model = fastify.mysql //
-                    .table(tableName)
+                let dictionaryModel = fastify.mysql //
+                    .table('dictionary')
                     .modify(function (queryBuilder) {});
 
                 let data = {
@@ -48,7 +48,7 @@ export default async function (fastify, opts) {
                     created_at: utils.getTimestamp(),
                     updated_at: utils.getTimestamp()
                 };
-                let result = await model.insert(utils.clearEmptyData(data));
+                let result = await dictionaryModel.insert(utils.clearEmptyData(data));
                 return {
                     ...constantConfig.code.INSERT_SUCCESS,
                     data: result

@@ -26,9 +26,6 @@ export default async function (fastify, opts) {
                 let model = fastify.mysql //
                     .table(tableName)
                     .modify(function (queryBuilder) {
-                        if (utils.existsRole(req.user, 'dev') === false) {
-                            queryBuilder.where('account', '<>', 'dev');
-                        }
                         if (req.body.state !== undefined) {
                             queryBuilder.where('state', req.body.state);
                         }

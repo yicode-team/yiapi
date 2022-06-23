@@ -17,7 +17,7 @@ export default async function (fastify, opts) {
                 properties: {
                     page: schemaConfig.page,
                     limit: schemaConfig.limit,
-                    recommend_state: tableData.recommend_state.schema
+                    is_recommend: tableData.is_recommend.schema
                 }
             }
         },
@@ -26,8 +26,8 @@ export default async function (fastify, opts) {
                 let model = fastify.mysql //
                     .table(tableName)
                     .modify(function (queryBuilder) {
-                        if (req.body.recommend_state !== undefined) {
-                            queryBuilder.where('recommend_state', req.body.recommend_state);
+                        if (req.body.is_recommend !== undefined) {
+                            queryBuilder.where('is_recommend', req.body.is_recommend);
                         }
                     });
 

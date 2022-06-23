@@ -19,7 +19,7 @@ export default async function (fastify, opts) {
                     title: tableData.title.schema,
                     link: tableData.link.schema,
                     thumbnail: tableData.thumbnail.schema,
-                    recommend_state: tableData.recommend_state.schema
+                    is_recommend: tableData.is_recommend.schema
                 },
                 required: ['title', 'thumbnail']
             }
@@ -35,7 +35,7 @@ export default async function (fastify, opts) {
                     title: req.body.title,
                     link: req.body.link,
                     thumbnail: req.body.thumbnail,
-                    recommend_state: req.body.recommend_state,
+                    is_recommend: req.body.is_recommend,
                     created_at: utils.getTimestamp(),
                     updated_at: utils.getTimestamp()
                 };

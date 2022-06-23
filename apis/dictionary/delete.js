@@ -23,12 +23,12 @@ export default async function (fastify, opts) {
         },
         handler: async function (req, res) {
             try {
-                let model = fastify.mysql //
-                    .table(tableName)
+                let dictionaryModel = fastify.mysql //
+                    .table('dictionary')
                     .where({ id: req.body.id })
                     .modify(function (queryBuilder) {});
 
-                let result = await model.delete();
+                let result = await dictionaryModel.delete();
                 return constantConfig.code.DELETE_SUCCESS;
             } catch (err) {
                 fastify.logError(err);

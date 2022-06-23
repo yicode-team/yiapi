@@ -33,8 +33,8 @@ export default async function (fastify, opts) {
                         return { ...constantConfig.code.UPDATE_FAIL, msg: '字典值不是一个数字类型' };
                     }
                 }
-                let model = fastify.mysql //
-                    .table(tableName)
+                let dictionaryModel = fastify.mysql //
+                    .table('dictionary')
                     .where({ id: req.body.id })
                     .modify(function (queryBuilder) {});
 
@@ -45,7 +45,7 @@ export default async function (fastify, opts) {
                     describe: req.body.describe,
                     updated_at: utils.getTimestamp()
                 };
-                let result = await model.update(utils.clearEmptyData(data));
+                let result = await dictionaryModel.update(utils.clearEmptyData(data));
                 return constantConfig.code.UPDATE_SUCCESS;
             } catch (err) {
                 fastify.logError(err);
