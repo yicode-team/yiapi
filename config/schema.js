@@ -53,6 +53,13 @@ const schemaConfig = _.merge(
             type: 'string',
             minLength: 0,
             maxLength: 200
+        },
+        // 账号字段
+        account: {
+            type: 'string',
+            minLength: 0,
+            maxLength: 50,
+            title: '账号'
         }
     },
     importConfig.schemaConfig
