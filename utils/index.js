@@ -77,7 +77,7 @@ export function getDatetime() {
 }
 
 export function getTimestamp() {
-    return Date.now();
+    return dayjs().unix();
 }
 
 export function relativePath(from, to) {
