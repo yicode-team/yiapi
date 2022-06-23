@@ -154,7 +154,7 @@ const tableConfig = {
         },
         table: {
             type: DataTypes.TEXT,
-            allowNull: false,
+            allowNull: true,
             defaultValue: ''
         },
         schema: {
