@@ -9,8 +9,8 @@ import { appConfig } from './app.js';
 fs.ensureDir(path.resolve(systemConfig.appDir, 'logs'));
 
 let loggerConfig = {
-    level: 'info',
     name: appConfig.appName,
+    level: appConfig.logLevel,
     mixin(_context, level) {
         let reqContext = _context?.res?.request || {};
         let apiContext = _context?.res?.request?.context || {};
@@ -26,7 +26,7 @@ let loggerConfig = {
         };
     },
     timestamp: () => `,"time":"${dayjs().format('YYYY-MM-DD HH:mm:ss')}"`,
-    file: path.resolve(systemConfig.appDir, 'logs', `${dayjs().format('YYYY-MM-DD')}.log`)
+    file: path.resolve(systemConfig.appDir, 'logs', `${dayjs().format('YYYY-MM-DD_HH')}.log`)
 };
 
 if (process.env.NODE_ENV === 'development') {
