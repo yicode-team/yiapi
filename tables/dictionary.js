@@ -3,7 +3,7 @@ import * as utils from '../utils/index.js';
 
 const data = {
     id: utils.tableField('自增', 'id'),
-    code: utils.tableField('字典编码', 'code'),
+    code: utils.tableField('字典编码', 'str0to50'),
     name: utils.tableField('字典名称', 'str0to100'),
     value: utils.tableField('字典值', 'str0to500'),
     type: utils.tableField('字典类型', 'strEnum', 'string', 20, null, ['number', 'string']),
