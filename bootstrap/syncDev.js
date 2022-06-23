@@ -20,7 +20,7 @@ async function plugin(fastify, opts) {
         let roleCodes = roleData.map((item) => item.code);
 
         // 查询开发管理员
-        let devAdminData = await adminModel.clone().where('account', 'dev').first();
+        let devAdminData = await adminModel.clone().where('username', 'dev').first();
 
         // 查询开发角色
         let devRoleData = await roleModel.clone().where('code', 'dev').first();
@@ -89,7 +89,7 @@ async function plugin(fastify, opts) {
         if (!devAdminData) {
             let insertApiData = utils.clearEmptyData({
                 uuid: nanoid(),
-                account: 'dev',
+                username: 'dev',
                 nickname: '开发管理员',
                 role_codes: 'dev',
                 password: utils.MD5(md5(appConfig.devPassword)),
