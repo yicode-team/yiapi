@@ -46,6 +46,21 @@ const tableConfig = {
             maxLength: 11
         }
     },
+    password: {
+        meta: {
+            comment: '密码'
+        },
+        table: {
+            type: DataTypes.STRING(500),
+            allowNull: false,
+            defaultValue: ''
+        },
+        schema: {
+            type: 'string',
+            minLength: 0,
+            maxLength: 500
+        }
+    },
     image: {
         meta: {
             comment: '图片'

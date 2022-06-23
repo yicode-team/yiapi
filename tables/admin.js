@@ -5,7 +5,7 @@ const data = {
     id: utils.tableField('自增', 'id'),
     uuid: utils.tableField('唯一ID', 'uuid'),
     role_codes: utils.tableField('角色码组', 'str0to2000'),
-    username: utils.tableField('用户名', 'str1to20'),
+    username: utils.tableField('用户名', 'str1to50'),
     password: utils.tableField('密码', 'str0to200'),
     nickname: utils.tableField('昵称', 'str0to50'),
     phone: utils.tableField('手机号', 'phone'),
