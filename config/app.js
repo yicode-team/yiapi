@@ -25,6 +25,8 @@ const appConfig = _.merge(
         devPassword: 'dev123456!@#',
         // 接口超时 3 分钟
         apiTimeout: 3 * 60 * 1000,
+        // 日志等级
+        logLevel: 'info',
         // 不需要鉴权的接口
         whiteLists: [
             //
