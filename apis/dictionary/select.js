@@ -24,6 +24,9 @@ export default async function (fastify, opts) {
                 required: ['code']
             }
         },
+        config: {
+            isLogin: false
+        },
         handler: async function (req, res) {
             try {
                 let dictionaryModel = fastify.mysql //

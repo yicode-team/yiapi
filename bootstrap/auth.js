@@ -29,49 +29,89 @@ async function plugin(fastify, opts) {
             // 取得请求API路径
             req.apiPath = utils.routerPath(req.url);
 
-            // 参数检测
+            // 参数检测，前面和时间校验
             await utils.apiParamsCheck(req);
 
+            // TODO: 缓存的接口也需要进行白名单判断
             // 从缓存获取白名单接口
-            const dataApiWhiteLists = await fastify.redisGet('cacheData:apiWhiteLists', 'json');
+            let dataApiWhiteLists = await fastify.redisGet('cacheData:apiWhiteLists', 'json');
+            let whiteLists = dataApiWhiteLists.map((item) => item.value);
+            let allWhiteLists = _.uniq(_.concat(appConfig.whiteLists, whiteLists));
 
             // 设置默认访问角色为游客
             let visitor = {
                 role_codes: 'visitor'
             };
 
-            let isWhitePass = micromatch.isMatch(req.apiPath, appConfig.whiteLists);
+            // 接口是否在白名单中
+            let isWhitePass = micromatch.isMatch(req.apiPath, allWhiteLists);
 
-            // 如果接口在白名单中，则直接请求访问
-            if (isWhitePass) {
-                if (req.headers.authorization) {
-                    const jwtData = fastify.jwt.decode(req.headers.authorization?.split(' ')?.[1] || '666666') || {};
-                    req.user = jwtData.payload || visitor;
-                } else {
-                    req.user = visitor;
-                }
-            } else {
-                try {
-                    await req.jwtVerify();
-                } catch (err) {
-                    req.user = visitor;
-                }
+            let token = req?.headers?.authorization?.split(' ')?.[1] || '666666';
 
-                const userApis = await fastify.getUserApis(req.user);
+            try {
+                // 不论有没有登录，都进行jwt解析
+                let jwtData = fastify.jwt.decode(token) || {};
+                req.session = jwtData.payload || visitor;
+            } catch (err) {
+                req.session = visitor;
+            }
+
+            // 如果接口不在白名单中，则判断用户是否有接口访问权限
+            if (!isWhitePass) {
+                let userApis = await fastify.getUserApis(req.session);
                 let hasApi = _.find(userApis, { value: req.apiPath });
 
-                // 如果当前请求的路由，不在用户许可内
+                /**
+                 * 如果当前请求的路由，不在用户许可内
+                 * 如果会话有ID，则表示用户已登录，没有权限
+                 * 如果没有会话ID，则表示用户未登录
+                 * 如果有接口权限，则判断接口本身是否需要登录
+                 */
                 if (!hasApi) {
-                    if (req.user.id) {
-                        res.send(_.merge(constantConfig.code.FAIL, { msg: `您没有 [ ${req.apiPath} ] 接口操作权限` }));
+                    // 如果没有接口权限
+                    if (req.session.id) {
+                        // 判断是否登录，登录了就返回没有接口权限
+                        res.send({
+                            ...constantConfig.code.FAIL,
+                            msg: `您没有 [ ${req.context.schema.summary || req.apiPath} ] 接口的操作权限`
+                        });
+                        return res;
                     } else {
-                        res.send({ ...constantConfig.code.NOT_LOGIN, userApis: userApis.map((item) => item.value) });
+                        // 如果没登录，则返回未登录
+                        res.send({
+                            ...constantConfig.code.NOT_LOGIN,
+                            data: '1'
+                        });
+                        return res;
                     }
+                } else {
+                    // 如果有接口权限，则判断接口本身是否需要登录
+                    if (req.context.config.isLogin === true && !req.session.id) {
+                        res.send({
+                            ...constantConfig.code.NOT_LOGIN,
+                            data: '2'
+                        });
+                        return res;
+                    }
+                }
+            } else {
+                // 如果在白名单中，则判断接口本身是否需要登录
+                if (req.context.config.isLogin === true && !req.session.id) {
+                    res.send({
+                        ...constantConfig.code.NOT_LOGIN,
+                        data: '3'
+                    });
+                    return res;
                 }
             }
         } catch (err) {
             fastify.logError(err);
-            res.send(_.merge(constantConfig.code.FAIL, { msg: err.msg || '认证异常', other: err.other || '' }));
+            res.send({
+                ...constantConfig.code.FAIL,
+                msg: err.msg || '认证异常',
+                other: err.other || ''
+            });
+            return res;
         }
     });
 }

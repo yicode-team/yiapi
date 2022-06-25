@@ -32,6 +32,9 @@ export default async function (fastify, opts) {
             }
         },
 
+        config: {
+            isLogin: true
+        },
         handler: async function (req, res) {
             const trxProvider = fastify.mysql.transactionProvider();
             const trx = await trxProvider();

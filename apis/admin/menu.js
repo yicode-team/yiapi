@@ -18,10 +18,12 @@ export default async function (fastify, opts) {
                 properties: {}
             }
         },
-
+        config: {
+            isLogin: true
+        },
         handler: async function (req, res) {
             try {
-                const userMenus = await fastify.getUserMenus(req.user);
+                const userMenus = await fastify.getUserMenus(req.session);
                 return {
                     ...constantConfig.code.SELECT_SUCCESS,
                     data: {

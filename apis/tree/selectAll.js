@@ -21,7 +21,9 @@ export default async function (fastify, opts) {
                 required: ['type']
             }
         },
-
+        config: {
+            isLogin: false
+        },
         handler: async function (req, res) {
             try {
                 let treeData = await fastify.redisGet('cacheData:tree', 'json');

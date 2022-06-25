@@ -18,13 +18,15 @@ export default async function (fastify, opts) {
                 properties: {}
             }
         },
-
+        config: {
+            isLogin: true
+        },
         handler: async function (req, res) {
             try {
                 let model = fastify.mysql //
                     .table(tableName)
                     .modify(function (queryBuilder) {
-                        if (utils.existsRole(req.user, 'dev') === false) {
+                        if (utils.existsRole(req.session, 'dev') === false) {
                             queryBuilder.where('code', '<>', 'dev');
                         }
                     });

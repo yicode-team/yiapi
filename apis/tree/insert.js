@@ -30,6 +30,9 @@ export default async function (fastify, opts) {
                 required: ['pid', 'type', 'name']
             }
         },
+        config: {
+            isLogin: true
+        },
         handler: async function (req, res) {
             try {
                 let model = fastify.mysql //

@@ -21,6 +21,9 @@ export default async function (fastify, opts) {
                 required: ['content']
             }
         },
+        config: {
+            isLogin: true
+        },
         handler: async function (req, res) {
             try {
                 let model = fastify.mysql //
@@ -28,7 +31,7 @@ export default async function (fastify, opts) {
                     .modify(function (queryBuilder) {});
 
                 let data = {
-                    user_id: req.user.id,
+                    user_id: req.session.id,
                     content: req.body.content,
                     created_at: utils.getTimestamp(),
                     updated_at: utils.getTimestamp()

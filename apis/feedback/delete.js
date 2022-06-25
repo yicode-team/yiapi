@@ -22,6 +22,9 @@ export default async function (fastify, opts) {
             }
         },
 
+        config: {
+            isLogin: true
+        },
         handler: async function (req, res) {
             try {
                 let model = fastify.mysql //

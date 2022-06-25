@@ -18,9 +18,12 @@ export default async function (fastify, opts) {
                 properties: {}
             }
         },
+        config: {
+            isLogin: true
+        },
         handler: async function (req, res) {
             try {
-                const result = await fastify.getUserApis(req.user);
+                const result = await fastify.getUserApis(req.session);
                 return {
                     ...constantConfig.code.SELECT_SUCCESS,
                     data: {

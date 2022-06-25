@@ -26,6 +26,9 @@ export default async function (fastify, opts) {
             }
         },
 
+        config: {
+            isLogin: true
+        },
         handler: async function (req, res) {
             try {
                 if (req.body.type === 'number') {
