@@ -34,7 +34,7 @@ function syncDatabase(options = {}) {
             console.log('数据库已连接...');
             console.log('数据库认证中...');
 
-            await sequelize.authenticate();
+            // await sequelize.authenticate();
             console.log('数据库已认证...');
 
             console.log('获取核心表结构...');
@@ -45,61 +45,83 @@ function syncDatabase(options = {}) {
             let thirdTableFiles = fg.sync('./addons/*/tables/*', { onlyFiles: true, dot: false, absolute: true, cwd: systemConfig.appDir });
 
             let allTableFiles = _.concat(coreTableFiles, appTableFiles, thirdTableFiles);
-            let allTableLength = allTableFiles.length;
+
+            // 所有合并的表数据
+            let allTableMerge = {};
             let stepNumber = 1;
             console.log('开始表同步...');
+            console.log('-------------------------------------');
+
+            // 合并表参数
             for (let i = 0; i < allTableFiles.length; i++) {
                 let file = allTableFiles[i];
                 let tableRelativePath = utils.relativePath(utils.dirname(import.meta.url), path.resolve(file));
                 let { tableDescribe, tableName, tableData, tableOption } = await utils.importNew(tableRelativePath, {});
-                console.log('🚀 ~ file: database.js ~ line 55 ~ returnnewPromise ~ tableName', tableName);
 
                 if (tableName) {
-                    let tableSchema = {
-                        created_at: {
-                            type: DataTypes.BIGINT,
-                            allowNull: false,
-                            defaultValue: 0,
-                            comment: '创建时间'
-                        },
-                        updated_at: {
-                            type: DataTypes.BIGINT,
-                            allowNull: false,
-                            defaultValue: 0,
-                            comment: '更新时间'
-                        },
-                        deleted_at: {
-                            type: DataTypes.BIGINT,
-                            allowNull: false,
-                            defaultValue: 0,
-                            comment: '删除时间'
-                        }
+                    // 将当前表数据添加到合并中
+                    allTableMerge[tableName] = {
+                        tableDescribe: tableDescribe,
+                        tableName: tableName,
+                        tableData: allTableMerge[tableName] ? _.merge(allTableMerge[tableName].tableData, tableData) : tableData,
+                        tableOption: tableOption
                     };
-                    _.forOwn(tableData, (item, key) => {
-                        tableSchema[key] = item.table;
-                    });
-                    let table = await sequelize.define(tableName, tableSchema, tableOption);
-
-                    let syncParams = {
-                        logging: false,
-                        alter: true,
-                        force: false
-                    };
-                    // table
-                    //     .sync(syncParams)
-                    //     .then((res) => {
-                    //         console.log(`[ ${stepNumber++} / ${allTableLength} ] - ${tableName} 表同步完毕`);
-                    //         if (stepNumber > allTableLength) {
-                    //             console.log('表结构已全部同步完毕，请勿操作，耐心等待程序结束...');
-                    //         }
-                    //     })
-                    //     .catch((err) => {
-                    //         console.log('🚀 ~ file: database.js ~ line 78 ~ syncDatabase ~ err', err);
-                    //         reject(err);
-                    //     });
                 } else {
                     console.log(`[未识别表] - ${tableRelativePath}`);
                 }
+            }
+
+            let allTableLength = _.size(allTableMerge);
+
+            // 开始进行表同步
+            for (let prop in allTableMerge) {
+                let { tableDescribe, tableName, tableData, tableOption } = allTableMerge[prop];
+
+                let tableSchema = {
+                    created_at: {
+                        type: DataTypes.BIGINT,
+                        allowNull: false,
+                        defaultValue: 0,
+                        comment: '创建时间'
+                    },
+                    updated_at: {
+                        type: DataTypes.BIGINT,
+                        allowNull: false,
+                        defaultValue: 0,
+                        comment: '更新时间'
+                    },
+                    deleted_at: {
+                        type: DataTypes.BIGINT,
+                        allowNull: false,
+                        defaultValue: 0,
+                        comment: '删除时间'
+                    }
+                };
+                _.forOwn(tableData, (item, key) => {
+                    tableSchema[key] = item.table;
+                });
+                let table = await sequelize.define(tableName, tableSchema, tableOption);
+
+                let syncParams = {
+                    logging: false,
+                    alter: true,
+                    force: false
+                };
+
+                let tableNameGroup = `${tableName} (${tableOption.comment})`;
+                table
+                    .sync(syncParams)
+                    .then((res) => {
+                        console.log(`[ ${_.padStart(stepNumber++, 2, '00')} / ${allTableLength} ] - 已同步: ${tableNameGroup}`);
+                        if (stepNumber > allTableLength) {
+                            console.log('-------------------------------------');
+                            console.log('表结构已全部同步完毕，请勿操作，耐心等待程序结束...');
+                        }
+                    })
+                    .catch((err) => {
+                        console.log('🚀 ~ file: database.js ~ line 78 ~ syncDatabase ~ err', err);
+                        reject(err);
+                    });
             }
         } catch (err) {
             console.log('🚀 ~ file: database.js ~ line 89 ~ syncDatabase ~ err', err);

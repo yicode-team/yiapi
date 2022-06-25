@@ -19,4 +19,4 @@ const option = {
     comment: '公告'
 };
 
-export const { tableDescribe, tableName, tableData } = utils.getTableData(import.meta.url, data, option);
+export const { tableDescribe, tableName, tableData, tableOption } = utils.getTableData(import.meta.url, data, option);
