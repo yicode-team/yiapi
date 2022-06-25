@@ -38,11 +38,11 @@ function syncDatabase(options = {}) {
             console.log('数据库已认证...');
 
             console.log('获取核心表结构...');
-            let coreTableFiles = fg.sync('./tables/**/*', { onlyFiles: true, dot: false, absolute: true, cwd: systemConfig.yiapiDir });
+            let coreTableFiles = fg.sync('./tables/*', { onlyFiles: true, dot: false, absolute: true, cwd: systemConfig.yiapiDir });
             console.log('获取用户表结构...');
-            let appTableFiles = fg.sync('./tables/**/*', { onlyFiles: true, dot: false, absolute: true, cwd: systemConfig.appDir });
+            let appTableFiles = fg.sync('./tables/*', { onlyFiles: true, dot: false, absolute: true, cwd: systemConfig.appDir });
             console.log('获取插件表结构...');
-            let thirdTableFiles = fg.sync('./addons/*/tables/**/*', { onlyFiles: true, dot: false, absolute: true, cwd: systemConfig.appDir });
+            let thirdTableFiles = fg.sync('./addons/*/tables/*', { onlyFiles: true, dot: false, absolute: true, cwd: systemConfig.appDir });
 
             let allTableFiles = _.concat(coreTableFiles, appTableFiles, thirdTableFiles);
             let allTableLength = allTableFiles.length;
@@ -52,6 +52,7 @@ function syncDatabase(options = {}) {
                 let file = allTableFiles[i];
                 let tableRelativePath = utils.relativePath(utils.dirname(import.meta.url), path.resolve(file));
                 let { tableDescribe, tableName, tableData, tableOption } = await utils.importNew(tableRelativePath, {});
+                console.log('🚀 ~ file: database.js ~ line 55 ~ returnnewPromise ~ tableName', tableName);
 
                 if (tableName) {
                     let tableSchema = {
@@ -84,18 +85,18 @@ function syncDatabase(options = {}) {
                         alter: true,
                         force: false
                     };
-                    table
-                        .sync(syncParams)
-                        .then((res) => {
-                            console.log(`[ ${stepNumber++} / ${allTableLength} ] - ${tableName} 表同步完毕`);
-                            if (stepNumber > allTableLength) {
-                                console.log('表结构已全部同步完毕，请勿操作，耐心等待程序结束...');
-                            }
-                        })
-                        .catch((err) => {
-                            console.log('🚀 ~ file: database.js ~ line 78 ~ syncDatabase ~ err', err);
-                            reject(err);
-                        });
+                    // table
+                    //     .sync(syncParams)
+                    //     .then((res) => {
+                    //         console.log(`[ ${stepNumber++} / ${allTableLength} ] - ${tableName} 表同步完毕`);
+                    //         if (stepNumber > allTableLength) {
+                    //             console.log('表结构已全部同步完毕，请勿操作，耐心等待程序结束...');
+                    //         }
+                    //     })
+                    //     .catch((err) => {
+                    //         console.log('🚀 ~ file: database.js ~ line 78 ~ syncDatabase ~ err', err);
+                    //         reject(err);
+                    //     });
                 } else {
                     console.log(`[未识别表] - ${tableRelativePath}`);
                 }
