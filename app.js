@@ -23,6 +23,17 @@ import { syncDatabase } from './sync/database.js';
 
 import { systemConfig } from './system.js';
 
+// 表定义
+import * as adminTable from './tables/admin.js';
+import * as articleTable from './tables/article.js';
+import * as bannerTable from './tables/banner.js';
+import * as dictionaryTable from './tables/dictionary.js';
+import * as feedbackTable from './tables/feedback.js';
+import * as noticeTable from './tables/notice.js';
+import * as roleTable from './tables/role.js';
+import * as treeTable from './tables/tree.js';
+import * as userTable from './tables/user.js';
+
 async function yiApi() {
     // 初始化项目结构
     fs.ensureDirSync(path.resolve(systemConfig.appDir, 'addons'));
@@ -184,5 +195,14 @@ export {
     menuConfig,
     roleConfig,
     databaseConfig,
-    syncDatabase
+    syncDatabase,
+    adminTable,
+    articleTable,
+    bannerTable,
+    dictionaryTable,
+    feedbackTable,
+    noticeTable,
+    roleTable,
+    treeTable,
+    userTable
 };
