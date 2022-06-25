@@ -78,24 +78,10 @@ function syncDatabase(options = {}) {
                 let { tableDescribe, tableName, tableData, tableOption } = allTableMerge[prop];
 
                 let tableSchema = {
-                    created_at: {
-                        type: DataTypes.BIGINT,
-                        allowNull: false,
-                        defaultValue: 0,
-                        comment: '创建时间'
-                    },
-                    updated_at: {
-                        type: DataTypes.BIGINT,
-                        allowNull: false,
-                        defaultValue: 0,
-                        comment: '更新时间'
-                    },
-                    deleted_at: {
-                        type: DataTypes.BIGINT,
-                        allowNull: false,
-                        defaultValue: 0,
-                        comment: '删除时间'
-                    }
+                    id: utils.tableField('自增', 'id'),
+                    created_at: utils.tableField('创建时间', 'intMin0'),
+                    updated_at: utils.tableField('更新时间', 'intMin0'),
+                    deleted_at: utils.tableField('删除时间', 'intMin0')
                 };
                 _.forOwn(tableData, (item, key) => {
                     tableSchema[key] = item.table;
