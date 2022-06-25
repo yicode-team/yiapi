@@ -1,7 +1,7 @@
 import * as utils from '../../utils/index.js';
 import { constantConfig } from '../../config/constant.js';
 import { schemaConfig } from '../../config/schema.js';
-import { tableDescribe, tableName, tableData } from '../../tables/banner.js';
+import * as bannerTable from '../../tables/banner.js';
 
 const apiInfo = utils.getApiInfo(import.meta.url);
 export default async function (fastify, opts) {
@@ -17,7 +17,7 @@ export default async function (fastify, opts) {
                 properties: {
                     page: schemaConfig.page,
                     limit: schemaConfig.limit,
-                    is_recommend: tableData.is_recommend.schema
+                    is_recommend: bannerTable.data.is_recommend.schema
                 }
             }
         },
@@ -26,20 +26,20 @@ export default async function (fastify, opts) {
         },
         handler: async function (req, res) {
             try {
-                let model = fastify.mysql //
-                    .table(tableName)
+                let bannerModel = fastify.mysql //
+                    .table('banner')
                     .modify(function (queryBuilder) {
                         if (req.body.is_recommend !== undefined) {
                             queryBuilder.where('is_recommend', req.body.is_recommend);
                         }
                     });
 
-                let resultCount = await model //
+                let resultCount = await bannerModel //
                     .clone()
                     .count('id', { as: 'count' })
                     .first();
 
-                let rows = await model //
+                let rows = await bannerModel //
                     .clone()
                     .offset(utils.getOffset(req.body.page, req.body.limit))
                     .limit(req.body.limit)

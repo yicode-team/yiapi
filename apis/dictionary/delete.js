@@ -1,7 +1,7 @@
 import * as utils from '../../utils/index.js';
 import { constantConfig } from '../../config/constant.js';
 import { schemaConfig } from '../../config/schema.js';
-import { tableDescribe, tableName, tableData } from '../../tables/dictionary.js';
+import * as dictionaryTable from '../../tables/dictionary.js';
 
 const apiInfo = utils.getApiInfo(import.meta.url);
 
@@ -16,7 +16,7 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    id: tableData.id.schema
+                    id: dictionaryTable.data.id.schema
                 },
                 required: ['id']
             }

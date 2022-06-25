@@ -1,7 +1,7 @@
 import * as utils from '../../utils/index.js';
 import { constantConfig } from '../../config/constant.js';
 import { schemaConfig } from '../../config/schema.js';
-import { tableDescribe, tableName, tableData } from '../../tables/banner.js';
+import * as bannerTable from '../../tables/banner.js';
 
 const apiInfo = utils.getApiInfo(import.meta.url);
 
@@ -25,8 +25,8 @@ export default async function (fastify, opts) {
         },
         handler: async function (req, res) {
             try {
-                let model = fastify.mysql.table(tableName);
-                let rows = await model.clone().select();
+                let bannerModel = fastify.mysql.table('banner');
+                let rows = await bannerModel.clone().select();
                 return {
                     ...constantConfig.code.SELECT_SUCCESS,
                     data: {

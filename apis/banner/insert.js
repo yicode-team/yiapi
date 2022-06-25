@@ -1,7 +1,7 @@
 import * as utils from '../../utils/index.js';
 import { constantConfig } from '../../config/constant.js';
 import { schemaConfig } from '../../config/schema.js';
-import { tableDescribe, tableName, tableData } from '../../tables/banner.js';
+import * as bannerTable from '../../tables/banner.js';
 
 const apiInfo = utils.getApiInfo(import.meta.url);
 
@@ -16,22 +16,21 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    title: tableData.title.schema,
-                    link: tableData.link.schema,
-                    thumbnail: tableData.thumbnail.schema,
-                    is_recommend: tableData.is_recommend.schema
+                    title: bannerTable.data.title.schema,
+                    link: bannerTable.data.link.schema,
+                    thumbnail: bannerTable.data.thumbnail.schema,
+                    is_recommend: bannerTable.data.is_recommend.schema
                 },
                 required: ['title', 'thumbnail']
             }
         },
-
         config: {
             isLogin: true
         },
         handler: async function (req, res) {
             try {
-                let model = fastify.mysql //
-                    .table(tableName)
+                let bannerModel = fastify.mysql //
+                    .table('banner')
                     .modify(function (queryBuilder) {});
 
                 let data = {
@@ -42,7 +41,7 @@ export default async function (fastify, opts) {
                     created_at: utils.getTimestamp(),
                     updated_at: utils.getTimestamp()
                 };
-                let result = await model.insert(utils.clearEmptyData(data));
+                let result = await bannerModel.insert(utils.clearEmptyData(data));
 
                 return {
                     ...constantConfig.code.INSERT_SUCCESS,

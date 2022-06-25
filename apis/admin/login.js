@@ -3,7 +3,7 @@ import * as _ from 'lodash-es';
 import * as utils from '../../utils/index.js';
 import { constantConfig } from '../../config/constant.js';
 import { schemaConfig } from '../../config/schema.js';
-import { tableDescribe, tableName, tableData } from '../../tables/admin.js';
+import * as adminTable from '../../tables/admin.js';
 
 const apiInfo = utils.getApiInfo(import.meta.url);
 
@@ -19,7 +19,7 @@ export default async function (fastify, opts) {
                 type: 'object',
                 properties: {
                     account: schemaConfig.account,
-                    password: tableData.password.schema
+                    password: adminTable.data.password.schema
                 },
                 required: ['account', 'password']
             }
@@ -29,14 +29,14 @@ export default async function (fastify, opts) {
         },
         handler: async function (req, res) {
             try {
-                let model = fastify.mysql
-                    .table(tableName)
+                let adminModel = fastify.mysql
+                    .table('admin')
                     //
                     .orWhere({ username: req.body.account })
                     .orWhere({ phone: req.body.account });
 
                 // 查询用户是否存在
-                let result = await model.clone().first();
+                let result = await adminModel.clone().first();
                 // 判断用户存在
                 if (result === undefined) {
                     return _.merge(constantConfig.code.FAIL, { msg: '用户不存在' });

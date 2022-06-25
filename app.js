@@ -10,7 +10,10 @@ import * as sequelize from 'sequelize';
 import * as _ from 'lodash-es';
 import fg from 'fast-glob';
 
+// 工具函数
 import * as utils from './utils/index.js';
+
+// 配置信息
 import { appConfig } from './config/app.js';
 import { loggerConfig } from './config/logger.js';
 import { constantConfig } from './config/constant.js';
@@ -19,9 +22,10 @@ import { apiConfig } from './config/api.js';
 import { menuConfig } from './config/menu.js';
 import { roleConfig } from './config/role.js';
 import { databaseConfig } from './config/database.js';
-import { syncDatabase } from './sync/database.js';
-
 import { systemConfig } from './system.js';
+
+// 表同步
+import { syncDatabase } from './sync/database.js';
 
 // 表定义
 import * as adminTable from './tables/admin.js';

@@ -2,7 +2,7 @@ import * as _ from 'lodash-es';
 import * as utils from '../../utils/index.js';
 import { constantConfig } from '../../config/constant.js';
 import { schemaConfig } from '../../config/schema.js';
-import { tableDescribe, tableName, tableData } from '../../tables/tree.js';
+import * as treeTable from '../../tables/tree.js';
 
 const apiInfo = utils.getApiInfo(import.meta.url);
 
@@ -17,15 +17,15 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    pid: tableData.pid.schema,
-                    type: tableData.type.schema,
-                    name: tableData.name.schema,
-                    value: tableData.value.schema,
-                    icon: tableData.icon.schema,
-                    sort: tableData.sort.schema,
-                    describe: tableData.describe.schema,
-                    is_bool: tableData.is_bool.schema,
-                    is_open: tableData.is_open.schema
+                    pid: treeTable.data.pid.schema,
+                    type: treeTable.data.type.schema,
+                    name: treeTable.data.name.schema,
+                    value: treeTable.data.value.schema,
+                    icon: treeTable.data.icon.schema,
+                    sort: treeTable.data.sort.schema,
+                    describe: treeTable.data.describe.schema,
+                    is_bool: treeTable.data.is_bool.schema,
+                    is_open: treeTable.data.is_open.schema
                 },
                 required: ['pid', 'type', 'name']
             }
@@ -36,7 +36,7 @@ export default async function (fastify, opts) {
         handler: async function (req, res) {
             try {
                 let model = fastify.mysql //
-                    .table(tableName)
+                    .table('tree')
                     .modify(function (queryBuilder) {});
                 if (req.body.pid === 0) {
                     req.body.pids = '0';

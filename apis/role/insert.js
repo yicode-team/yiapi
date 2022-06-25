@@ -2,7 +2,7 @@ import * as _ from 'lodash-es';
 import * as utils from '../../utils/index.js';
 import { constantConfig } from '../../config/constant.js';
 import { schemaConfig } from '../../config/schema.js';
-import { tableDescribe, tableName, tableData } from '../../tables/role.js';
+import * as roleTable from '../../tables/role.js';
 
 const apiInfo = utils.getApiInfo(import.meta.url);
 
@@ -17,24 +17,23 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    code: tableData.code.schema,
-                    name: tableData.name.schema,
-                    describe: tableData.describe.schema,
-                    menu_ids: tableData.menu_ids.schema
+                    code: roleTable.data.code.schema,
+                    name: roleTable.data.name.schema,
+                    describe: roleTable.data.describe.schema,
+                    menu_ids: roleTable.data.menu_ids.schema
                 },
                 required: ['name', 'code']
             }
         },
-
         config: {
             isLogin: true
         },
         handler: async function (req, res) {
             try {
-                let model = fastify.mysql //
-                    .table(tableName)
+                let roleModel = fastify.mysql //
+                    .table('role')
                     .modify(function (queryBuilder) {});
-                let _result = await model.clone().where('name', req.body.name).first();
+                let _result = await roleModel.clone().where('name', req.body.name).first();
                 if (_result !== undefined) {
                     return _.merge(constantConfig.code.FAIL, { msg: '角色已存在' });
                 }
@@ -47,7 +46,7 @@ export default async function (fastify, opts) {
                     created_at: utils.getTimestamp(),
                     updated_at: utils.getTimestamp()
                 };
-                let result = await model.clone().insert(utils.clearEmptyData(data));
+                let result = await roleModel.clone().insert(utils.clearEmptyData(data));
 
                 await fastify.cacheRoleData();
 

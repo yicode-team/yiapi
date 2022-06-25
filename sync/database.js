@@ -34,7 +34,6 @@ function syncDatabase(options = {}) {
             console.log('数据库已连接...');
             console.log('数据库认证中...');
 
-            // await sequelize.authenticate();
             console.log('数据库已认证...');
 
             console.log('获取核心表结构...');
@@ -56,15 +55,15 @@ function syncDatabase(options = {}) {
             for (let i = 0; i < allTableFiles.length; i++) {
                 let file = allTableFiles[i];
                 let tableRelativePath = utils.relativePath(utils.dirname(import.meta.url), path.resolve(file));
-                let { tableDescribe, tableName, tableData, tableOption } = await utils.importNew(tableRelativePath, {});
+                let { describe, name, data, option } = await utils.importNew(tableRelativePath, {});
 
-                if (tableName) {
+                if (name) {
                     // 将当前表数据添加到合并中
-                    allTableMerge[tableName] = {
-                        tableDescribe: tableDescribe,
-                        tableName: tableName,
-                        tableData: allTableMerge[tableName] ? _.merge(allTableMerge[tableName].tableData, tableData) : tableData,
-                        tableOption: tableOption
+                    allTableMerge[name] = {
+                        describe: describe,
+                        name: name,
+                        data: allTableMerge[name] ? _.merge(allTableMerge[name].data, data) : data,
+                        option: option
                     };
                 } else {
                     console.log(`[未识别表] - ${tableRelativePath}`);
@@ -75,18 +74,18 @@ function syncDatabase(options = {}) {
 
             // 开始进行表同步
             for (let prop in allTableMerge) {
-                let { tableDescribe, tableName, tableData, tableOption } = allTableMerge[prop];
+                let { describe, name, data, option } = allTableMerge[prop];
 
-                let tableSchema = {
-                    id: utils.tableField('自增', 'id'),
-                    created_at: utils.tableField('创建时间', 'intMin0'),
-                    updated_at: utils.tableField('更新时间', 'intMin0'),
-                    deleted_at: utils.tableField('删除时间', 'intMin0')
+                let schema = {
+                    id: utils.tableField('自增', 'id').table,
+                    created_at: utils.tableField('创建时间', 'intMin0').table,
+                    updated_at: utils.tableField('更新时间', 'intMin0').table,
+                    deleted_at: utils.tableField('删除时间', 'intMin0').table
                 };
-                _.forOwn(tableData, (item, key) => {
-                    tableSchema[key] = item.table;
+                _.forOwn(data, (item, key) => {
+                    schema[key] = item.table;
                 });
-                let table = await sequelize.define(tableName, tableSchema, tableOption);
+                let table = await sequelize.define(name, schema, option);
 
                 let syncParams = {
                     logging: false,
@@ -94,11 +93,11 @@ function syncDatabase(options = {}) {
                     force: false
                 };
 
-                let tableNameGroup = `${tableName} (${tableOption.comment})`;
+                let group = `${name} (${option.comment})`;
                 table
                     .sync(syncParams)
                     .then((res) => {
-                        console.log(`[ ${_.padStart(stepNumber++, 2, '00')} / ${allTableLength} ] - 已同步: ${tableNameGroup}`);
+                        console.log(`[ ${_.padStart(stepNumber++, 2, '00')} / ${allTableLength} ] - 已同步: ${group}`);
                         if (stepNumber > allTableLength) {
                             console.log('-------------------------------------');
                             console.log('表结构已全部同步完毕，请勿操作，耐心等待程序结束...');

@@ -1,7 +1,7 @@
 import * as utils from '../../utils/index.js';
 import { constantConfig } from '../../config/constant.js';
 import { schemaConfig } from '../../config/schema.js';
-import { tableDescribe, tableName, tableData } from '../../tables/banner.js';
+import * as bannerTable from '../../tables/banner.js';
 
 const apiInfo = utils.getApiInfo(import.meta.url);
 
@@ -16,23 +16,22 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    id: tableData.id.schema
+                    id: bannerTable.data.id.schema
                 },
                 required: ['id']
             }
         },
-
         config: {
             isLogin: true
         },
         handler: async function (req, res) {
             try {
-                let model = fastify.mysql //
-                    .table(tableName)
+                let bannerModel = fastify.mysql //
+                    .table('banner')
                     .where({ id: req.body.id })
                     .modify(function (queryBuilder) {});
 
-                let result = await model.delete();
+                let result = await bannerModel.delete();
                 return constantConfig.code.INSERT_SUCCESS;
             } catch (err) {
                 fastify.logError(err);

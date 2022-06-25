@@ -1,7 +1,7 @@
 import * as utils from '../../utils/index.js';
 import { constantConfig } from '../../config/constant.js';
 import { schemaConfig } from '../../config/schema.js';
-import { tableDescribe, tableName, tableData } from '../../tables/tree.js';
+import * as treeTable from '../../tables/tree.js';
 
 const apiInfo = utils.getApiInfo(import.meta.url);
 
@@ -16,7 +16,7 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    type: tableData.type.schema,
+                    type: treeTable.data.type.schema,
                     page: schemaConfig.page,
                     limit: schemaConfig.limit
                 },
@@ -29,7 +29,7 @@ export default async function (fastify, opts) {
         handler: async function (req, res) {
             try {
                 let model = fastify.mysql //
-                    .table(tableName)
+                    .table('tree')
                     .where('type', req.body.type)
                     .modify(function (queryBuilder) {});
 

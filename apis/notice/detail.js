@@ -1,7 +1,7 @@
 import * as utils from '../../utils/index.js';
 import { constantConfig } from '../../config/constant.js';
 import { schemaConfig } from '../../config/schema.js';
-import { tableDescribe, tableName, tableData } from '../../tables/notice.js';
+import * as noticeTable from '../../tables/notice.js';
 
 const apiInfo = utils.getApiInfo(import.meta.url);
 

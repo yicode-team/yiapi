@@ -1,7 +1,7 @@
 import * as utils from '../../utils/index.js';
 import { constantConfig } from '../../config/constant.js';
 import { schemaConfig } from '../../config/schema.js';
-import { tableDescribe, tableName, tableData } from '../../tables/admin.js';
+import * as adminTable from '../../tables/admin.js';
 
 const apiInfo = utils.getApiInfo(import.meta.url);
 
@@ -16,10 +16,10 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    id: tableData.id.schema,
-                    password: tableData.password.schema,
-                    nickname: tableData.nickname.schema,
-                    role_codes: tableData.role_codes.schema
+                    id: adminTable.data.id.schema,
+                    password: adminTable.data.password.schema,
+                    nickname: adminTable.data.nickname.schema,
+                    role_codes: adminTable.data.role_codes.schema
                 },
                 required: ['id']
             }
@@ -29,8 +29,8 @@ export default async function (fastify, opts) {
         },
         handler: async function (req, res) {
             try {
-                let model = fastify.mysql //
-                    .table(tableName)
+                let adminModel = fastify.mysql //
+                    .table('admin')
                     .where({ id: req.body.id })
                     .modify(function (queryBuilder) {});
 
@@ -42,7 +42,7 @@ export default async function (fastify, opts) {
                     updated_at: utils.getTimestamp()
                 };
 
-                let updateResult = await model.update(utils.clearEmptyData(data));
+                let updateResult = await adminModel.update(utils.clearEmptyData(data));
 
                 return constantConfig.code.UPDATE_SUCCESS;
             } catch (err) {

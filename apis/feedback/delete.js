@@ -1,7 +1,7 @@
 import * as utils from '../../utils/index.js';
 import { constantConfig } from '../../config/constant.js';
 import { schemaConfig } from '../../config/schema.js';
-import { tableDescribe, tableName, tableData } from '../../tables/feedback.js';
+import * as feedbackTable from '../../tables/feedback.js';
 
 const apiInfo = utils.getApiInfo(import.meta.url);
 
@@ -16,23 +16,22 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    id: tableData.id.schema
+                    id: feedbackTable.data.id.schema
                 },
                 required: ['id']
             }
         },
-
         config: {
             isLogin: true
         },
         handler: async function (req, res) {
             try {
-                let model = fastify.mysql //
-                    .table(tableName)
+                let feedbackModel = fastify.mysql //
+                    .table('feedback')
                     .where({ id: req.body.id })
                     .modify(function (queryBuilder) {});
 
-                let result = await model.delete();
+                let result = await feedbackModel.delete();
                 return {
                     ...constantConfig.code.INSERT_SUCCESS,
                     data: result

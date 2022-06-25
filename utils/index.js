@@ -169,10 +169,10 @@ export function getTableData(url, data, option) {
         data2[key] = item;
     });
     return {
-        tableName: _.snakeCase(apiInfo.pureFileName),
-        tableDescribe: option.comment,
-        tableData: data2,
-        tableOption: option
+        name: _.snakeCase(apiInfo.pureFileName),
+        describe: option.comment,
+        data: data2,
+        option: option
     };
 }
 

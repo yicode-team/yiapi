@@ -1,7 +1,7 @@
 import * as utils from '../../utils/index.js';
 import { constantConfig } from '../../config/constant.js';
 import { schemaConfig } from '../../config/schema.js';
-import { tableDescribe, tableName, tableData } from '../../tables/dictionary.js';
+import * as dictionaryTable from '../../tables/dictionary.js';
 
 const apiInfo = utils.getApiInfo(import.meta.url);
 
@@ -16,16 +16,15 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    id: tableData.id.schema,
-                    name: tableData.name.schema,
-                    value: tableData.value.schema,
-                    type: tableData.type.schema,
-                    describe: tableData.describe.schema
+                    id: dictionaryTable.data.id.schema,
+                    name: dictionaryTable.data.name.schema,
+                    value: dictionaryTable.data.value.schema,
+                    type: dictionaryTable.data.type.schema,
+                    describe: dictionaryTable.data.describe.schema
                 },
                 required: ['id', 'type']
             }
         },
-
         config: {
             isLogin: true
         },

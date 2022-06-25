@@ -1,10 +1,11 @@
 import { nanoid } from 'nanoid';
 import * as _ from 'lodash-es';
+import md5 from 'blueimp-md5';
 
 import * as utils from '../../utils/index.js';
 import { constantConfig } from '../../config/constant.js';
 import { schemaConfig } from '../../config/schema.js';
-import { tableDescribe, tableName, tableData } from '../../tables/admin.js';
+import * as adminTable from '../../tables/admin.js';
 
 const apiInfo = utils.getApiInfo(import.meta.url);
 
@@ -19,39 +20,39 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    username: tableData.username.schema,
-                    password: tableData.password.schema,
-                    nickname: tableData.nickname.schema,
-                    role_codes: tableData.role_codes.schema
+                    username: adminTable.data.username.schema,
+                    password: adminTable.data.password.schema,
+                    nickname: adminTable.data.nickname.schema,
+                    role_codes: adminTable.data.role_codes.schema
                 },
-                required: ['username', 'password', 'nickname']
+                required: ['username', 'password', 'nickname', 'role_codes']
             }
         },
-
         config: {
             isLogin: true
         },
         handler: async function (req, res) {
             try {
-                let model = fastify.mysql //
-                    .table(tableName)
-                    .modify(function (queryBuilder) {});
-                let _result = await model.clone().orWhere('username', req.body.username).first();
-                if (_result !== undefined) {
-                    return _.merge(constantConfig.code.FAIL, { msg: '管理员账号或昵称已存在' });
+                let adminModel = fastify.mysql.table('admin');
+                let adminExistsData = await adminModel.clone().where('username', req.body.username).first();
+                if (adminExistsData) {
+                    return {
+                        ...constantConfig.code.FAIL,
+                        msg: '管理员账号或昵称已存在'
+                    };
                 }
 
-                let data = {
+                let insertData = {
                     username: req.body.username,
-                    password: utils.MD5(req.body.password),
+                    password: utils.MD5(md5(req.body.password)),
                     nickname: req.body.nickname,
                     role_codes: req.body.role_codes,
-                    uuid: nanoid(),
+                    uuid: utils.RandomHASH(),
                     created_at: utils.getTimestamp(),
                     updated_at: utils.getTimestamp()
                 };
 
-                let result = await model.clone().insert(utils.clearEmptyData(data));
+                let result = await adminModel.clone().insert(utils.clearEmptyData(insertData));
                 return {
                     ...constantConfig.code.INSERT_SUCCESS,
                     data: result

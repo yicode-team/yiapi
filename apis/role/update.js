@@ -1,7 +1,7 @@
 import * as utils from '../../utils/index.js';
 import { constantConfig } from '../../config/constant.js';
 import { schemaConfig } from '../../config/schema.js';
-import { tableDescribe, tableName, tableData } from '../../tables/role.js';
+import * as roleTable from '../../tables/role.js';
 
 const apiInfo = utils.getApiInfo(import.meta.url);
 
@@ -16,11 +16,11 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    id: tableData.id.schema,
-                    name: tableData.name.schema,
-                    describe: tableData.describe.schema,
-                    menu_ids: tableData.menu_ids.schema,
-                    api_ids: tableData.api_ids.schema
+                    id: roleTable.data.id.schema,
+                    name: roleTable.data.name.schema,
+                    describe: roleTable.data.describe.schema,
+                    menu_ids: roleTable.data.menu_ids.schema,
+                    api_ids: roleTable.data.api_ids.schema
                 },
                 required: ['id']
             }
@@ -30,8 +30,8 @@ export default async function (fastify, opts) {
         },
         handler: async function (req, res) {
             try {
-                let model = fastify.mysql //
-                    .table(tableName)
+                let roleModel = fastify.mysql //
+                    .table('role')
                     .where({ id: req.body.id })
                     .modify(function (queryBuilder) {});
 
@@ -44,7 +44,7 @@ export default async function (fastify, opts) {
                     updated_at: utils.getTimestamp()
                 };
 
-                let result = await model.update(utils.clearEmptyData(data));
+                let result = await roleModel.update(utils.clearEmptyData(data));
 
                 await fastify.cacheRoleData();
 

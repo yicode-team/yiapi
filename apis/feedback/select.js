@@ -1,7 +1,7 @@
 import * as utils from '../../utils/index.js';
 import { constantConfig } from '../../config/constant.js';
 import { schemaConfig } from '../../config/schema.js';
-import { tableDescribe, tableName, tableData } from '../../tables/feedback.js';
+import * as feedbackTable from '../../tables/feedback.js';
 
 const apiInfo = utils.getApiInfo(import.meta.url);
 export default async function (fastify, opts) {
@@ -26,13 +26,13 @@ export default async function (fastify, opts) {
         },
         handler: async function (req, res) {
             try {
-                let model = fastify.mysql //
-                    .table(tableName)
+                let feedbackModel = fastify.mysql //
+                    .table('feedback')
                     .leftJoin('user', 'feedback.user_id', 'user.id')
                     .modify(function (queryBuilder) {});
 
-                let resultCount = await model.clone().count('*', { as: 'count' }).first();
-                let rows = await model //
+                let resultCount = await feedbackModel.clone().count('*', { as: 'count' }).first();
+                let rows = await feedbackModel //
                     .clone()
                     .offset(utils.getOffset(req.body.page, req.body.limit))
                     .limit(req.body.limit)

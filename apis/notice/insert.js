@@ -1,7 +1,7 @@
 import * as utils from '../../utils/index.js';
 import { constantConfig } from '../../config/constant.js';
 import { schemaConfig } from '../../config/schema.js';
-import { tableDescribe, tableName, tableData } from '../../tables/notice.js';
+import * as noticeTable from '../../tables/notice.js';
 
 const apiInfo = utils.getApiInfo(import.meta.url);
 
@@ -16,22 +16,21 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    title: tableData.title.schema,
-                    summary: tableData.summary.schema,
-                    is_recommend: tableData.is_recommend.schema,
-                    content: tableData.content.schema
+                    title: noticeTable.data.title.schema,
+                    summary: noticeTable.data.summary.schema,
+                    is_recommend: noticeTable.data.is_recommend.schema,
+                    content: noticeTable.data.content.schema
                 },
                 required: ['title']
             }
         },
-
         config: {
             isLogin: true
         },
         handler: async function (req, res) {
             try {
-                let model = fastify.mysql //
-                    .table(tableName)
+                let noticeModel = fastify.mysql //
+                    .table('notice')
                     .modify(function (queryBuilder) {});
 
                 let data = {
@@ -45,7 +44,7 @@ export default async function (fastify, opts) {
                     updated_at: utils.getTimestamp()
                 };
 
-                let result = await model.insert(utils.clearEmptyData(data));
+                let result = await noticeModel.insert(utils.clearEmptyData(data));
                 return {
                     ...constantConfig.code.INSERT_SUCCESS,
                     data: result

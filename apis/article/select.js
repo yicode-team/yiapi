@@ -1,7 +1,7 @@
 import * as utils from '../../utils/index.js';
 import { constantConfig } from '../../config/constant.js';
 import { schemaConfig } from '../../config/schema.js';
-import { tableDescribe, tableName, tableData } from '../../tables/article.js';
+import * as articleTable from '../../tables/article.js';
 
 const apiInfo = utils.getApiInfo(import.meta.url);
 
@@ -27,20 +27,20 @@ export default async function (fastify, opts) {
         },
         handler: async function (req, res) {
             try {
-                let model = fastify.mysql //
-                    .table(tableName)
+                let articleModel = fastify.mysql //
+                    .table('article')
                     .modify(function (queryBuilder) {
                         if (req.body.keywords) {
                             queryBuilder.where('title', 'like', `%${req.body.keywords}%`);
                         }
                     });
 
-                let resultCount = await model //
+                let resultCount = await articleModel //
                     .clone()
                     .count('id', { as: 'count' })
                     .first();
 
-                let rows = await model //
+                let rows = await articleModel //
                     .clone()
                     .offset(utils.getOffset(req.body.page, req.body.limit))
                     .limit(req.body.limit)
