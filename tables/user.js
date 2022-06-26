@@ -19,8 +19,8 @@ const table = {
         // 认证信息
         realname: utils.tableField('真实姓名', 'str1to30'),
         weixin: utils.tableField('微信号', 'str1to50'),
-        qq: utils.tableField('qq号', 'str1to20'),
-        email: utils.tableField('邮箱', 'str1to30'),
+        qq: utils.tableField('qq号', 'str0to20'),
+        email: utils.tableField('邮箱', 'str0to30'),
         idcard_no: utils.tableField('身份证号', 'str1to30'),
         idcard_zhen: utils.tableField('身份证正面', 'str1to300'),
         idcard_fan: utils.tableField('身份证反面', 'str1to300'),
