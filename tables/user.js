@@ -16,6 +16,9 @@ const table = {
         avatar: utils.tableField('头像', 'str1to300'),
         gender: utils.tableField('性别', 'gender'),
         role_codes: utils.tableField('角色码', 'str0to500'),
+        bio: utils.tableField('签名', 'str0to200'),
+        is_recommend: utils.tableField('是否推荐', 'boolEnum'),
+        is_top: utils.tableField('是否置顶', 'boolEnum'),
         // 认证信息
         realname: utils.tableField('真实姓名', 'str1to30'),
         weixin: utils.tableField('微信号', 'str1to50'),
@@ -24,6 +27,14 @@ const table = {
         idcard_no: utils.tableField('身份证号', 'str1to30'),
         idcard_zhen: utils.tableField('身份证正面', 'str1to300'),
         idcard_fan: utils.tableField('身份证反面', 'str1to300'),
+        audit_state: utils.tableField('审核状态（none|未审核,ing|审核中,pass|已通过,refuse|已拒绝）', 'strEnum', 'none', 20, null, ['none', 'ing', 'pass', 'refuse']),
+        // 地址信息
+        longitude: utils.tableField('经度', 'longitude'),
+        latitude: utils.tableField('纬度', 'latitude'),
+        province: utils.tableField('省', 'str0to50'),
+        city: utils.tableField('市', 'str0to50'),
+        region: utils.tableField('区', 'str0to50'),
+        address: utils.tableField('地址', 'str0to200'),
         // 时间信息
         login_at: utils.tableField('登录时间', 'intMin0'),
         login_ip: utils.tableField('登录IP', 'str0to30'),
