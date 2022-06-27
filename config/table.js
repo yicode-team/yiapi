@@ -86,7 +86,7 @@ const tableConfig = {
             defaultValue: 'unknow'
         },
         schema: {
-            type: 'integer',
+            type: 'string',
             enum: ['female', 'male', 'unknow']
         }
     },
