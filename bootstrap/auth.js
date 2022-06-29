@@ -73,7 +73,7 @@ async function plugin(fastify, opts) {
                         // 判断是否登录，登录了就返回没有接口权限
                         res.send({
                             ...constantConfig.code.FAIL,
-                            msg: `您没有 [ ${req.context.schema.summary || req.apiPath} ] 接口的操作权限`
+                            msg: `您没有 [ ${req?.context?.schema?.summary || req.apiPath} ] 接口的操作权限`
                         });
                         return res;
                     } else {
