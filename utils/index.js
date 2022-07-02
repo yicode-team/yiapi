@@ -76,8 +76,9 @@ export function getDatetime() {
     return dayjs().format('YYYY-MM-DD HH:mm:ss');
 }
 
+// 获取毫秒级时间戳
 export function getTimestamp() {
-    return dayjs().unix();
+    return Date.now();
 }
 
 export function relativePath(from, to) {
