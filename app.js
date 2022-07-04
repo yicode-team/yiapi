@@ -39,7 +39,7 @@ import * as treeTable from './tables/tree.js';
 import * as userTable from './tables/user.js';
 
 function yiApi() {
-    return Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         // 初始化项目结构
         fs.ensureDirSync(path.resolve(systemConfig.appDir, 'addons'));
         fs.ensureDirSync(path.resolve(systemConfig.appDir, 'apis'));
@@ -181,7 +181,7 @@ function yiApi() {
             if (err) {
                 throw err;
             } else {
-                resolve(fastify);
+                return resolve(fastify);
             }
         });
     });
