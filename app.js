@@ -184,6 +184,7 @@ async function yiApi() {
 export {
     //
     _,
+    fastify,
     yiApi,
     utils,
     fp,
