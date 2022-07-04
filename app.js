@@ -179,12 +179,13 @@ async function yiApi() {
     fastify.ready((err) => {
         if (err) throw err;
     });
+
+    return fastify;
 }
 
 export {
     //
     _,
-    fastify,
     yiApi,
     utils,
     fp,
