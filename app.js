@@ -38,149 +38,153 @@ import * as roleTable from './tables/role.js';
 import * as treeTable from './tables/tree.js';
 import * as userTable from './tables/user.js';
 
-async function yiApi() {
-    // 初始化项目结构
-    fs.ensureDirSync(path.resolve(systemConfig.appDir, 'addons'));
-    fs.ensureDirSync(path.resolve(systemConfig.appDir, 'apis'));
-    fs.ensureDirSync(path.resolve(systemConfig.appDir, 'plugins'));
-    fs.ensureDirSync(path.resolve(systemConfig.appDir, 'tables'));
-    fs.ensureDirSync(path.resolve(systemConfig.appDir, 'config'));
-    fs.ensureDirSync(path.resolve(systemConfig.appDir, 'utils'));
-    fs.ensureFileSync(path.resolve(systemConfig.appDir, 'yiapi.js'));
-    fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'api.js'));
-    fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'app.js'));
-    fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'cors.js'));
-    fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'constant.js'));
-    fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'dictionary.js'));
-    fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'database.js'));
-    fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'menu.js'));
-    fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'redis.js'));
-    fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'role.js'));
-    fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'schema.js'));
+function yiApi() {
+    return Promise(async (resolve, reject) => {
+        // 初始化项目结构
+        fs.ensureDirSync(path.resolve(systemConfig.appDir, 'addons'));
+        fs.ensureDirSync(path.resolve(systemConfig.appDir, 'apis'));
+        fs.ensureDirSync(path.resolve(systemConfig.appDir, 'plugins'));
+        fs.ensureDirSync(path.resolve(systemConfig.appDir, 'tables'));
+        fs.ensureDirSync(path.resolve(systemConfig.appDir, 'config'));
+        fs.ensureDirSync(path.resolve(systemConfig.appDir, 'utils'));
+        fs.ensureFileSync(path.resolve(systemConfig.appDir, 'yiapi.js'));
+        fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'api.js'));
+        fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'app.js'));
+        fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'cors.js'));
+        fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'constant.js'));
+        fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'dictionary.js'));
+        fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'database.js'));
+        fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'menu.js'));
+        fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'redis.js'));
+        fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'role.js'));
+        fs.ensureFileSync(path.resolve(systemConfig.appDir, 'config', 'schema.js'));
 
-    const fastify = Fastify({
-        logger: loggerConfig,
-        pluginTimeout: 0,
-        genReqId: () => nanoid(),
-        ajv: {
-            customOptions: {
-                allErrors: true,
-                verbose: true
+        const fastify = Fastify({
+            logger: loggerConfig,
+            pluginTimeout: 0,
+            genReqId: () => nanoid(),
+            ajv: {
+                customOptions: {
+                    allErrors: true,
+                    verbose: true
+                }
             }
-        }
-    });
-
-    // 处理全局错误
-    fastify.setErrorHandler(function (error, req, res) {
-        if (error.validation) {
-            localize.zh(error.validation);
-            let msg = error.validation
-                .map((error) => {
-                    return (error.parentSchema.title + ' ' + error.message).trim();
-                })
-                .join(',');
-            res.status(200).send({ code: 1, msg: msg, symbol: 'GLOBAL_ERROR' });
-            return;
-        }
-
-        if (error.statusCode >= 500) {
-            fastify.log.error(error);
-            // 发送错误响应
-        } else if (error.statusCode >= 400) {
-            fastify.log.info(error);
-        } else {
-            fastify.log.warn(error);
-        }
-
-        // 发送错误响应
-        res.status(200).send({ code: 1, msg: error.message, symbol: 'GLOBAL_ERROR' });
-    });
-
-    // 处理未找到路由
-    fastify.setNotFoundHandler(function (req, res) {
-        // 发送错误响应
-        res.status(200).send({ code: 1, msg: '未知路由', data: req.url });
-    });
-
-    fastify.get('/', function (req, res) {
-        res.send({ code: 0, msg: '接口程序已启动' });
-    });
-
-    // 路由映射列表
-    fastify.register(autoLoad, {
-        dir: path.join(systemConfig.yiapiDir, 'plugins', 'routes'),
-        indexPattern: /routes\.js/
-    });
-
-    // 接口文档生成
-    fastify.register(autoLoad, {
-        dir: path.join(systemConfig.yiapiDir, 'plugins', 'swagger'),
-        indexPattern: /swagger\.js/
-    });
-
-    // 加载启动插件
-    fastify.register(autoLoad, {
-        dir: path.join(systemConfig.yiapiDir, 'bootstrap'),
-        ignorePattern: /^_/
-    });
-
-    // 加载系统接口
-    fastify.register(autoLoad, {
-        dir: path.join(systemConfig.yiapiDir, 'apis'),
-        ignorePattern: /^_/
-    });
-
-    // 加载用户接口
-    fastify.register(autoLoad, {
-        dir: path.join(systemConfig.appDir, 'apis'),
-        ignorePattern: /^_/
-    });
-
-    // 加载三方接口
-    let thirdApiFiles = fg.sync('./addons/*/apis/*', { onlyFiles: true, dot: false, absolute: true, cwd: systemConfig.appDir });
-    for (let i = 0; i < thirdApiFiles.length; i++) {
-        let file = thirdApiFiles[i];
-        let prefix = path.basename(path.dirname(path.dirname(file)));
-        fastify.register(autoLoad, {
-            dir: path.dirname(file),
-            ignorePattern: /^_/,
-            options: { prefix: prefix }
         });
-    }
 
-    // 加载用户插件
-    fastify.register(autoLoad, {
-        dir: path.join(systemConfig.appDir, 'plugins'),
-        ignorePattern: /^_/
-    });
+        // 处理全局错误
+        fastify.setErrorHandler(function (error, req, res) {
+            if (error.validation) {
+                localize.zh(error.validation);
+                let msg = error.validation
+                    .map((error) => {
+                        return (error.parentSchema.title + ' ' + error.message).trim();
+                    })
+                    .join(',');
+                res.status(200).send({ code: 1, msg: msg, symbol: 'GLOBAL_ERROR' });
+                return;
+            }
 
-    // 加载三方插件
-    let thirdPluginsFiles = fg.sync('./addons/*/plugins/*', { onlyFiles: true, dot: false, absolute: true, cwd: systemConfig.appDir });
+            if (error.statusCode >= 500) {
+                fastify.log.error(error);
+                // 发送错误响应
+            } else if (error.statusCode >= 400) {
+                fastify.log.info(error);
+            } else {
+                fastify.log.warn(error);
+            }
 
-    thirdPluginsFiles.forEach((file) => {
+            // 发送错误响应
+            res.status(200).send({ code: 1, msg: error.message, symbol: 'GLOBAL_ERROR' });
+        });
+
+        // 处理未找到路由
+        fastify.setNotFoundHandler(function (req, res) {
+            // 发送错误响应
+            res.status(200).send({ code: 1, msg: '未知路由', data: req.url });
+        });
+
+        fastify.get('/', function (req, res) {
+            res.send({ code: 0, msg: '接口程序已启动' });
+        });
+
+        // 路由映射列表
         fastify.register(autoLoad, {
-            dir: path.dirname(file),
+            dir: path.join(systemConfig.yiapiDir, 'plugins', 'routes'),
+            indexPattern: /routes\.js/
+        });
+
+        // 接口文档生成
+        fastify.register(autoLoad, {
+            dir: path.join(systemConfig.yiapiDir, 'plugins', 'swagger'),
+            indexPattern: /swagger\.js/
+        });
+
+        // 加载启动插件
+        fastify.register(autoLoad, {
+            dir: path.join(systemConfig.yiapiDir, 'bootstrap'),
             ignorePattern: /^_/
         });
-    });
 
-    // 启动服务！
-    fastify.listen({ port: appConfig.port }, async function (err, address) {
-        if (err) {
-            fastify.log.error(err);
-            process.exit(1);
+        // 加载系统接口
+        fastify.register(autoLoad, {
+            dir: path.join(systemConfig.yiapiDir, 'apis'),
+            ignorePattern: /^_/
+        });
+
+        // 加载用户接口
+        fastify.register(autoLoad, {
+            dir: path.join(systemConfig.appDir, 'apis'),
+            ignorePattern: /^_/
+        });
+
+        // 加载三方接口
+        let thirdApiFiles = fg.sync('./addons/*/apis/*', { onlyFiles: true, dot: false, absolute: true, cwd: systemConfig.appDir });
+        for (let i = 0; i < thirdApiFiles.length; i++) {
+            let file = thirdApiFiles[i];
+            let prefix = path.basename(path.dirname(path.dirname(file)));
+            fastify.register(autoLoad, {
+                dir: path.dirname(file),
+                ignorePattern: /^_/,
+                options: { prefix: prefix }
+            });
         }
-        await fastify.cacheTreeData();
-        await fastify.cacheRoleData();
-        fastify.log.info(`接口服务已启动： ${address}`);
-        console.log(`接口服务已启动： ${address}`);
-    });
 
-    fastify.ready((err) => {
-        if (err) throw err;
-    });
+        // 加载用户插件
+        fastify.register(autoLoad, {
+            dir: path.join(systemConfig.appDir, 'plugins'),
+            ignorePattern: /^_/
+        });
 
-    return fastify;
+        // 加载三方插件
+        let thirdPluginsFiles = fg.sync('./addons/*/plugins/*', { onlyFiles: true, dot: false, absolute: true, cwd: systemConfig.appDir });
+
+        thirdPluginsFiles.forEach((file) => {
+            fastify.register(autoLoad, {
+                dir: path.dirname(file),
+                ignorePattern: /^_/
+            });
+        });
+
+        // 启动服务！
+        fastify.listen({ port: appConfig.port }, async function (err, address) {
+            if (err) {
+                fastify.log.error(err);
+                process.exit(1);
+            }
+            await fastify.cacheTreeData();
+            await fastify.cacheRoleData();
+            fastify.log.info(`接口服务已启动： ${address}`);
+            console.log(`接口服务已启动： ${address}`);
+        });
+
+        fastify.ready((err) => {
+            if (err) {
+                throw err;
+            } else {
+                resolve(fastify);
+            }
+        });
+    });
 }
 
 export {
