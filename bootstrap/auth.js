@@ -36,7 +36,7 @@ async function plugin(fastify, opts) {
             // 从缓存获取白名单接口
             let dataApiWhiteLists = await fastify.redisGet('cacheData:apiWhiteLists', 'json');
             let whiteLists = dataApiWhiteLists?.map((item) => item.value);
-            let allWhiteLists = _.uniq(_.concat(appConfig.whiteLists, whiteLists));
+            let allWhiteLists = _.uniq(_.concat(appConfig.whiteLists, whiteLists || []));
 
             // 设置默认访问角色为游客
             let visitor = {
