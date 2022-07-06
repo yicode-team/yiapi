@@ -35,7 +35,7 @@ async function plugin(fastify, opts) {
             // TODO: 缓存的接口也需要进行白名单判断
             // 从缓存获取白名单接口
             let dataApiWhiteLists = await fastify.redisGet('cacheData:apiWhiteLists', 'json');
-            let whiteLists = dataApiWhiteLists.map((item) => item.value);
+            let whiteLists = dataApiWhiteLists?.map((item) => item.value);
             let allWhiteLists = _.uniq(_.concat(appConfig.whiteLists, whiteLists));
 
             // 设置默认访问角色为游客
