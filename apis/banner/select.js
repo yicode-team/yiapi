@@ -34,7 +34,7 @@ export default async function (fastify, opts) {
                         }
                     });
 
-                let resultCount = await bannerModel //
+                let { count } = await bannerModel //
                     .clone()
                     .count('id', { as: 'count' })
                     .first();
@@ -48,7 +48,7 @@ export default async function (fastify, opts) {
                 return {
                     ...constantConfig.code.SELECT_SUCCESS,
                     data: {
-                        count: resultCount.count,
+                        count: count,
                         rows: rows,
                         page: req.body.page,
                         limit: req.body.limit

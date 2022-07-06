@@ -12,8 +12,7 @@ const tableConfig = {
         },
         schema: {
             type: 'integer',
-            minimum: 1,
-            maximum: 922337203685477580
+            minimum: 1
         }
     },
     uuid: {
@@ -174,8 +173,7 @@ const tableConfig = {
         },
         schema: {
             type: 'integer',
-            minimum: 0,
-            maximum: 922337203685477580
+            minimum: 0
         }
     },
     intMin1: {
@@ -189,8 +187,7 @@ const tableConfig = {
         },
         schema: {
             type: 'integer',
-            minimum: 1,
-            maximum: 922337203685477580
+            minimum: 1
         }
     },
     intCustom: {
@@ -204,8 +201,7 @@ const tableConfig = {
         },
         schema: {
             type: 'integer',
-            minimum: 0,
-            maximum: 922337203685477580
+            minimum: 0
         }
     },
     strCustom: {
