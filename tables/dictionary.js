@@ -13,6 +13,8 @@ const table = {
         type: utils.tableField('字典类型', 'strEnum', 'string', 20, null, ['number', 'string']),
         sort: utils.tableField('字典排序', 'intMin0'),
         describe: utils.tableField('字典描述', 'str0to200'),
+        thumbnail: utils.tableField('缩略图', 'str0to300'),
+        images: utils.tableField('图片列表', 'str0to2000'),
         content: utils.tableField('字典内容', 'content'),
         state: utils.tableField('字典状态', 'state')
     }
