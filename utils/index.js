@@ -6,6 +6,8 @@ import dayjs from 'dayjs';
 import { nanoid } from 'nanoid';
 import { DataTypes } from 'sequelize';
 
+import { fastify } from '../app.js';
+
 import { appConfig } from '../config/app.js';
 import { apiConfig } from '../config/api.js';
 import { tableConfig } from '../config/table.js';
@@ -154,6 +156,10 @@ export function apiParamsCheck(req) {
         let paramsValid = apiParamsSign(fieldsParams);
 
         if (paramsValid.sign !== fields.sign) {
+            fastify.log.error({
+                msg: '接口请求参数校验失败',
+                reqParams: req.body
+            });
             return reject({ code: 1, msg: '接口请求参数校验失败', other: paramsValid });
         }
 
