@@ -10,7 +10,7 @@ export default async function (fastify, opts) {
         method: 'POST',
         url: `/${apiInfo.pureFileName}`,
         schema: {
-            summary: `查询字典`,
+            summary: `查询字典详情`,
             tags: [apiInfo.parentDirName],
             description: `${apiInfo.apiPath}`,
             body: {
