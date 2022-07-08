@@ -65,14 +65,14 @@ const tableConfig = {
             comment: '图片'
         },
         table: {
-            type: DataTypes.STRING(300),
+            type: DataTypes.STRING(500),
             allowNull: false,
             defaultValue: ''
         },
         schema: {
             type: 'string',
             minLength: 0,
-            maxLength: 300
+            maxLength: 500
         }
     },
     gender: {
