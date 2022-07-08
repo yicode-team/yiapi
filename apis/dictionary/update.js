@@ -20,7 +20,8 @@ export default async function (fastify, opts) {
                     name: dictionaryTable.data.name.schema,
                     value: dictionaryTable.data.value.schema,
                     type: dictionaryTable.data.type.schema,
-                    describe: dictionaryTable.data.describe.schema
+                    describe: dictionaryTable.data.describe.schema,
+                    content: dictionaryTable.data.content.schema
                 },
                 required: ['id', 'type']
             }
@@ -45,6 +46,7 @@ export default async function (fastify, opts) {
                     value: req.body.value,
                     type: req.body.type,
                     describe: req.body.describe,
+                    content: req.body.content,
                     updated_at: utils.getTimestamp()
                 };
                 let result = await dictionaryModel.update(utils.clearEmptyData(data));
