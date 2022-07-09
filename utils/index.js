@@ -103,7 +103,8 @@ export function dirname(metaUrl) {
     return path.dirname(filename);
 }
 
-export function existsRole(session, role) {
+export function existsRole(session = '', role) {
+    if (!session) return false;
     return session.role_codes.split(',').includes(role);
 }
 
