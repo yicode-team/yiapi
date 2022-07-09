@@ -16,12 +16,12 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    code: dictionaryTable.data.code.schema,
+                    category: dictionaryTable.data.category.schema,
                     page: schemaConfig.page,
                     limit: schemaConfig.limit,
                     keywords: schemaConfig.keywords
                 },
-                required: ['code']
+                required: ['category']
             }
         },
         config: {
@@ -31,34 +31,39 @@ export default async function (fastify, opts) {
             try {
                 let dictionaryModel = fastify.mysql //
                     .table('dictionary')
-                    .where('code', req.body.code)
+                    .where('category', req.body.category)
                     .modify(function (queryBuilder) {
-                        if (req.body.keywords) {
+                        if (req.body.keywords !== undefined) {
                             queryBuilder.where('name', 'like', `%${req.body.keywords}%`);
                         }
                     });
 
-                let resultCount = await dictionaryModel
+                let { count } = await dictionaryModel
                     //
                     .clone()
                     .count('id', { as: 'count' })
                     .first();
-                let rows = await dictionaryModel
+
+                let resultData = await dictionaryModel
                     //
                     .clone()
                     .offset(utils.getOffset(req.body.page, req.body.limit))
                     .limit(req.body.limit)
                     .select();
+
+                // 处理数字符号强制转换为数字值
+                let rows = resultData.map((item) => {
+                    if (item.symbol === 'number') {
+                        item.value = Number(item.value);
+                    }
+                    return item;
+                });
+
                 return {
                     ...constantConfig.code.SELECT_SUCCESS,
                     data: {
-                        count: resultCount.count,
-                        rows: rows.map((item) => {
-                            if (item.type === 'number') {
-                                item.value = Number(item.value);
-                            }
-                            return item;
-                        }),
+                        count: count,
+                        rows: rows,
                         page: req.body.page,
                         limit: req.body.limit
                     }

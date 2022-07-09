@@ -16,14 +16,17 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
+                    category: dictionaryTable.data.category.schema,
                     code: dictionaryTable.data.code.schema,
                     name: dictionaryTable.data.name.schema,
                     value: dictionaryTable.data.value.schema,
-                    type: dictionaryTable.data.type.schema,
+                    symbol: dictionaryTable.data.symbol.schema,
+                    thumbnail: dictionaryTable.data.thumbnail.schema,
+                    images: dictionaryTable.data.images.schema,
                     describe: dictionaryTable.data.describe.schema,
                     content: dictionaryTable.data.content.schema
                 },
-                required: ['code', 'name', 'value', 'type']
+                required: ['category', 'code', 'name', 'value', 'symbol']
             }
         },
         config: {
@@ -31,26 +34,31 @@ export default async function (fastify, opts) {
         },
         handler: async function (req, res) {
             try {
-                if (req.body.type === 'number') {
+                // 如果传的值是数值类型，则判断是否为有效数值
+                if (req.body.symbol === 'number') {
                     if (Number.isNaN(Number(req.body.value)) === true) {
                         return { ...constantConfig.code.UPDATE_FAIL, msg: '字典值不是一个数字类型' };
                     }
                 }
-                let dictionaryModel = fastify.mysql //
-                    .table('dictionary')
-                    .modify(function (queryBuilder) {});
+
+                let dictionaryModel = fastify.mysql.table('dictionary');
 
                 let data = {
+                    category: req.body.category,
                     code: req.body.code,
                     name: req.body.name,
                     value: req.body.value,
-                    type: req.body.type,
+                    symbol: req.body.symbol,
+                    thumbnail: req.body.thumbnail,
+                    images: req.body.images,
                     describe: req.body.describe,
                     content: req.body.content,
                     created_at: utils.getTimestamp(),
                     updated_at: utils.getTimestamp()
                 };
+
                 let result = await dictionaryModel.insert(utils.clearEmptyData(data));
+
                 return {
                     ...constantConfig.code.INSERT_SUCCESS,
                     data: result

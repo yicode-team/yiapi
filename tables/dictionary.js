@@ -7,10 +7,11 @@ const table = {
     },
     data: {
         id: utils.tableField('自增', 'id'),
+        category: utils.tableField('分类编码', 'str0to50'),
         code: utils.tableField('字典编码', 'str0to50'),
         name: utils.tableField('字典名称', 'str0to100'),
         value: utils.tableField('字典值', 'str0to500'),
-        type: utils.tableField('字典类型', 'strEnum', 'string', 20, null, ['number', 'string']),
+        symbol: utils.tableField('字典类型(数字类型或字符串类型)', 'strEnum', 'string', 20, null, ['number', 'string']),
         sort: utils.tableField('字典排序', 'intMin0'),
         describe: utils.tableField('字典描述', 'str0to200'),
         thumbnail: utils.tableField('缩略图', 'str0to300'),

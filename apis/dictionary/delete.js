@@ -28,11 +28,13 @@ export default async function (fastify, opts) {
             try {
                 let dictionaryModel = fastify.mysql //
                     .table('dictionary')
-                    .where({ id: req.body.id })
-                    .modify(function (queryBuilder) {});
+                    .where({ id: req.body.id });
 
-                let result = await dictionaryModel.delete();
-                return constantConfig.code.DELETE_SUCCESS;
+                let result = await dictionaryModel.clone().delete();
+                return {
+                    ...constantConfig.code.DELETE_SUCCESS,
+                    data: result
+                };
             } catch (err) {
                 fastify.logError(err);
                 return constantConfig.code.DELETE_FAIL;

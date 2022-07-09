@@ -16,9 +16,9 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    value: dictionaryTable.data.value.schema
+                    code: dictionaryTable.data.code.schema
                 },
-                required: ['value']
+                required: ['code']
             }
         },
         config: {
@@ -30,7 +30,7 @@ export default async function (fastify, opts) {
 
                 let result = await dictionaryModel //
                     .clone()
-                    .where('value', req.body.value)
+                    .where('code', req.body.code)
                     .first();
 
                 return {

@@ -16,9 +16,10 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    code: dictionaryTable.data.code.schema,
+                    category: dictionaryTable.data.category.schema,
                     keywords: schemaConfig.keywords
-                }
+                },
+                required: ['category']
             }
         },
         config: {
@@ -26,11 +27,11 @@ export default async function (fastify, opts) {
         },
         handler: async function (req, res) {
             try {
-                let dictionaryModel = fastify.mysql.table('dictionary').where('code', req.body.code);
+                let dictionaryModel = fastify.mysql.table('dictionary').where('category', req.body.category);
                 let resultData = await dictionaryModel.clone().select();
 
                 let rows = resultData.map((item) => {
-                    if (item.type === 'number') {
+                    if (item.symbol === 'number') {
                         item.value = Number(item.value);
                     }
                     return item;

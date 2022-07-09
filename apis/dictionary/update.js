@@ -17,13 +17,17 @@ export default async function (fastify, opts) {
                 type: 'object',
                 properties: {
                     id: dictionaryTable.data.id.schema,
+                    category: dictionaryTable.data.category.schema,
+                    code: dictionaryTable.data.code.schema,
                     name: dictionaryTable.data.name.schema,
                     value: dictionaryTable.data.value.schema,
-                    type: dictionaryTable.data.type.schema,
+                    symbol: dictionaryTable.data.symbol.schema,
+                    thumbnail: dictionaryTable.data.thumbnail.schema,
+                    images: dictionaryTable.data.images.schema,
                     describe: dictionaryTable.data.describe.schema,
                     content: dictionaryTable.data.content.schema
                 },
-                required: ['id', 'type']
+                required: ['id']
             }
         },
         config: {
@@ -42,9 +46,13 @@ export default async function (fastify, opts) {
                     .modify(function (queryBuilder) {});
 
                 let data = {
+                    category: req.body.category,
+                    code: req.body.code,
                     name: req.body.name,
                     value: req.body.value,
-                    type: req.body.type,
+                    symbol: req.body.symbol,
+                    thumbnail: req.body.thumbnail,
+                    images: req.body.images,
                     describe: req.body.describe,
                     content: req.body.content,
                     updated_at: utils.getTimestamp()
