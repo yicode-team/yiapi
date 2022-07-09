@@ -97,6 +97,8 @@ function syncDatabase(options = {}) {
                 };
 
                 let group = `${name} (${option.comment})`;
+                // 创建表
+                await table.sync();
 
                 let count = await table.count();
                 if (count < 10000) {
