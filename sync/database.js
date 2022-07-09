@@ -114,7 +114,7 @@ function syncDatabase(options = {}) {
                             reject(err);
                         });
                 } else {
-                    console.log(`[ ${_.padStart(stepNumber++, 2, '00')} / ${allTableLength} ] - 未同步: ${group}，数据大于1000条，请手动修改数据表结构`);
+                    console.log(`[ ${_.padStart(stepNumber++, 2, '00')} / ${allTableLength} ] - 未同步: ${group}，数据大于10000条，请手动修改数据表结构`);
                 }
             }
         } catch (err) {
