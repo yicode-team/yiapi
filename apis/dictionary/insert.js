@@ -1,3 +1,4 @@
+import * as _ from 'lodash-es';
 import * as utils from '../../utils/index.js';
 import { constantConfig } from '../../config/constant.js';
 import { schemaConfig } from '../../config/schema.js';
@@ -44,8 +45,8 @@ export default async function (fastify, opts) {
                 let dictionaryModel = fastify.mysql.table('dictionary');
 
                 let data = {
-                    category: req.body.category,
-                    code: req.body.code,
+                    category: _.camelCase(req.body.category),
+                    code: _.camelCase(req.body.code),
                     name: req.body.name,
                     value: req.body.value,
                     symbol: req.body.symbol,
