@@ -25,7 +25,8 @@ async function syncDictionary(fastify) {
     _.forEach(dictionaryConfigFlat, (item, index) => {
         if (dictionaryObject.includes(item.code) === false) {
             insertDictionaryDir.push({
-                type: 'string',
+                symbol: 'string',
+                category: item.category,
                 name: item.name,
                 value: item.value,
                 code: item.code,
