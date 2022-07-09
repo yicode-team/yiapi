@@ -28,7 +28,10 @@ function syncDatabase(options = {}) {
                     },
                     timestamps: false
                 },
-                omitNull: false
+                omitNull: false,
+                logQueryParameters: false,
+                clientMinMessages: false,
+                logging: () => {}
             });
 
             console.log('数据库已连接...');
@@ -94,19 +97,25 @@ function syncDatabase(options = {}) {
                 };
 
                 let group = `${name} (${option.comment})`;
-                table
-                    .sync(syncParams)
-                    .then((res) => {
-                        console.log(`[ ${_.padStart(stepNumber++, 2, '00')} / ${allTableLength} ] - 已同步: ${group}`);
-                        if (stepNumber > allTableLength) {
-                            console.log('-------------------------------------');
-                            console.log('表结构已全部同步完毕，请勿操作，耐心等待程序结束...');
-                        }
-                    })
-                    .catch((err) => {
-                        console.log('🚀 ~ file: database.js ~ line 78 ~ syncDatabase ~ err', err);
-                        reject(err);
-                    });
+
+                let count = await table.count();
+                if (count < 10000) {
+                    table
+                        .sync(syncParams)
+                        .then((res) => {
+                            console.log(`[ ${_.padStart(stepNumber++, 2, '00')} / ${allTableLength} ] - 已同步: ${group}`);
+                            if (stepNumber > allTableLength) {
+                                console.log('-------------------------------------');
+                                console.log('表结构已全部同步完毕，请勿操作，耐心等待程序结束...');
+                            }
+                        })
+                        .catch((err) => {
+                            console.log('🚀 ~ file: database.js ~ line 78 ~ syncDatabase ~ err', err);
+                            reject(err);
+                        });
+                } else {
+                    console.log(`[ ${_.padStart(stepNumber++, 2, '00')} / ${allTableLength} ] - 未同步: ${group}，数据大于1000条，请手动修改数据表结构`);
+                }
             }
         } catch (err) {
             console.log('🚀 ~ file: database.js ~ line 89 ~ syncDatabase ~ err', err);
