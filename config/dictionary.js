@@ -11,19 +11,20 @@ const dictionaryConfig = _.concat(
     [
         {
             name: '目录分类',
-            value: 'treeCategory',
+            value: '',
             describe: '目录分类字典',
-            code: 'root',
+            category: 'root',
+            code: 'treeCategory',
             children: [
                 {
                     name: '菜单',
-                    value: 'menu',
-                    code: 'treeCategory'
+                    value: '',
+                    code: 'menu'
                 },
                 {
                     name: '接口',
-                    value: 'api',
-                    code: 'treeCategory'
+                    value: '',
+                    code: 'api'
                 }
             ]
         }

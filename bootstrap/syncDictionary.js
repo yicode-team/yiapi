@@ -9,14 +9,14 @@ async function syncDictionary(fastify) {
     let model = fastify.mysql.table('dictionary');
 
     // 第一次请求菜单数据，用于创建一级菜单
-    let dictionaryData = await model.clone().where('code', 'treeCategory').orWhere('code', 'root').select();
+    let dictionaryData = await model.clone().where('category', 'treeCategory').orWhere('category', 'root').select();
     let dictionaryObject = _.uniq(dictionaryData.map((item) => item.code));
 
     let dictionaryConfigFlat = [];
     dictionaryConfig.map((item) => {
         dictionaryConfigFlat.push(_.omit(item, ['children']));
         item.children.forEach((item2) => {
-            dictionaryConfigFlat.push(item2);
+            dictionaryConfigFlat.push({ ...item2, category: item.code });
         });
     });
 
@@ -26,10 +26,10 @@ async function syncDictionary(fastify) {
         if (dictionaryObject.includes(item.code) === false) {
             insertDictionaryDir.push({
                 symbol: 'string',
-                category: item.category,
+                category: _.camelCase(item.category),
                 name: item.name,
                 value: item.value,
-                code: item.code,
+                code: _.camelCase(item.code),
                 sort: index,
                 describe: item.describe || '',
                 content: item.content || '',
