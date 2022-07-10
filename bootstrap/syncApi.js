@@ -12,7 +12,7 @@ async function syncApiDir(fastify) {
     let treeModel = fastify.mysql.table('tree');
 
     // 查询所有接口权限，包括接口目录和接口
-    let apis = await treeModel.clone().where('type', 'api');
+    let apis = await treeModel.clone().where('category', 'api');
 
     // 区分虚拟和真实
     let apisDir = apis.filter((item) => item.is_bool === 0);
@@ -23,7 +23,7 @@ async function syncApiDir(fastify) {
     // 待添加的接口目录，如果不在配置文件里面，则新增
     let insertApiDir = apiConfig.filter((item) => {
         if (apiDirValue.includes(item.value) === false) {
-            item.type = 'api';
+            item.category = 'api';
             item.is_bool = 0;
             item.created_at = utils.getTimestamp();
             item.updated_at = utils.getTimestamp();
@@ -46,7 +46,7 @@ async function syncApiFile(fastify) {
         let treeModel = fastify.mysql.table('tree');
 
         // 接口目录同步完毕后，重新查询一遍接口目录，拿到所有的接口目录
-        let apis = await treeModel.clone().where({ type: 'api' });
+        let apis = await treeModel.clone().where({ category: 'api' });
 
         let apisDir = apis.filter((item) => item.is_bool === 0);
         let apisFile = apis.filter((item) => item.is_bool === 1);
@@ -93,7 +93,7 @@ async function syncApiFile(fastify) {
                 // 如果当前接口不存在，则添加接口
                 let apiParams = {
                     pid: 0,
-                    type: 'api',
+                    category: 'api',
                     name: apiFileName,
                     value: apiFileName,
                     icon: '',

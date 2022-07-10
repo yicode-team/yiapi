@@ -16,11 +16,11 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    type: treeTable.data.type.schema,
+                    category: treeTable.data.category.schema,
                     page: schemaConfig.page,
                     limit: schemaConfig.limit
                 },
-                required: ['type']
+                required: ['category']
             }
         },
         config: {
@@ -30,10 +30,10 @@ export default async function (fastify, opts) {
             try {
                 let model = fastify.mysql //
                     .table('tree')
-                    .where('type', req.body.type)
+                    .where('category', req.body.category)
                     .modify(function (queryBuilder) {});
 
-                let resultCount = await model.clone().count('id', { as: 'count' }).first();
+                let { count } = await model.clone().count('id', { as: 'count' }).first();
                 let rows = await model
                     //
                     .clone()
@@ -44,7 +44,7 @@ export default async function (fastify, opts) {
                 return {
                     ...constantConfig.code.SELECT_SUCCESS,
                     data: {
-                        count: resultCount.count,
+                        count: count,
                         rows: rows,
                         page: req.body.page,
                         limit: req.body.limit

@@ -18,7 +18,7 @@ export default async function (fastify, opts) {
                 type: 'object',
                 properties: {
                     pid: treeTable.data.pid.schema,
-                    type: treeTable.data.type.schema,
+                    category: treeTable.data.category.schema,
                     name: treeTable.data.name.schema,
                     value: treeTable.data.value.schema,
                     icon: treeTable.data.icon.schema,
@@ -27,7 +27,7 @@ export default async function (fastify, opts) {
                     is_bool: treeTable.data.is_bool.schema,
                     is_open: treeTable.data.is_open.schema
                 },
-                required: ['pid', 'type', 'name']
+                required: ['pid', 'category', 'name']
             }
         },
         config: {
@@ -52,7 +52,7 @@ export default async function (fastify, opts) {
 
                 let data = {
                     pid: req.body.pid,
-                    type: req.body.type,
+                    category: req.body.category,
                     name: req.body.name,
                     value: req.body.value,
                     icon: req.body.icon,

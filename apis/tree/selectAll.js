@@ -16,9 +16,9 @@ export default async function (fastify, opts) {
             body: {
                 type: 'object',
                 properties: {
-                    type: treeTable.data.type.schema
+                    category: treeTable.data.category.schema
                 },
-                required: ['type']
+                required: ['category']
             }
         },
         config: {
@@ -26,8 +26,9 @@ export default async function (fastify, opts) {
         },
         handler: async function (req, res) {
             try {
+                // TODO: 优化，不同分类的目录独立的缓存
                 let treeData = await fastify.redisGet('cacheData:tree', 'json');
-                let rows = treeData.filter((item) => item.type === req.body.type);
+                let rows = treeData.filter((item) => item.category === req.body.category);
                 // let model = fastify.mysql //
                 //     .table('tree')
                 //     .where('type', req.body.type)

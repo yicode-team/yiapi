@@ -26,11 +26,11 @@ async function plugin(fastify, opts) {
         let devRoleData = await roleModel.clone().where('code', 'dev').first();
 
         // 请求菜单数据，用于给开发管理员绑定菜单
-        let menuData = await treeModel.clone().where('type', 'menu').select();
+        let menuData = await treeModel.clone().where('category', 'menu').select();
         let menuIds = menuData.map((item) => item.id);
 
         // 请求接口数据，用于给开发管理员绑定接口
-        let apiData = await treeModel.clone().where('type', 'api').select();
+        let apiData = await treeModel.clone().where('category', 'api').select();
         let apiIds = apiData.map((item) => item.id);
 
         // 获取缓存的角色数据

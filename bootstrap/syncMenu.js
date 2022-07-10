@@ -9,7 +9,7 @@ async function syncMenuDir(fastify) {
         // 准备好表
         let treeModel = fastify.mysql.table('tree');
         // 第一次请求菜单数据，用于创建一级菜单
-        let menuData = await treeModel.clone().where('type', 'menu').select();
+        let menuData = await treeModel.clone().where('category', 'menu').select();
         let menuName = menuData.map((item) => item.name);
 
         // 将要添加的接口数据
@@ -17,7 +17,7 @@ async function syncMenuDir(fastify) {
         _.forEach(menuConfig, (item, index) => {
             if (menuName.includes(item.name) === false) {
                 insertMenuDir.push({
-                    type: 'menu',
+                    category: 'menu',
                     name: item.name,
                     value: item.value,
                     level: 1,
@@ -47,7 +47,7 @@ async function syncMenuFile(fastify) {
         let treeModel = fastify.mysql.table('tree');
 
         // 第二次请求菜单数据，用于创建二级菜单
-        let menuData = await treeModel.clone().where('type', 'menu').select();
+        let menuData = await treeModel.clone().where('category', 'menu').select();
 
         // 菜单名数组
         let menuValueArray = menuData.map((item) => item.value);
@@ -64,7 +64,7 @@ async function syncMenuFile(fastify) {
                     let parentMenuData = menuValueObject[mainItem.value] || null;
                     if (parentMenuData) {
                         insertMenuFile.push({
-                            type: 'menu',
+                            category: 'menu',
                             name: item.name,
                             value: item.value,
                             level: 2,

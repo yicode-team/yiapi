@@ -3,13 +3,13 @@ import * as utils from '../utils/index.js';
 
 const table = {
     option: {
-        comment: '目录'
+        comment: '目录树'
     },
     data: {
         id: utils.tableField('自增', 'id'),
         pid: utils.tableField('父级ID', 'intMin0'),
         pids: utils.tableField('父级ID链', 'str1to5000', '0', null, 1),
-        type: utils.tableField('类型', 'str1to20'),
+        category: utils.tableField('分类编码', 'str1to100'),
         icon: utils.tableField('图标', 'image'),
         name: utils.tableField('名称', 'str1to100'),
         value: utils.tableField('值', 'str0to500'),

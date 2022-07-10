@@ -19,7 +19,7 @@ export default async function (fastify, opts) {
                 properties: {
                     id: treeTable.data.id.schema,
                     pid: treeTable.data.pid.schema,
-                    type: treeTable.data.type.schema,
+                    category: treeTable.data.category.schema,
                     name: treeTable.data.name.schema,
                     value: treeTable.data.value.schema,
                     icon: treeTable.data.icon.schema,
@@ -58,7 +58,7 @@ export default async function (fastify, opts) {
                 // 需要更新的数据
                 let data = {
                     pid: req.body.pid,
-                    type: req.body.type,
+                    category: req.body.category,
                     name: req.body.name,
                     value: req.body.value,
                     icon: req.body.icon,
