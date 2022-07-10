@@ -15,7 +15,7 @@ const table = {
         nickname: utils.tableField('昵称', 'str1to50'),
         avatar: utils.tableField('头像', 'image'),
         gender: utils.tableField('性别', 'gender'),
-        role_codes: utils.tableField('角色码', 'str0to500'),
+        role_codes: utils.tableField('角色码', 'str0to500', 'user'),
         bio: utils.tableField('签名', 'str0to200'),
         is_recommend: utils.tableField('是否推荐', 'boolEnum'),
         is_top: utils.tableField('是否置顶', 'boolEnum'),

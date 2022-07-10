@@ -137,15 +137,20 @@ fastify.register(autoLoad, {
 
 // 加载三方接口
 let thirdApiFiles = fg.sync('./addons/*/apis/*', { onlyFiles: true, dot: false, absolute: true, cwd: systemConfig.appDir });
+let prefixEnum = {};
 for (let i = 0; i < thirdApiFiles.length; i++) {
     let file = thirdApiFiles[i];
     let prefix = path.basename(path.dirname(path.dirname(file)));
+    prefixEnum[prefix] = path.dirname(file);
+}
+
+_.forOwn(prefixEnum, (apis, prefix) => {
     fastify.register(autoLoad, {
-        dir: path.dirname(file),
+        dir: apis,
         ignorePattern: /^_/,
         options: { prefix: prefix }
     });
-}
+});
 
 // 加载用户插件
 fastify.register(autoLoad, {
