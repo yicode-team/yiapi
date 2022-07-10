@@ -92,8 +92,8 @@ async function plugin(fastify, opts) {
         // 菜单列表
         let dataTree = await fastify.mysql.table('tree').select();
 
-        let dataMenu = dataTree.filter((item) => item.type === 'menu');
-        let dataApi = dataTree.filter((item) => item.type === 'api');
+        let dataMenu = dataTree.filter((item) => item.category === 'menu');
+        let dataApi = dataTree.filter((item) => item.category === 'api');
 
         // 白名单接口
         let dataApiWhiteLists = dataApi.filter((item) => item.is_open === 1).map((item) => item.value);
