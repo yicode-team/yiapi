@@ -1,5 +1,6 @@
 import fp from 'fastify-plugin';
 import fs from 'fs-extra';
+import * as _ from 'lodash-es';
 
 async function plugin(fastify, opts) {
     fastify.decorate('redisSet', async (key, value, type = 'text') => {
@@ -118,30 +119,31 @@ async function plugin(fastify, opts) {
     // 设置角色数据
     fastify.decorate('cacheRoleData', async () => {
         // 角色类别
-        let dataRole = await fastify.mysql //
-            .table('role')
-            .where({ state: 0 })
-            .select();
+        let dataRole = await fastify.mysql.table('role').select();
 
         await fastify.redisSet('cacheData:role', [], 'json');
         await fastify.redisSet('cacheData:role', dataRole, 'json');
-        // fs.outputJsonSync('./data/roleData.json', dataRole);
-    });
 
-    fastify.decorate('logError', (logData) => {
-        fastify.log.error(logData);
-    });
+        let menuData = await fastify.redisGet('cacheData:menu', 'json');
+        let apiData = await fastify.redisGet('cacheData:api', 'json');
 
-    fastify.decorate('logInfo', (logData) => {
-        fastify.log.info(logData);
-    });
+        let menuObject = _.keyBy(menuData, 'id');
+        let apiObject = _.keyBy(apiData, 'id');
 
-    fastify.decorate('logWarn', (logData) => {
-        fastify.log.warn(logData);
-    });
+        let dataRoleCache = dataRole.map((item) => {
+            item.menu_ids = item.menu_ids
+                .split(',')
+                .filter((v) => v)
+                .map((id) => menuObject[id]?.value || '');
 
-    fastify.decorate('logDebug', (logData) => {
-        fastify.log.debug(logData);
+            item.api_ids = item.api_ids
+                .split(',')
+                .filter((v) => v)
+                .map((id) => apiObject[id]?.value || '');
+            return item;
+        });
+
+        fs.outputJsonSync('./data/roleData.json', dataRoleCache);
     });
 }
 export default fp(plugin, { name: 'tool', dependencies: ['mysql', 'redis'] });

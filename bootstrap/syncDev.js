@@ -28,24 +28,40 @@ async function plugin(fastify, opts) {
         // 请求菜单数据，用于给开发管理员绑定菜单
         let menuData = await treeModel.clone().where('category', 'menu').select();
         let menuIds = menuData.map((item) => item.id);
+        let menuObject = _.keyBy(menuData, 'value');
 
         // 请求接口数据，用于给开发管理员绑定接口
         let apiData = await treeModel.clone().where('category', 'api').select();
         let apiIds = apiData.map((item) => item.id);
+        let apiObject = _.keyBy(apiData, 'value');
 
         // 获取缓存的角色数据
-        // let cacheRoleData = fs.readJsonSync('../data/roleData.json') || {};
-        // let cacheRoleDataObjectByCode = _.keyBy(cacheRoleData, 'code');
+        let cacheRoleData = fs.readJsonSync('./data/roleData.json') || [];
+        cacheRoleData.forEach((role) => {
+            role.menu_ids = role.menu_ids
+                .map((value) => {
+                    return menuObject[value]?.id;
+                })
+                .filter((v) => v);
+
+            role.api_ids = role.api_ids
+                .map((value) => {
+                    return apiObject[value]?.id;
+                })
+                .filter((v) => v);
+        });
+
+        let cacheRoleDataObjectByCode = _.keyBy(cacheRoleData, 'code');
 
         // 需要同步的角色，过滤掉数据库中已经存在的角色
         let initRole = roleConfig.filter((item) => {
             let isExists = roleCodes.includes(item.code);
             if (isExists === false) {
-                // let currentRoleData = cacheRoleDataObjectByCode[item.code];
-                // if (currentRoleData) {
-                //     item.api_ids = currentRoleData.api_ids;
-                //     item.menu_ids = currentRoleData.menu_ids;
-                // }
+                let currentRoleData = cacheRoleDataObjectByCode[item.code];
+                if (currentRoleData) {
+                    item.api_ids = currentRoleData.api_ids.join(',');
+                    item.menu_ids = currentRoleData.menu_ids.join(',');
+                }
                 item.created_at = utils.getTimestamp();
                 item.updated_at = utils.getTimestamp();
             }
