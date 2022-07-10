@@ -35,18 +35,24 @@ export default async function (fastify, opts) {
             isLogin: true
         },
         handler: async function (req, res) {
+            const trxProvider = fastify.mysql.transactionProvider();
+            const trx = await trxProvider();
             try {
                 if (req.body.type === 'number') {
                     if (Number.isNaN(Number(req.body.value)) === true) {
                         return { ...constantConfig.code.UPDATE_FAIL, msg: '字典值不是一个数字类型' };
                     }
                 }
-                let dictionaryModel = fastify.mysql //
-                    .table('dictionary')
-                    .where({ id: req.body.id })
-                    .modify(function (queryBuilder) {});
+                let dictionaryModel = trx.table('dictionary').modify(function (queryBuilder) {});
 
-                let data = {
+                let currentData = await dictionaryModel.clone().where({ id: req.body.id }).first();
+
+                await dictionaryModel
+                    .clone()
+                    .update({ category: _.camelCase(req.body.code) })
+                    .where({ category: currentData.code });
+
+                let updateData = {
                     category: _.camelCase(req.body.category),
                     code: _.camelCase(req.body.code),
                     name: req.body.name,
@@ -58,9 +64,12 @@ export default async function (fastify, opts) {
                     content: req.body.content,
                     updated_at: utils.getTimestamp()
                 };
-                let result = await dictionaryModel.update(utils.clearEmptyData(data));
+
+                let result = await dictionaryModel.clone().where({ id: req.body.id }).update(utils.clearEmptyData(updateData));
+                await trx.commit();
                 return constantConfig.code.UPDATE_SUCCESS;
             } catch (err) {
+                await trx.rollback();
                 fastify.logError(err);
                 return constantConfig.code.UPDATE_FAIL;
             }

@@ -38,19 +38,19 @@ export default async function (fastify, opts) {
             const trxProvider = fastify.mysql.transactionProvider();
             const trx = await trxProvider();
             try {
-                let model = trx.table('tree');
+                let treeModel = trx.table('tree');
 
                 let parentData = undefined;
 
                 // 如果传了pid值
                 if (req.body.pid) {
-                    parentData = await model.clone().where('id', req.body.pid).first();
+                    parentData = await treeModel.clone().where('id', req.body.pid).first();
                     if (parentData === undefined) {
                         return { ...constantConfig.code.FAIL, msg: '父级树不存在' };
                     }
                 }
 
-                let selfData = await model.clone().where('id', req.body.id).first();
+                let selfData = await treeModel.clone().where('id', req.body.id).first();
                 if (selfData === undefined) {
                     return { ...constantConfig.code.FAIL, msg: '菜单不存在' };
                 }
@@ -73,7 +73,7 @@ export default async function (fastify, opts) {
                 if (parentData !== undefined) {
                     data.pids = [parentData.pids, parentData.id].join(',');
                 }
-                let updateResult = await model
+                let updateResult = await treeModel
                     //
                     .clone()
                     .where({ id: req.body.id })
@@ -82,7 +82,7 @@ export default async function (fastify, opts) {
                 // 如果更新成功，则更新所有子级
                 if (updateResult) {
                     let childrenPids = [data.pids || selfData.pid, req.body.id];
-                    await model
+                    await treeModel
                         .clone()
                         .where({ pid: req.body.id })
                         .update({
