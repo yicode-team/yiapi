@@ -18,10 +18,11 @@ export default async function (fastify, opts) {
                 properties: {
                     title: noticeTable.data.title.schema,
                     summary: noticeTable.data.summary.schema,
+                    thumbnail: noticeTable.data.thumbnail.schema,
                     is_recommend: noticeTable.data.is_recommend.schema,
                     content: noticeTable.data.content.schema
                 },
-                required: ['title']
+                required: ['title', 'summary']
             }
         },
         config: {
@@ -38,6 +39,7 @@ export default async function (fastify, opts) {
                     publisher_nickname: req.session.nickname,
                     title: req.body.title,
                     summary: req.body.summary,
+                    thumbnail: req.body.thumbnail,
                     content: req.body.content,
                     is_recommend: req.body.is_recommend,
                     created_at: utils.getTimestamp(),

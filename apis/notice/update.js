@@ -19,6 +19,7 @@ export default async function (fastify, opts) {
                     id: noticeTable.data.id.schema,
                     title: noticeTable.data.title.schema,
                     summary: noticeTable.data.summary.schema,
+                    thumbnail: noticeTable.data.thumbnail.schema,
                     is_recommend: noticeTable.data.is_recommend.schema,
                     content: noticeTable.data.content.schema
                 },
@@ -38,6 +39,7 @@ export default async function (fastify, opts) {
                 let data = {
                     title: req.body.title,
                     summary: req.body.summary,
+                    thumbnail: req.body.thumbnail,
                     content: req.body.content,
                     is_recommend: req.body.is_recommend,
                     updated_at: utils.getTimestamp()
