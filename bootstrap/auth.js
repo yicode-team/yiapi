@@ -105,7 +105,7 @@ async function plugin(fastify, opts) {
                 }
             }
         } catch (err) {
-            fastify.logError(err);
+            fastify.log.error(err);
             res.send({
                 ...constantConfig.code.FAIL,
                 msg: err.msg || '认证异常',

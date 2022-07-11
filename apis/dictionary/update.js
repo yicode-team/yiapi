@@ -70,7 +70,7 @@ export default async function (fastify, opts) {
                 return constantConfig.code.UPDATE_SUCCESS;
             } catch (err) {
                 await trx.rollback();
-                fastify.logError(err);
+                fastify.log.error(err);
                 return constantConfig.code.UPDATE_FAIL;
             }
         }

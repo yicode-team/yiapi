@@ -69,7 +69,7 @@ export default async function (fastify, opts) {
                     })
                 });
             } catch (err) {
-                fastify.logError(err);
+                fastify.log.error(err);
                 return _.merge(constantConfig.code.FAIL, { msg: '登录失败' });
             }
         }

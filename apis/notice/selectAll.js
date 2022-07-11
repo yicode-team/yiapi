@@ -36,7 +36,7 @@ export default async function (fastify, opts) {
                     }
                 };
             } catch (err) {
-                fastify.logError(err);
+                fastify.log.error(err);
                 return constantConfig.code.SELECT_FAIL;
             }
         }

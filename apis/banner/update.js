@@ -46,7 +46,7 @@ export default async function (fastify, opts) {
                 let result = await bannerModel.update(utils.clearEmptyData(data));
                 return constantConfig.code.UPDATE_SUCCESS;
             } catch (err) {
-                fastify.logError(err);
+                fastify.log.error(err);
                 return constantConfig.code.UPDATE_FAIL;
             }
         }

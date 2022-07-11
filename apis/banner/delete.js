@@ -34,7 +34,7 @@ export default async function (fastify, opts) {
                 let result = await bannerModel.delete();
                 return constantConfig.code.INSERT_SUCCESS;
             } catch (err) {
-                fastify.logError(err);
+                fastify.log.error(err);
                 return constantConfig.code.INSERT_FAIL;
             }
         }

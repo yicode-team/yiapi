@@ -169,19 +169,23 @@ export function apiParamsCheck(req) {
 }
 
 export function getTableData(url, data, option) {
-    let apiInfo = getApiInfo(url);
-    let data2 = {};
-    _.forOwn(_.cloneDeep(data), (item, key) => {
-        item.table.comment = item.meta.comment;
-        item.schema.title = item.meta.comment;
-        data2[key] = item;
-    });
-    return {
-        name: _.snakeCase(apiInfo.pureFileName),
-        describe: option.comment,
-        data: data2,
-        option: option
-    };
+    try {
+        let apiInfo = getApiInfo(url);
+        let data2 = {};
+        _.forOwn(_.cloneDeep(data), (item, key) => {
+            item.table.comment = item.meta.comment;
+            item.schema.title = item.meta.comment;
+            data2[key] = item;
+        });
+        return {
+            name: _.snakeCase(apiInfo.pureFileName),
+            describe: option.comment,
+            data: data2,
+            option: option
+        };
+    } catch (err) {
+        console.log('🚀 ~ file: index.js ~ line 187 ~ getTableData ~ err', err);
+    }
 }
 
 /**
