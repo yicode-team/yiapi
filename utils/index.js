@@ -123,7 +123,9 @@ export function routerPath(url) {
 export function apiParamsSign(params) {
     let fieldsArray = [];
     _.forOwn(params, (value, key) => {
-        fieldsArray.push(`${key}=${value}`);
+        if (value !== undefined && value !== null) {
+            fieldsArray.push(`${key}=${value}`);
+        }
     });
 
     let fieldsSort = fieldsArray.sort().join('&');
