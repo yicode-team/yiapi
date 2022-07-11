@@ -1,6 +1,6 @@
 {
     "name": "@yicode/yiapi",
-    "version": "1.6.5",
+    "version": "1.6.6",
     "description": "yiapi(易接口)，5分钟上手Node.js接口开发",
     "main": "app.js",
     "type": "module",
