@@ -22,7 +22,7 @@
     "homepage": "https://chensuiyi.com",
     "license": "ISC",
     "dependencies": {
-        "@fastify/autoload": "^5.0.0",
+        "@fastify/autoload": "^5.1.0",
         "@fastify/cors": "^8.0.0",
         "@fastify/jwt": "^6.2.1",
         "@fastify/multipart": "^7.1.0",
@@ -48,7 +48,7 @@
         "nodemailer": "^6.7.7",
         "pino-pretty": "^8.1.0",
         "release-it": "^15.1.1",
-        "sequelize": "^6.21.2"
+        "sequelize": "^6.21.3"
     },
     "devDependencies": {
         "husky": "^8.0.1",

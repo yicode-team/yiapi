@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-    '@fastify/autoload': ^5.0.0
+    '@fastify/autoload': ^5.1.0
     '@fastify/cors': ^8.0.0
     '@fastify/jwt': ^6.2.1
     '@fastify/multipart': ^7.1.0
@@ -30,10 +30,10 @@ specifiers:
     pino-pretty: ^8.1.0
     prettier: ^2.7.1
     release-it: ^15.1.1
-    sequelize: ^6.21.2
+    sequelize: ^6.21.3
 
 dependencies:
-    '@fastify/autoload': 5.0.0
+    '@fastify/autoload': 5.1.0
     '@fastify/cors': 8.0.0
     '@fastify/jwt': 6.2.1
     '@fastify/multipart': 7.1.0
@@ -59,7 +59,7 @@ dependencies:
     nodemailer: 6.7.7
     pino-pretty: 8.1.0
     release-it: 15.1.1
-    sequelize: 6.21.2_mysql2@2.3.3
+    sequelize: 6.21.3_mysql2@2.3.3
 
 devDependencies:
     husky: 8.0.1
@@ -96,8 +96,8 @@ packages:
             fast-uri: 2.1.0
         dev: false
 
-    /@fastify/autoload/5.0.0:
-        resolution: { integrity: sha512-hayrT8U3cUxQDvQSINGb5+TX9n9KPh9wSAB2LxPFXiKPFzfu+G1+lZ2Uh26Ej9trzq9jZlsYbx4xUzEeFVkJZw== }
+    /@fastify/autoload/5.1.0:
+        resolution: { integrity: sha512-FcZf3sy/8P6GObc6g2MrRqW1ricDtUm/xDK9i1PNH4Aaqj83DkkmADWTyQvE92OR0gy5EjPGPUcBHY7NzvHRUg== }
         dependencies:
             pkg-up: 3.1.0
         dev: false
@@ -116,6 +116,10 @@ packages:
             vary: 1.1.2
         dev: false
 
+    /@fastify/deepmerge/1.1.0:
+        resolution: { integrity: sha512-E8Hfdvs1bG6u0N4vN5Nty6JONUfTdOciyD5rn8KnEsLKIenvOVcr210BQR9t34PRkNyjqnMLGk3e0BsaxRdL+g== }
+        dev: false
+
     /@fastify/error/3.0.0:
         resolution: { integrity: sha512-dPRyT40GiHRzSCll3/Jn2nPe25+E1VXc9tDwRAIKwFCxd5Np5wzgz1tmooWG3sV0qKgrBibihVoCna2ru4SEFg== }
         dev: false
@@ -123,14 +127,14 @@ packages:
     /@fastify/fast-json-stringify-compiler/4.0.0:
         resolution: { integrity: sha512-9pCi6c6tmGt/qfuf2koZQuSIG6ckP9q3mz+JoMmAq9eQ4EtA92sWoK7E0LJUn2FFTS/hp5kag+4+dWsV5ZfcXg== }
         dependencies:
-            fast-json-stringify: 5.0.6
+            fast-json-stringify: 5.1.0
         dev: false
 
     /@fastify/jwt/6.2.1:
         resolution: { integrity: sha512-mSlxf995HOy4/hbZhCI4GmXyM3uJy386+eiCmKlvUe3TeN4HveI9l+SG3Sh4n3852F1qx3y4wXgcZdTzOLKEXg== }
         dependencies:
             '@lukeed/ms': 2.0.0
-            fast-jwt: 1.6.0
+            fast-jwt: 1.6.1
             fastify-plugin: 3.0.1
             http-errors: 2.0.0
             steed: 1.1.3
@@ -153,7 +157,7 @@ packages:
         resolution: { integrity: sha512-IiZjXph1mGTkPkcMO5gqZFgW7e4KNN6HNcrQZk4UWMOb3s0vFPZsHEkbfdBU5v/d/wmRH4w1Q9NIJH9NwFSm9Q== }
         dependencies:
             fastify-plugin: 3.0.1
-            ioredis: 5.1.0
+            ioredis: 5.2.0
         transitivePeerDependencies:
             - supports-color
         dev: false
@@ -641,13 +645,12 @@ packages:
         engines: { node: '>=8.0.0' }
         dev: false
 
-    /avvio/8.1.3:
-        resolution: { integrity: sha512-tl9TC0yDRKzP6gFLkrInqPyx8AkfBC/0QRnwkE9Jo31+OJjLrE/73GJuE0QgSB0Vpv38CTJJZGqU9hczowclWw== }
+    /avvio/8.2.0:
+        resolution: { integrity: sha512-bbCQdg7bpEv6kGH41RO/3B2/GMMmJSo2iBK+X8AWN9mujtfUipMDfIjsgHCfpnKqoGEQrrmCDKSa5OQ19+fDmg== }
         dependencies:
             archy: 1.0.0
             debug: 4.3.4
             fastq: 1.13.0
-            queue-microtask: 1.2.3
         transitivePeerDependencies:
             - supports-color
         dev: false
@@ -972,7 +975,7 @@ packages:
         resolution: { integrity: sha512-QHdeh3zLWz6YvYTFKpRb860rJlip16pEinbxXT1i2NZB/nOxBjd2RbSv54sn5UrAj9WykiSLYWWDgo8azQK0HA== }
         engines: { node: '>=12.0.0' }
         dependencies:
-            luxon: 2.4.0
+            luxon: 2.5.0
         dev: false
 
     /cross-spawn/7.0.3:
@@ -1357,18 +1360,18 @@ packages:
             micromatch: 4.0.5
         dev: false
 
-    /fast-json-stringify/5.0.6:
-        resolution: { integrity: sha512-iZM2VJ19wBOjznp9AQ3PEXTAvwcwJXDsz5xEoTs+31s/lCyOYrqHicXHzt0VoLz16pZStsWx3HIvRFB6AQaWeA== }
+    /fast-json-stringify/5.1.0:
+        resolution: { integrity: sha512-IybGfbUc1DQgyrp9Myhwlr1Z5vjV37mBkdgcbuvsvUxv5fayG+cHlTQQpXH9nMwUPgp+5Y3RT7QDgx5zJ9NS3A== }
         dependencies:
+            '@fastify/deepmerge': 1.1.0
             ajv: 8.11.0
             ajv-formats: 2.1.1
-            deepmerge: 4.2.2
             fast-uri: 2.1.0
             rfdc: 1.3.0
         dev: false
 
-    /fast-jwt/1.6.0:
-        resolution: { integrity: sha512-XFjyWeaDpUAtJi9QJz8tul6ducfYJ6A7gPJczdSRD5/2XR9OkjFonJ3t9yjMtUSIkeCNAK+wMXmuh8Nz7mw+2g== }
+    /fast-jwt/1.6.1:
+        resolution: { integrity: sha512-M7FY/Aq4qqYFD6DEikywnA8agYpDKkDBo4IPTyFo6Tued/74mdmXTp+GjgqDCYr9XhyWUVmL62GjvvH4BjXczQ== }
         engines: { node: ^18 || ^17 || ^16 || ^14 || ^12 }
         dependencies:
             asn1.js: 5.4.1
@@ -1411,7 +1414,7 @@ packages:
             '@fastify/error': 3.0.0
             '@fastify/fast-json-stringify-compiler': 4.0.0
             abstract-logging: 2.0.1
-            avvio: 8.1.3
+            avvio: 8.2.0
             find-my-way: 7.0.0
             light-my-request: 5.0.0
             pino: 8.1.0
@@ -1894,7 +1897,7 @@ packages:
             mute-stream: 0.0.8
             ora: 6.1.2
             run-async: 2.4.1
-            rxjs: 7.5.5
+            rxjs: 7.5.6
             string-width: 5.1.2
             strip-ansi: 7.0.1
             through: 2.3.8
@@ -1939,8 +1942,8 @@ packages:
             - supports-color
         dev: false
 
-    /ioredis/5.1.0:
-        resolution: { integrity: sha512-HYHnvwxFwefeUBj0hZFejLvd8Q/YNAfnZlZG/hSRxkRhXMs1H8soMEVccHd1WlLrKkynorXBsAtqDGskOdAfVQ== }
+    /ioredis/5.2.0:
+        resolution: { integrity: sha512-a1E7qDtuuI+We60TLIm3TMrH5auIhbfINXYag6ZdB+mGJnH8rbmDOpr1V7iUvQQ7pWnEDYI/KXmia5IemsNJEQ== }
         engines: { node: '>=12.22.0' }
         dependencies:
             '@ioredis/commands': 1.2.0
@@ -2373,7 +2376,7 @@ packages:
             log-update: 4.0.0
             p-map: 4.0.0
             rfdc: 1.3.0
-            rxjs: 7.5.5
+            rxjs: 7.5.6
             through: 2.3.8
             wrap-ansi: 7.0.0
         dev: true
@@ -2458,8 +2461,8 @@ packages:
             yallist: 4.0.0
         dev: false
 
-    /luxon/2.4.0:
-        resolution: { integrity: sha512-w+NAwWOUL5hO0SgwOHsMBAmZ15SoknmQXhSO0hIbJCAmPKSsGeK8MlmhYh2w6Iib38IxN2M+/ooXWLbeis7GuA== }
+    /luxon/2.5.0:
+        resolution: { integrity: sha512-IDkEPB80Rb6gCAU+FEib0t4FeJ4uVOuX1CQ9GsvU3O+JAGIgu0J7sf1OarXKaKDygTZIoJyU6YdZzTFRu+YR0A== }
         engines: { node: '>=12' }
         dev: false
 
@@ -2960,7 +2963,7 @@ packages:
     /pino-abstract-transport/1.0.0:
         resolution: { integrity: sha512-c7vo5OpW4wIS42hUVcT5REsL8ZljsUfBjqV/e2sFxmFEFZiq1XLUp5EYLtuDH6PEHq9W1egWqRbnLUP5FuZmOA== }
         dependencies:
-            readable-stream: 4.0.0
+            readable-stream: 4.1.0
             split2: 4.1.0
         dev: false
 
@@ -2978,7 +2981,7 @@ packages:
             on-exit-leak-free: 1.0.0
             pino-abstract-transport: 1.0.0
             pump: 3.0.0
-            readable-stream: 4.0.0
+            readable-stream: 4.1.0
             secure-json-parse: 2.4.0
             sonic-boom: 3.0.0
             strip-json-comments: 3.1.1
@@ -3179,8 +3182,8 @@ packages:
             util-deprecate: 1.0.2
         dev: false
 
-    /readable-stream/4.0.0:
-        resolution: { integrity: sha512-Mf7ilWBP6AV3tF3MjtBrHMH3roso7wIrpgzCwt9ybvqiJQVWIEBMnp/W+S//yvYSsUUi2cJIwD7q7m57l0AqZw== }
+    /readable-stream/4.1.0:
+        resolution: { integrity: sha512-sVisi3+P2lJ2t0BPbpK629j8wRW06yKGJUcaLAGXPAUhyUxVJm7VsCTit1PFgT4JHUDMrGNR+ZjSKpzGaRF3zw== }
         engines: { node: ^12.22.0 || ^14.17.0 || >=16.0.0 }
         dependencies:
             abort-controller: 3.0.0
@@ -3363,8 +3366,8 @@ packages:
             queue-microtask: 1.2.3
         dev: false
 
-    /rxjs/7.5.5:
-        resolution: { integrity: sha512-sy+H0pQofO95VDmFLzyaw9xNJU4KTRSwQIGM6+iG3SypAtCiLDzpeG8sJrNCWn2Up9km+KhkvTdbkrdy+yzZdw== }
+    /rxjs/7.5.6:
+        resolution: { integrity: sha512-dnyv2/YsXhnm461G+R/Pe5bWP41Nm6LBXEYWI6eiFP4fiwx6WRI/CD0zbdVAudd9xwLEF2IDcKXLHit0FYjUzw== }
         dependencies:
             tslib: 2.4.0
 
@@ -3436,8 +3439,8 @@ packages:
         engines: { node: '>= 10.0.0' }
         dev: false
 
-    /sequelize/6.21.2_mysql2@2.3.3:
-        resolution: { integrity: sha512-K0c6j/Y6yfucBL9XYHMVWqYGFShPsj6ZzMrQcOAjqzyE+a1XMBOoTXXjRvJS+fz6cKeh2D3ZqhYDRwN8nfvOMQ== }
+    /sequelize/6.21.3_mysql2@2.3.3:
+        resolution: { integrity: sha512-cJPrTTVCofUxaaNKoIETiXCYh2xJ+OFq5jMHJQqftp34M4kNoLpTfUMPSwYtRUeTcSh1/5HodfJXIBi7troIFA== }
         engines: { node: '>=10.0.0' }
         peerDependencies:
             ibm_db: '*'
