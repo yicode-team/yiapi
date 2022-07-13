@@ -37,7 +37,7 @@
         "cli-progress": "^3.11.2",
         "dayjs": "^1.11.3",
         "fast-glob": "^3.2.11",
-        "fastify": "^4.2.0",
+        "fastify": "^4.2.1",
         "fastify-plugin": "^3.0.1",
         "fs-extra": "^10.1.0",
         "knex": "^2.1.0",

@@ -16,7 +16,7 @@ specifiers:
     cli-progress: ^3.11.2
     dayjs: ^1.11.3
     fast-glob: ^3.2.11
-    fastify: ^4.2.0
+    fastify: ^4.2.1
     fastify-plugin: ^3.0.1
     fs-extra: ^10.1.0
     husky: ^8.0.1
@@ -48,7 +48,7 @@ dependencies:
     cli-progress: 3.11.2
     dayjs: 1.11.3
     fast-glob: 3.2.11
-    fastify: 4.2.0
+    fastify: 4.2.1
     fastify-plugin: 3.0.1
     fs-extra: 10.1.0
     knex: 2.1.0_mysql2@2.3.3
@@ -1407,8 +1407,8 @@ packages:
         resolution: { integrity: sha512-qKcDXmuZadJqdTm6vlCqioEbyewF60b/0LOFCcYN1B6BIZGlYJumWWOYs70SFYLDAH4YqdE1cxH/RKMG7rFxgA== }
         dev: false
 
-    /fastify/4.2.0:
-        resolution: { integrity: sha512-0QXEp+8ceKc0fwVakeBLM/1Ss/+fc7a3auuygT+1GjbSAgHfwqxSucUuu0rYjziu32UgEZXfjItYN/a89HWKhw== }
+    /fastify/4.2.1:
+        resolution: { integrity: sha512-eyAWHN9+8IPTnhvGz+leseASGV/JZ75Y+jXXV7tid4awUjCMInY1gazZXuTD95xUW+Ve5vfgLjQ2i1i0/XJjdw== }
         dependencies:
             '@fastify/ajv-compiler': 3.1.2
             '@fastify/error': 3.0.0
